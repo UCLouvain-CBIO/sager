@@ -11,6 +11,7 @@ Description: Imports sage proteomics search engine outputs into
 Imports:
     QFeatures,
     SummarizedExperiment,
+    PSMatch,
     mzR,
     Spectra
 License: Artistic-2.0
