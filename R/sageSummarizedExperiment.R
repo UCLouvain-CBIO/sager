@@ -33,6 +33,8 @@
 ##'
 ##' @importFrom utils read.delim
 ##'
+##' @importFrom QFeatures readSummarizedExperiment
+##'
 ##' @examples
 ##'
 ##' idFile <- BiocFileCache::bfcquery(

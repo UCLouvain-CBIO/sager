@@ -3,4 +3,5 @@
 export(sagePSM)
 export(sageSummarizedExperiment)
 importFrom(PSMatch,PSM)
+importFrom(QFeatures,readSummarizedExperiment)
 importFrom(utils,read.delim)

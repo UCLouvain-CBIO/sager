@@ -12,11 +12,9 @@ Description: Imports sage proteomics search engine outputs into
 Imports:
     QFeatures,
     SummarizedExperiment,
-    PSMatch,
-    mzR,
-    Spectra
+    PSMatch
 Suggests:
-    BiocFileCache
+    BiocFileCache,
 License: Artistic-2.0
 Encoding: UTF-8
 Roxygen: list(markdown = TRUE)
