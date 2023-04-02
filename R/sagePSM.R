@@ -2,6 +2,9 @@
 ##'
 ##' @description
 ##'
+##' This function imports sage identification results as a
+##' [PSMatch::PSM()] object.
+##'
 ##' @param idFile `character(1)` containing the identification
 ##'     results, typically "results.sage.tsv".
 ##'
@@ -30,6 +33,16 @@
 ##'
 ##' @author Laurent Gatto
 ##'
+##' @export
+##'
+##' @importFrom PSMatch PSM
+##'
+##' @examples
+##'
+##' idFile <- BiocFileCache::bfcquery(
+##'                              BiocFileCache::BiocFileCache(),
+##'                              "sageRes")$fpath
+##' sagePSM(idFile)
 sagePSM <- function(idFile,
                     spectrum = "scannr",
                     peptide = "peptide",
@@ -40,7 +53,7 @@ sagePSM <- function(idFile,
                     ...) {
     psmdf <- read.delim(idFile, ...)
     psmdf[, decoy] <- psmdf[, decoy] < 0
-    PSM(psmdf, spectrum = spectrum, peptide = peptide,
-        protein = protein, decoy = decoy,
-        rank = rank, score = score)
+    PSMatch::PSM(psmdf, spectrum = spectrum, peptide = peptide,
+                 protein = protein, decoy = decoy,
+                 rank = rank, score = score)
 }

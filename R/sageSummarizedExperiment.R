@@ -2,8 +2,9 @@
 ##'
 ##' @description
 ##'
-##' This function imports and combines sage TMT quantitation and
-##' identification
+##' This function imports sage TMT quantitation and identification
+##' results and combines them into a
+##' [SummarizedExperiment::SummarizedExperiment()] object.
 ##'
 ##' @param quantFile `character(1)` containing the quantification
 ##'     results, typically "quant.tsv".
@@ -27,6 +28,21 @@
 ##' @return An instance of class [SummarizedExperiment()].
 ##'
 ##' @author Laurent Gatto
+##'
+##' @export
+##'
+##' @importFrom utils read.delim
+##'
+##' @examples
+##'
+##' idFile <- BiocFileCache::bfcquery(
+##'                              BiocFileCache::BiocFileCache(),
+##'                              "sageRes")$fpath
+##' quantFile <- BiocFileCache::bfcquery(
+##'                                 BiocFileCache::BiocFileCache(),
+##'                                 "sageQuant")$fpath
+##'
+##' sageSummarizedExperiment(quantFile, idFile)
 sageSummarizedExperiment <- function(quantFile, idFile,
                                      byQuant = c("file", "scannr"),
                                      byId = c("filename", "scannr"),
@@ -34,7 +50,8 @@ sageSummarizedExperiment <- function(quantFile, idFile,
                                      ...) {
     quant <- read.delim(quantFile)
     id <- read.delim(idFile, ...)
+    x <- merge(quant, id, by.x = byQuant, by.y = byId)
     QFeatures::readSummarizedExperiment(
-                   merge(quant, id, by.x = byQuant, by.y = byId),
+                   x,
                    ecol = grep(quantPattern, names(x)))
 }

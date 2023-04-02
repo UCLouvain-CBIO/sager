@@ -2,10 +2,11 @@ Package: sager
 Title: Analysing sage results with R
 Version: 0.0.1
 Authors@R:
-    person("Laurent", "Gatto",
-        "laurent.gatto@uclouvain.be",
-        role = c("aut", "cre"),
-        comment = c(ORCID = "0000-0002-1520-2268"))
+    person(given = "Laurent",
+           family = "Gatto",
+           email = "laurent.gatto@uclouvain.be",
+           role = c("aut", "cre"),
+           comment = c(ORCID = "0000-0002-1520-2268"))
 Description: Imports sage proteomics search engine outputs into
     appropriate R/Bioconductor objects.
 Imports:
@@ -14,6 +15,8 @@ Imports:
     PSMatch,
     mzR,
     Spectra
+Suggests:
+    BiocFileCache
 License: Artistic-2.0
 Encoding: UTF-8
 Roxygen: list(markdown = TRUE)
