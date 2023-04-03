@@ -13,8 +13,8 @@
 ##'     results, typically "results.sage.tsv".
 ##'
 ##' @param byQuant `character()` containing the specifications of the
-##'     quantification columns used for merging. Passed the [merge()]
-##'     as `by.x`. Default is `c("file", "scannr")`.
+##'     quantification columns used for merging. Passed the [merge()] as
+##'     `by.x`. Default is `c("file", "scannr")`.
 ##'
 ##' @param byId `character()` containing the specifications of the
 ##'     identification columns used for merging. Passed the [merge()]
@@ -50,10 +50,24 @@ sageSummarizedExperiment <- function(quantFile, idFile,
                                      byId = c("filename", "scannr"),
                                      quantPattern = "tmt_",
                                      ...) {
-    quant <- read.delim(quantFile)
+    quant <- read.delim(quantFile, ...)
     id <- read.delim(idFile, ...)
     x <- merge(quant, id, by.x = byQuant, by.y = byId)
     QFeatures::readSummarizedExperiment(
                    x,
                    ecol = grep(quantPattern, names(x)))
+}
+
+sageQFeatures <- function(quantFile, idFile,
+                          byQuant = c("file", "scannr"),
+                          byId = c("filename", "scannr"),
+                          quantPattern = "tmt_",
+                          ...) {
+
+    quant <- read.delim(quantFile, ...)
+    id <- read.delim(idFile, ...)
+    x <- merge(quant, id, by.x = byQuant, by.y = byId)
+    res <- split(x, x[, byQuant[1]])
+    QFeatures(lapply(res, readSummarizedExperiment,
+                     ecol = ecol <- grep("tmt", names(x))))
 }
