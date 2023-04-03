@@ -13,7 +13,8 @@
 ##'     results, typically "results.sage.tsv".
 ##'
 ##' @param byQuant `character()` containing the specifications of the
-##'     quantification columns used for merging. Passed the [merge()] as
+##'     quantification columns used for merging. The first element
+##'     should correspond the the raw files. Passed the [merge()] as
 ##'     `by.x`. Default is `c("file", "scannr")`.
 ##'
 ##' @param byId `character()` containing the specifications of the
@@ -44,20 +45,7 @@
 ##'                                 BiocFileCache::BiocFileCache(),
 ##'                                 "sageQuant")$fpath
 ##'
-##' sageSummarizedExperiment(quantFile, idFile)
-sageSummarizedExperiment <- function(quantFile, idFile,
-                                     byQuant = c("file", "scannr"),
-                                     byId = c("filename", "scannr"),
-                                     quantPattern = "tmt_",
-                                     ...) {
-    quant <- read.delim(quantFile, ...)
-    id <- read.delim(idFile, ...)
-    x <- merge(quant, id, by.x = byQuant, by.y = byId)
-    QFeatures::readSummarizedExperiment(
-                   x,
-                   ecol = grep(quantPattern, names(x)))
-}
-
+##' sageQFeatures(quantFile, idFile)
 sageQFeatures <- function(quantFile, idFile,
                           byQuant = c("file", "scannr"),
                           byId = c("filename", "scannr"),
