@@ -15,6 +15,7 @@ Imports:
     PSMatch
 Suggests:
     BiocFileCache,
+    scp
 License: Artistic-2.0
 Encoding: UTF-8
 Roxygen: list(markdown = TRUE)
