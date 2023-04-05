@@ -2,11 +2,13 @@
 ## Get the sage parameter file to run the seach (see below) and
 ## extract the mzML files used for that benchmark
 
+tmpdir <- tempdir()
+
 library(jsonlite)
 
 download.file("https://raw.githubusercontent.com/lazear/sage/master/figures/benchmark_params/tmt.json",
-              dest = "tmt.json")
-mzml_files <- fromJSON("tmt.json")$mzml_paths
+              dest = file.path(tmpdir, "tmt.json"))
+mzml_files <- fromJSON(file.path(tmpdir, "tmt.json"))$mzml_paths
 
 
 ## --------------------------------------------------------------------
@@ -22,12 +24,12 @@ f <- pxget(px, raw_files)
 ## files are stored in a temporary directory before being cached using
 ## BiocFileCache.
 
-tmpdir <- tempdir()
 
 mzml_dest <- file.path(tmpdir, sub("raw", "mzML", basename(f)))
 convert <- paste0("mono ~/bin/ThermoRawFileParser/1.4.2/ThermoRawFileParser.exe",
                   " -i=", f,
                   " -b=", mzml_dest,
+                  " -N",   ## include noise data in mzML output
                   " -f=2", ## indexed mzML
                   " -p=1") ## no peak picking for MS level 1
 sapply(convert, system)
@@ -37,19 +39,19 @@ sapply(convert, system)
 ## are then queried and stored in mzml_rpath.
 
 library(BiocFileCache)
-sager_cache <- BiocFileCache()
+(sager_cache <- sager::sagerCache())
 
 bfcadd(sager_cache,
        rname = basename(mzml_dest),
        fpath = mzml_dest,
        action = "copy")
 
-mzml_rpath <- bfcquery(sager_cache, "11cell_90min_hrMS2.+\\.mzML", exact = FALSE)$rpath
+(mzml_rpath <- bfcquery(sager_cache, "11cell_90min_hrMS2.+\\.mzML", exact = FALSE)$rpath)
 
 ## --------------------------------------------------------------------
 ## Update the sage config with new mzML filenames and run it
 
-config <- fromJSON("tmt.json")
+config <- fromJSON(file.path(tmpdir, "tmt.json"))
 config$mzml_paths <- mzml_rpath
 config$database$fasta <- "/mnt/isilon/CBIO/data/SCPCBIO/fasta/UP000005640_9606.fasta"
 config$database$missed_cleavages <- 2
@@ -75,7 +77,7 @@ system("~/bin/sage/sage-v0.10.0-x86_64-unknown-linux-gnu/sage tmt2.json")
 ## Add the sage results to the BiocFileCache cache. The cached
 ## locations are then queried and stored in sager_rpath.
 
-sage_results <- dir("sage_output", full.names = TRUE)
+(sage_results <- dir("sage_output", full.names = TRUE))
 
 bfcadd(sager_cache,
        rname = paste0("sager_", basename(sage_results)),
@@ -90,6 +92,7 @@ sager_rpath <- c(quant = bfcquery(sager_cache, "sager_quant")$rpath,
 ## selectiob of 5000 forward PSMs (label of 1), with a spectrum FDR <
 ## 0.01, and a rank of 1).
 
+library(tidyverse)
 
 ## Subset sage identification results results.sage.tsv
 
@@ -122,6 +125,7 @@ bfcadd(sager_cache,
 
 
 ## Subset corresponding spectra
+library(Spectra)
 
 sp <- Spectra(mzml_rpath)
 
@@ -129,8 +133,8 @@ k <- spectraData(sp)[, c("spectrumId", "dataOrigin")] |>
     data.frame() |>
     rownames_to_column() |>
     mutate(dataOrigin = basename(dataOrigin)) |>
-    rename(scannr = spectrumId) |>
-    rename(filename = dataOrigin) |>
+    dplyr::rename(scannr = spectrumId) |>
+    dplyr::rename(filename = dataOrigin) |>
     right_join(sager_id2, multiple = "all") |>
     pull(rowname)
 
