@@ -6,11 +6,13 @@
 ##' results and combines them into a
 ##' [QFeatures::QFeatures()] object.
 ##'
-##' @param quantFile `character(1)` containing the quantification
-##'     results, typically "quant.tsv".
+##' @param quantTable `character(1)` containing the quantification
+##'     results, typically "quant.tsv" or a `data.frame` containing
+##'     the quantitation results.
 ##'
-##' @param idFile `character(1)` containing the identification
-##'     results, typically "results.sage.tsv".
+##' @param idTable `character(1)` containing the identification
+##'     results, typically "results.sage.tsv" or a `data.frame`
+##'     containing the identification results.
 ##'
 ##' @param byQuant `character()` containing the specifications of the
 ##'     quantification columns used for merging. The first element
@@ -50,25 +52,34 @@
 ##'
 ##' @examples
 ##'
-##' idFile <- BiocFileCache::bfcquery(
-##'                              BiocFileCache::BiocFileCache(),
-##'                              "sageRes")$fpath
-##' quantFile <- BiocFileCache::bfcquery(
-##'                                 BiocFileCache::BiocFileCache(),
-##'                                 "sageQuant")$fpath
+##' basename(idf <- sagerIdData())
+##' basename(qf <- sagerQuantData())
 ##'
-##' sageQFeatures(quantFile, idFile)
-sageQFeatures <- function(quantFile, idFile,
+##' sageQFeatures(qf, idf)
+sageQFeatures <- function(quantTable, idTable,
                           byQuant = c("file", "scannr"),
                           byId = c("filename", "scannr"),
                           splitBy = byQuant[1],
                           quantPattern = "tmt_",
                           class = c("SummarizedExperiment", "SingleCellExperiment"),
                           ...) {
-    stopifnot(suppressPackageStartupMessages(require("QFeatures")))
     class <- match.arg(class)
-    quant <- read.delim(quantFile, ...)
-    id <- read.delim(idFile, ...)
+    ## Get the quantitation data from input or from file
+    if (is.data.frame(quantTable)) {
+        quant <- quantTable
+    } else {
+        if (!is.character(quantTable) | length(quantTable) != 1 | !file.exists(quantTable))
+            stop("Please provide one sage quant.tsv file/data.")
+        quant <- read.delim(quantTable, ...)
+    }
+    ## Get the identification data from input or from file
+    if (is.data.frame(idTable)) {
+        id <- idTable
+    } else {
+        if (!is.character(idTable) | length(idTable) != 1 | !file.exists(idTable))
+            stop("Please provide one sage results.sage.tsv file/data.")
+        id <- read.delim(idTable, ...)
+    }
     x <- merge(quant, id, by.x = byQuant, by.y = byId)
     ecol <- grep(quantPattern, names(x))
     if (!is.null(splitBy)) {

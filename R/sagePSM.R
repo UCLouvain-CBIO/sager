@@ -5,8 +5,9 @@
 ##' This function imports sage identification results as a
 ##' [PSMatch::PSM()] object.
 ##'
-##' @param idFile `character(1)` containing the identification
-##'     results, typically "results.sage.tsv".
+##' @param idTable `character(1)` containing the identification
+##'     results, typically "results.sage.tsv" or a `data.frame`
+##'     containing the identification results.
 ##'
 ##' @param spectrum `character(1)` variable name that defines a
 ##'     spectrum in the PSM data. Default are `"scannr"`.
@@ -39,11 +40,9 @@
 ##'
 ##' @examples
 ##'
-##' idFile <- BiocFileCache::bfcquery(
-##'                              BiocFileCache::BiocFileCache(),
-##'                              "sageRes")$fpath
-##' sagePSM(idFile)
-sagePSM <- function(idFile,
+##' basename(f <- sagerIdData())
+##' sagePSM(f)
+sagePSM <- function(idTable,
                     spectrum = "scannr",
                     peptide = "peptide",
                     protein = "proteins",
@@ -51,7 +50,14 @@ sagePSM <- function(idFile,
                     rank = "rank",
                     score = "hyperscore",
                     ...) {
-    psmdf <- read.delim(idFile, ...)
+    ## Get the identification data from input or from file
+    if (is.data.frame(idTable)) {
+        psmdf <- idTable
+    } else {
+        if (!is.character(idTable) | length(idTable) != 1 | !file.exists(idTable))
+            stop("Please provide one sage results.sage.tsv file/data.")
+        psmdf <- read.delim(idTable, ...)
+    }
     psmdf[, decoy] <- psmdf[, decoy] < 0
     PSMatch::PSM(psmdf, spectrum = spectrum, peptide = peptide,
                  protein = protein, decoy = decoy,

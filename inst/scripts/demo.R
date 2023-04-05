@@ -1,15 +1,6 @@
 ## --------------------------------------------------------------------
 ## Get sage results from the rpx cache
 
-library(BiocFileCache)
-rpx_cache <- rpx::rpxCache()
-
-## Quantitation and identification results
-sager_rpath <- c(quant = bfcquery(rpx_cache, "sager_quant")$rpath,
-                 id = bfcquery(rpx_cache, "sager_results.sage.tsv")$rpath)
-
-## Raw data
-mzml_rpath <- bfcquery(rpx_cache, "11cell_90min_hrMS2.+\\.mzML", exact = FALSE)$rpath
 
 
 ## --------------------------------------------------------------------

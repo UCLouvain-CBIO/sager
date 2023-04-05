@@ -1,6 +1,6 @@
 Package: sager
 Title: Analysing sage results with R
-Version: 0.0.1
+Version: 0.0.2
 Authors@R:
     person(given = "Laurent",
            family = "Gatto",
@@ -11,11 +11,13 @@ Description: Imports sage proteomics search engine outputs into
     appropriate R/Bioconductor objects.
 Imports:
     QFeatures,
-    SummarizedExperiment,
-    PSMatch
-Suggests:
+    PSMatch,
     BiocFileCache,
+    rpx
+Suggests:
+    SingleCellExperiment,
     scp
+BugReports: https://github.com/lgatto/sager/issues
 License: Artistic-2.0
 Encoding: UTF-8
 Roxygen: list(markdown = TRUE)

@@ -5,8 +5,8 @@
 \title{Import sage results}
 \usage{
 sageQFeatures(
-  quantFile,
-  idFile,
+  quantTable,
+  idTable,
   byQuant = c("file", "scannr"),
   byId = c("filename", "scannr"),
   splitBy = byQuant[1],
@@ -16,11 +16,13 @@ sageQFeatures(
 )
 }
 \arguments{
-\item{quantFile}{\code{character(1)} containing the quantification
-results, typically "quant.tsv".}
+\item{quantTable}{\code{character(1)} containing the quantification
+results, typically "quant.tsv" or a \code{data.frame} containing
+the quantitation results.}
 
-\item{idFile}{\code{character(1)} containing the identification
-results, typically "results.sage.tsv".}
+\item{idTable}{\code{character(1)} containing the identification
+results, typically "results.sage.tsv" or a \code{data.frame}
+containing the identification results.}
 
 \item{byQuant}{\code{character()} containing the specifications of the
 quantification columns used for merging. The first element
@@ -58,14 +60,10 @@ results and combines them into a
 }
 \examples{
 
-idFile <- BiocFileCache::bfcquery(
-                             BiocFileCache::BiocFileCache(),
-                             "sageRes")$fpath
-quantFile <- BiocFileCache::bfcquery(
-                                BiocFileCache::BiocFileCache(),
-                                "sageQuant")$fpath
+basename(idf <- sagerIdData())
+basename(qf <- sagerQuantData())
 
-sageQFeatures(quantFile, idFile)
+sageQFeatures(qf, idf)
 }
 \author{
 Laurent Gatto
