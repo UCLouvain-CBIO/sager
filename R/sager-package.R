@@ -8,13 +8,14 @@
 ##' these result files into establised Bioconductor classes:
 ##'
 ##' - Identification results are parsed and imported as
-##'   [PSMatch::PSM()] objects with [sagerPSM()].
+##'   [PSMatch::PSM()] objects with [sagePSM()].
 ##'
 ##' - Quantitation (and identification) results are parsed and as
-##'   [QFeatures::QFeatures()] objects.
+##'   [QFeatures::QFeatures()] objects with [sageQFeatures()].
 ##'
 ##' - It is also possible to import quantitation, identification and
-##'   raw spectra into an [MsExperiment::MsExperiment()] object.
+##'   raw spectra into an [MsExperiment::MsExperiment()] object with
+##'   [sageMsExperiment()].
 ##'
 ##' These functions are described in their respective manual pages
 ##' with data generated from Yu *et al.* 'Benchmarking the Orbitrap

@@ -11,11 +11,12 @@ identification and quantitation results. In \code{sager}, we import
 these result files into establised Bioconductor classes:
 \itemize{
 \item Identification results are parsed and imported as
-\code{\link[PSMatch:PSM]{PSMatch::PSM()}} objects with \code{\link[=sagerPSM]{sagerPSM()}}.
+\code{\link[PSMatch:PSM]{PSMatch::PSM()}} objects with \code{\link[=sagePSM]{sagePSM()}}.
 \item Quantitation (and identification) results are parsed and as
-\code{\link[QFeatures:QFeatures-class]{QFeatures::QFeatures()}} objects.
+\code{\link[QFeatures:QFeatures-class]{QFeatures::QFeatures()}} objects with \code{\link[=sageQFeatures]{sageQFeatures()}}.
 \item It is also possible to import quantitation, identification and
-raw spectra into an \code{\link[MsExperiment:MsExperiment]{MsExperiment::MsExperiment()}} object.
+raw spectra into an \code{\link[MsExperiment:MsExperiment]{MsExperiment::MsExperiment()}} object with
+\code{\link[=sageMsExperiment]{sageMsExperiment()}}.
 }
 
 These functions are described in their respective manual pages
