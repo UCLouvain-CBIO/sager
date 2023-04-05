@@ -69,17 +69,16 @@ toJSON(config, auto_unbox = TRUE, pretty = TRUE) |>
 
 system("~/bin/sage/sage-v0.10.0-x86_64-unknown-linux-gnu/sage tmt2.json")
 
-
-
 ## --------------------------------------------------------------------
-## Import results into R
-library(sager)
+## Store sage results to the rpx cache using BiocFileCache. The cached
+## locations are then queried and stored in sager_rpath.
 
-x <- sageQFeatures("output2/quant.tsv", "output2/results.sage.tsv")
-x
+sage_results <- dir("sage_output", full.names = TRUE)
 
-psm <- sagePSM("output2/results.sage.tsv")
-psm
+bfcadd(rpx_cache,
+       rname = paste0("sager_", basename(sage_results)),
+       fpath = sage_results,
+       action = "copy")
 
-library(Spectra)
-sp <- Spectra(mzml_rpath)
+sager_rpath <- c(quant = bfcquery(rpx_cache, "sager_quant")$rpath,
+                 id = bfcquery(rpx_cache, "sager_results.sage.tsv")$rpath)

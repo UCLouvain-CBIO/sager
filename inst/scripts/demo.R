@@ -1,17 +1,29 @@
-idFile <- BiocFileCache::bfcquery(
-                             BiocFileCache::BiocFileCache(),
-                             "sageRes")$fpath
+## --------------------------------------------------------------------
+## Get sage results from the rpx cache
+
+library(BiocFileCache)
+rpx_cache <- rpx::rpxCache()
+
+## Quantitation and identification results
+sager_rpath <- c(quant = bfcquery(rpx_cache, "sager_quant")$rpath,
+                 id = bfcquery(rpx_cache, "sager_results.sage.tsv")$rpath)
+
+## Raw data
+mzml_rpath <- bfcquery(rpx_cache, "11cell_90min_hrMS2.+\\.mzML", exact = FALSE)$rpath
 
 
-quantFile <- BiocFileCache::bfcquery(
-                                BiocFileCache::BiocFileCache(),
-                                "sageQuant")$fpath
+## --------------------------------------------------------------------
+## Import with sager
+library(sager)
 
-rawFiles <- BiocFileCache::bfcquery(
-                               BiocFileCache::BiocFileCache(),
-                               "sageRaw")$fpath
+library(QFeatures)
+x <- sageQFeatures(sager_rpath["quant"], sager_rpath["id"])
+x
 
+library(PSMatch)
+psm <- sagePSM(sager_rpath["id"])
+psm
 
-BiocFileCache::bfcrpath(BiocFileCache::BiocFileCache(), "sageMzML")
-
-load(BiocFileCache::bfcrpath(BiocFileCache::BiocFileCache(), "sageMzML"))
+library(Spectra)
+sp <- Spectra(mzml_rpath)
+sp
