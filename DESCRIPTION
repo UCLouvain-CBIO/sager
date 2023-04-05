@@ -12,8 +12,7 @@ Description: Imports sage proteomics search engine outputs into
 Imports:
     QFeatures,
     PSMatch,
-    BiocFileCache,
-    rpx
+    BiocFileCache
 Suggests:
     SingleCellExperiment,
     scp
