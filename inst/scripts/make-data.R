@@ -33,19 +33,18 @@ convert <- paste0("mono ~/bin/ThermoRawFileParser/1.4.2/ThermoRawFileParser.exe"
 sapply(convert, system)
 
 ## --------------------------------------------------------------------
-## Add the mzML files to the rpx cache using the BiocFileCache
-## package. The cached locations are then queried and stored in
-## mzml_rpath.
+## Add the mzML files to the BiocFileCache cache. The cached locations
+## are then queried and stored in mzml_rpath.
 
 library(BiocFileCache)
-rpx_cache <- rpx::rpxCache()
+sager_cache <- BiocFileCache()
 
-bfcadd(rpx_cache,
+bfcadd(sager_cache,
        rname = basename(mzml_dest),
        fpath = mzml_dest,
        action = "copy")
 
-mzml_rpath <- bfcquery(rpx_cache, "11cell_90min_hrMS2.+\\.mzML", exact = FALSE)$rpath
+mzml_rpath <- bfcquery(sager_cache, "11cell_90min_hrMS2.+\\.mzML", exact = FALSE)$rpath
 
 ## --------------------------------------------------------------------
 ## Update the sage config with new mzML filenames and run it
@@ -73,21 +72,21 @@ toJSON(config, auto_unbox = TRUE, pretty = TRUE) |>
 system("~/bin/sage/sage-v0.10.0-x86_64-unknown-linux-gnu/sage tmt2.json")
 
 ## --------------------------------------------------------------------
-## Add the sage results to the rpx cache using BiocFileCache. The
-## cached locations are then queried and stored in sager_rpath.
+## Add the sage results to the BiocFileCache cache. The cached
+## locations are then queried and stored in sager_rpath.
 
 sage_results <- dir("sage_output", full.names = TRUE)
 
-bfcadd(rpx_cache,
+bfcadd(sager_cache,
        rname = paste0("sager_", basename(sage_results)),
        fpath = sage_results,
        action = "copy")
 
-sager_rpath <- c(quant = bfcquery(rpx_cache, "sager_quant")$rpath,
-                 id = bfcquery(rpx_cache, "sager_results.sage.tsv")$rpath)
+sager_rpath <- c(quant = bfcquery(sager_cache, "sager_quant")$rpath,
+                 id = bfcquery(sager_cache, "sager_results.sage.tsv")$rpath)
 
 ## --------------------------------------------------------------------
-## Create smaller data and add them to the rpx cache. The subset is a
+## Create smaller data and add them to the cache. The subset is a
 ## selectiob of 5000 forward PSMs (label of 1), with a spectrum FDR <
 ## 0.01, and a rank of 1).
 
@@ -103,7 +102,7 @@ sager_id2 <- read_tsv(sager_rpath["id"]) |>
 
 write_tsv(sager_id2, file.path(tmpdir, "subset_results.sage.tsv"))
 
-bfcadd(rpx_cache,
+bfcadd(sager_cache,
        rname = "sager_subset_id",
        fpath = file.path(tmpdir, "subset_results.sage.tsv"),
        action = "copy")
@@ -116,7 +115,7 @@ sager_quant2 <- read_tsv(sager_rpath["quant"]) |> ## has 14 variables
 
 write_tsv(sager_quant2, file.path(tmpdir, "subset_quant.tsv"))
 
-bfcadd(rpx_cache,
+bfcadd(sager_cache,
        rname = "sager_subset_quant",
        fpath = file.path(tmpdir, "subset_quant.tsv"),
        action = "copy")
@@ -139,7 +138,7 @@ sp[as.numeric(k)] |>
     export(MsBackendMzR(),
            file = file.path(tmpdir, "sager_subset_PXD016766.mzML"))
 
-bfcadd(rpx_cache,
+bfcadd(sager_cache,
        rname = "sager_subset_PXD016766",
        fpath = file.path(tmpdir, "sager_subset_PXD016766.mzML"),
        action = "copy")

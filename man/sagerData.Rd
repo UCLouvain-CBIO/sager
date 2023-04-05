@@ -5,10 +5,11 @@
 \alias{sagerQuantData}
 \alias{sagerIdData}
 \alias{sagerMzMLData}
-\alias{sagerGetData}
+\alias{sagerAddData}
+\alias{sagerRemoveData}
 \title{Sager Data}
 \usage{
-sagerData(cache, pattern)
+sagerData(cache, rname)
 
 sagerQuantData()
 
@@ -16,29 +17,57 @@ sagerIdData()
 
 sagerMzMLData()
 
-sagerGetData(cache = rpx::rpxCache)
+sagerAddData(
+  which = c("quant", "id", "mzml"),
+  cache = BiocFileCache::BiocFileCache()
+)
+
+sagerRemoveData(
+  which = c("quant", "id", "mzml"),
+  cache = BiocFileCache::BiocFileCache()
+)
 }
 \arguments{
-\item{cache}{Object of class \code{BiocFileCache}. Default for
-\code{sagerMzMLData()}, \code{sagerQuantData()} and \code{sagerIdData()} is
-\code{\link[rpx:cache]{rpx::rpxCache()}}.}
+\item{cache}{Object of class \code{BiocFileCache}. Default for is
+\code{\link[BiocFileCache:BiocFileCache-class]{BiocFileCache::BiocFileCache()}}.}
 
-\item{pattern}{\code{character(1)} defining the pattern used to queray
-\code{cache}. These are respectively \code{"sager_suset_PXD016766"},
-\code{"sager_subset_quant"} and \code{"sager_subset_id"} for
-\code{sagerMzMLData()}, \code{sagerQuantData()} and \code{sagerIdData()}.}
+\item{rname}{\code{character(1)} defining the resource name used to
+query \code{cache}.}
+
+\item{which}{One or several of \code{"quant"}, \code{"id"} or \code{"mzml"}
+specifying what data to download.}
 }
 \description{
 A set of function to install and access test data. Three datasets
 are available: a sage TMT11 quantitation tsv file, a sage
-identification tsv file, and an mzML that contains the raw data
-used as input.
+identification tsv file, and an mzML file that contains the raw
+data used as input.
 
-The data are downloaded from ProteomeXchange project PXD016766
-(see reference below) and processed with sage version 0.10.0. See
-\code{inst/scripts/make-data.R} for details on how these data were
-generated and subset.
+The data were downloaded from the ProteomeXchange project
+PXD016766 (see reference below) and processed with sage version
+0.10.0. See \code{inst/scripts/make-data.R} for details on how these
+data were generated and subset.
 }
+\details{
+The \code{sagerMzMLData()}, \code{sagerQuantData()} and \code{sagerIdData()} use
+the \code{sager::sagerData()} function under the hood, that defined the
+resource name and the cache.
+}
+\section{Functions}{
+
+\itemize{
+\item \code{sagerMzMLData()} returns the path to the cached mzML file.
+\item \code{sagerQuantData()} returns the path to the cached quantitation
+tab-separated file.
+\item \code{sagerIdData()} returns the path to the cached identifcation
+tab-separated file.
+\item \code{sagerAddData(which, cache)} checks if the resources are already available
+in the cache (default is \code{\link[BiocFileCache:BiocFileCache-class]{BiocFileCache::BiocFileCache()}}). If not, data are
+downloaded and added to the cache.
+\item \code{sagerRemoveData(which, cache)} removes the cached resource.
+}
+}
+
 \examples{
 
 sagerQuantData()
