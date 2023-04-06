@@ -52,10 +52,12 @@
 ##'
 ##' @examples
 ##'
+##' \dontrun{
 ##' basename(idf <- sagerIdData())
 ##' basename(qf <- sagerQuantData())
 ##'
 ##' sageQFeatures(qf, idf)
+##' }
 sageQFeatures <- function(quantTable, idTable,
                           byQuant = c("file", "scannr"),
                           byId = c("filename", "scannr"),

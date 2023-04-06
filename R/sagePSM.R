@@ -40,8 +40,10 @@
 ##'
 ##' @examples
 ##'
+##' \dontrun{
 ##' basename(f <- sagerIdData())
 ##' sagePSM(f)
+##' }
 sagePSM <- function(idTable,
                     spectrum = "scannr",
                     peptide = "peptide",

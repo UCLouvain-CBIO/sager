@@ -50,8 +50,10 @@ This function imports sage identification results as a
 }
 \examples{
 
+\dontrun{
 basename(f <- sagerIdData())
 sagePSM(f)
+}
 }
 \author{
 Laurent Gatto

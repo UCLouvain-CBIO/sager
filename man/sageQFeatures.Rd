@@ -60,10 +60,12 @@ results and combines them into a
 }
 \examples{
 
+\dontrun{
 basename(idf <- sagerIdData())
 basename(qf <- sagerQuantData())
 
 sageQFeatures(qf, idf)
+}
 }
 \author{
 Laurent Gatto
