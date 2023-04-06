@@ -32,3 +32,15 @@ from ProteomeXchange project
 [PXD016766](https://www.ebi.ac.uk/pride/archive/projects/PXD016766). See
 [sagerData()](https://uclouvain-cbio.github.io/sager/reference/sagerData.html)
 for details.
+
+If you want to install and try the package out:
+
+```
+if (!require("BiocManager", quietly = TRUE))
+    install.packages("BiocManager")
+
+BiocManager::install("UCLouvain-CBIO/sager")
+```
+
+If you run into issues of have questions, please open [an
+issue](https://github.com/UCLouvain-CBIO/sager/issues).
