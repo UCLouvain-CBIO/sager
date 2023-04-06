@@ -18,7 +18,7 @@ PSMatch::PSM() object."><!-- mathjax --><script src="https://cdnjs.cloudflare.co
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">sager</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.0.2</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.0.3</span>
       </span>
     </div>
 
@@ -121,10 +121,23 @@ PSM score. default is <code>"hyperscore"</code>.</p></dd>
     <div id="ref-examples">
     <h2>Examples</h2>
     <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="kw">if</span> <span class="op">(</span><span class="cn">FALSE</span><span class="op">)</span> <span class="op">{</span></span></span>
+<span class="r-in"><span><span class="co">## Add the data to the package's cache if they</span></span></span>
+<span class="r-in"><span><span class="co">## aren't already available</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="kw">if</span> <span class="op">(</span><span class="op">!</span><span class="fu"><a href="sagerData.html">sagerAvailableData</a></span><span class="op">(</span><span class="st">"id"</span><span class="op">)</span><span class="op">)</span></span></span>
+<span class="r-in"><span>  <span class="fu"><a href="sagerData.html">sagerAddData</a></span><span class="op">(</span><span class="st">"id"</span><span class="op">)</span></span></span>
+<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error in sagerAvailableData("id"):</span> could not find function "sagerAvailableData"</span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/basename.html" class="external-link">basename</a></span><span class="op">(</span><span class="va">f</span> <span class="op">&lt;-</span> <span class="fu"><a href="sagerData.html">sagerIdData</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span></span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "25ae81f0d344_1e70515047b45_subset_results.sage.tsv"</span>
+<span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="fu">sagePSM</span><span class="op">(</span><span class="va">f</span><span class="op">)</span></span></span>
-<span class="r-in"><span><span class="op">}</span></span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> PSM with 5000 rows and 34 columns.</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Spectra: 4632 unique</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   db: 5000 target, 0 decoy</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   ranks: 1:5000 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Peptides: 4895 unique, 0 multiple</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Proteins: 3199 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> names(34): peptide proteins ... protein_fdr ms1_intensity</span>
 </code></pre></div>
     </div>
   </div>

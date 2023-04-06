@@ -25,7 +25,7 @@ generated and subset."><!-- mathjax --><script src="https://cdnjs.cloudflare.com
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">sager</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.0.2</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.0.3</span>
       </span>
     </div>
 
@@ -78,7 +78,9 @@ generated and subset.</p>
 <span></span>
 <span><span class="fu">sagerAddData</span><span class="op">(</span>which <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"quant"</span>, <span class="st">"id"</span>, <span class="st">"mzml"</span><span class="op">)</span>, cache <span class="op">=</span> <span class="fu">sagerCache</span><span class="op">(</span><span class="op">)</span><span class="op">)</span></span>
 <span></span>
-<span><span class="fu">sagerRemoveData</span><span class="op">(</span>which <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"quant"</span>, <span class="st">"id"</span>, <span class="st">"mzml"</span><span class="op">)</span>, cache <span class="op">=</span> <span class="fu">sagerCache</span><span class="op">(</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
+<span><span class="fu">sagerRemoveData</span><span class="op">(</span>which <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"quant"</span>, <span class="st">"id"</span>, <span class="st">"mzml"</span><span class="op">)</span>, cache <span class="op">=</span> <span class="fu">sagerCache</span><span class="op">(</span><span class="op">)</span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu">sagerAvailableData</span><span class="op">(</span>which <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"quant"</span>, <span class="st">"id"</span>, <span class="st">"mzml"</span><span class="op">)</span>, cache <span class="op">=</span> <span class="fu">sagerCache</span><span class="op">(</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div id="arguments">
@@ -107,33 +109,69 @@ specifying what data to download.</p></dd>
 tab-separated file.</p></li>
 <li><p><code>sagerIdData()</code> returns the path to the cached identifcation
 tab-separated file.</p></li>
+<li><p><code>sagerAvailableData()</code> checks if the data are available in the
+package cache.</p></li>
 <li><p><code>sagerAddData(which, cache)</code> checks if the resources are already
-available in the cache (default is <code>sagerCache()</code>). If not,
-data are downloaded and added to the cache.</p></li>
+available in the cache. If not, data are downloaded and added
+to the cache.</p></li>
 <li><p><code>sagerRemoveData(which, cache)</code> removes the cached resource.</p></li>
+<li><p><code>sagerCache()</code> returns the package's cache, an object of class
+<code>BiocFileCache</code>.</p></li>
 </ul><p>The <code>sagerMzMLData()</code>, <code>sagerQuantData()</code> and <code>sagerIdData()</code> use
-the <code>sager::sagerData()</code> function under the hood, that defined the
-resource name and the cache.</p>
+the <code>sagerData()</code> function under the hood, that defined the
+resource name and the cache. A user shouldn't have to use
+<code>sagerData()</code>.</p>
+<p>The data files are downloaded and cached by <code>sagerAddData()</code> are
+available on zenodo (10.5281/zenodo.7804639).</p>
     </div>
     <div id="references">
     <h2>References</h2>
-    <p>Yu <em>et al.</em> 'Benchmarking the Orbitrap Tribrid Eclipse for Next
+    
+<ul><li><p>Project PXD016766:
+<a href="https://www.ebi.ac.uk/pride/archive/projects/PXD016766" class="external-link">www.ebi.ac.uk/pride/archive/projects/PXD016766</a>.</p></li>
+<li><p>Yu <em>et al.</em> 'Benchmarking the Orbitrap Tribrid Eclipse for Next
 Generation Multiplexed Proteomics' Anal. Chem. 2020, 92, 9,
 6478–6485 Publication Date:April 6, 2020
-<a href="https://doi.org/10.1021/acs.analchem.9b05685" class="external-link">DOI:10.1021/acs.analchem.9b05685</a>.</p>
-    </div>
+<a href="https://doi.org/10.1021/acs.analchem.9b05685" class="external-link">DOI:10.1021/acs.analchem.9b05685</a>.</p></li>
+<li><p>sager package test data: <a href="https://doi.org/10.5281/zenodo.7804639" class="external-link">DOI: 10.5281/zenodo.7804639</a>.</p></li>
+</ul></div>
 
     <div id="ref-examples">
     <h2>Examples</h2>
     <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co">## Are data already available</span></span></span>
+<span class="r-in"><span><span class="fu">sagerAvailableData</span><span class="op">(</span><span class="op">)</span></span></span>
+<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error in sagerAvailableData():</span> could not find function "sagerAvailableData"</span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="fu">sagerAvailableData</span><span class="op">(</span><span class="st">"id"</span><span class="op">)</span></span></span>
+<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error in sagerAvailableData("id"):</span> could not find function "sagerAvailableData"</span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co">## Remove data from cache</span></span></span>
+<span class="r-in"><span><span class="fu">sagerRemoveData</span><span class="op">(</span><span class="st">"id"</span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="fu">sagerAvailableData</span><span class="op">(</span><span class="st">"id"</span><span class="op">)</span></span></span>
+<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error in sagerAvailableData("id"):</span> could not find function "sagerAvailableData"</span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co">## Add data (if not already available)</span></span></span>
+<span class="r-in"><span><span class="fu">sagerAddData</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"id"</span>, <span class="st">"quant"</span><span class="op">)</span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co">## Get the path to the data</span></span></span>
 <span class="r-in"><span><span class="fu">sagerQuantData</span><span class="op">(</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "/home/lgatto/.cache/R/sager/1e705d5d7e79_subset_quant.tsv"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "/home/lgatto/.cache/R/sager/25ae81c233364_1e705d5d7e79_subset_quant.tsv%3Fdownload%3D1"</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="fu">sagerIdData</span><span class="op">(</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "/home/lgatto/.cache/R/sager/25ae8550d01e4_1e70515047b45_subset_results.sage.tsv"</span>
+<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>Data not found. See ?sagerData for details.</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] NA</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="fu">sagerMzMLData</span><span class="op">(</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "/home/lgatto/.cache/R/sager/1e7051d5dbf58_sager_subset_PXD016766.mzML"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "/home/lgatto/.cache/R/sager/25ae844a02bf0_1e7051d5dbf58_sager_subset_PXD016766.mzML%3Fdownload%3D1"</span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co">## Data are stored in the package's cache</span></span></span>
+<span class="r-in"><span><span class="fu">sagerCache</span><span class="op">(</span><span class="op">)</span></span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> class: BiocFileCache</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> bfccache: /home/lgatto/.cache/R/sager</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> bfccount: 17</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> For more information see: bfcinfo() or bfcquery()</span>
 </code></pre></div>
     </div>
   </div>
