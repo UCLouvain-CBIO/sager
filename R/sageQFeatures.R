@@ -6,13 +6,13 @@
 ##' results and combines them into a
 ##' [QFeatures::QFeatures()] object.
 ##'
-##' @param quantTable `character(1)` containing the quantification
-##'     results, typically "quant.tsv" or a `data.frame` containing
-##'     the quantitation results.
+##' @param quantTable `character(1)` containing the path to the
+##'     quantification result file, typically "quant.tsv", or a
+##'     `data.frame` containing the quantitation results.
 ##'
-##' @param idTable `character(1)` containing the identification
-##'     results, typically "results.sage.tsv" or a `data.frame`
-##'     containing the identification results.
+##' @param idTable `character(1)` containing the path to the
+##'     identification results, typically "results.sage.tsv", or a
+##'     `data.frame` containing the identification results.
 ##'
 ##' @param byQuant `character()` containing the specifications of the
 ##'     quantification columns used for merging. The first element

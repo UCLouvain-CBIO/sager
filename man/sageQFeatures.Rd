@@ -16,13 +16,13 @@ sageQFeatures(
 )
 }
 \arguments{
-\item{quantTable}{\code{character(1)} containing the quantification
-results, typically "quant.tsv" or a \code{data.frame} containing
-the quantitation results.}
+\item{quantTable}{\code{character(1)} containing the path to the
+quantification result file, typically "quant.tsv", or a
+\code{data.frame} containing the quantitation results.}
 
-\item{idTable}{\code{character(1)} containing the identification
-results, typically "results.sage.tsv" or a \code{data.frame}
-containing the identification results.}
+\item{idTable}{\code{character(1)} containing the path to the
+identification results, typically "results.sage.tsv", or a
+\code{data.frame} containing the identification results.}
 
 \item{byQuant}{\code{character()} containing the specifications of the
 quantification columns used for merging. The first element

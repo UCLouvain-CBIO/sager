@@ -5,9 +5,9 @@
 ##' This function imports sage identification results as a
 ##' [PSMatch::PSM()] object.
 ##'
-##' @param idTable `character(1)` containing the identification
-##'     results, typically "results.sage.tsv" or a `data.frame`
-##'     containing the identification results.
+##' @param idTable `character(1)` containing the path to the
+##'     identification results, typically "results.sage.tsv", or a
+##'     `data.frame` containing the identification results.
 ##'
 ##' @param spectrum `character(1)` variable name that defines a
 ##'     spectrum in the PSM data. Default are `"scannr"`.

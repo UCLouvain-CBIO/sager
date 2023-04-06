@@ -16,9 +16,9 @@ sagePSM(
 )
 }
 \arguments{
-\item{idTable}{\code{character(1)} containing the identification
-results, typically "results.sage.tsv" or a \code{data.frame}
-containing the identification results.}
+\item{idTable}{\code{character(1)} containing the path to the
+identification results, typically "results.sage.tsv", or a
+\code{data.frame} containing the identification results.}
 
 \item{spectrum}{\code{character(1)} variable name that defines a
 spectrum in the PSM data. Default are \code{"scannr"}.}
