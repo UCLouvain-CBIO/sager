@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+  <url>
+    <loc>/404.html</loc>
+  </url>
+  <url>
+    <loc>/authors.html</loc>
+  </url>
+  <url>
+    <loc>/index.html</loc>
+  </url>
+  <url>
+    <loc>/reference/index.html</loc>
+  </url>
+  <url>
+    <loc>/reference/sageMsExperiment.html</loc>
+  </url>
+  <url>
+    <loc>/reference/sagePSM.html</loc>
+  </url>
+  <url>
+    <loc>/reference/sageQFeatures.html</loc>
+  </url>
+  <url>
+    <loc>/reference/sager.html</loc>
+  </url>
+  <url>
+    <loc>/reference/sagerData.html</loc>
+  </url>
+  <url>
+    <loc>/reference/sager_rids.html</loc>
+  </url>
+</urlset>
