@@ -60,12 +60,18 @@ results and combines them into a
 }
 \examples{
 
-\dontrun{
+## Add the data to the package's cache if they
+## aren't already available
+
+if (!sagerAvailableData("id"))
+  sagerAddData("id")
 basename(idf <- sagerIdData())
+
+if (!sagerAvailableData("quant"))
+  sagerAddData("quant")
 basename(qf <- sagerQuantData())
 
 sageQFeatures(qf, idf)
-}
 }
 \author{
 Laurent Gatto

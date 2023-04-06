@@ -8,6 +8,7 @@
 \alias{sagerMzMLData}
 \alias{sagerAddData}
 \alias{sagerRemoveData}
+\alias{sagerAvailableData}
 \title{Sager Data}
 \usage{
 sagerData(cache, rname)
@@ -23,6 +24,8 @@ sagerMzMLData()
 sagerAddData(which = c("quant", "id", "mzml"), cache = sagerCache())
 
 sagerRemoveData(which = c("quant", "id", "mzml"), cache = sagerCache())
+
+sagerAvailableData(which = c("quant", "id", "mzml"), cache = sagerCache())
 }
 \arguments{
 \item{cache}{Object of class \code{BiocFileCache}. Default for is the
@@ -54,28 +57,49 @@ generated and subset.
 tab-separated file.
 \item \code{sagerIdData()} returns the path to the cached identifcation
 tab-separated file.
+\item \code{sagerAvailableData()} checks if the data are available in the
+package cache.
 \item \code{sagerAddData(which, cache)} checks if the resources are already
-available in the cache (default is \code{sagerCache()}). If not,
-data are downloaded and added to the cache.
+available in the cache. If not, data are downloaded and added
+to the cache.
 \item \code{sagerRemoveData(which, cache)} removes the cached resource.
+\item \code{sagerCache()} returns the package's cache, an object of class
+\code{BiocFileCache}.
 }
 
 The \code{sagerMzMLData()}, \code{sagerQuantData()} and \code{sagerIdData()} use
-the \code{sager::sagerData()} function under the hood, that defined the
-resource name and the cache.
+the \code{sagerData()} function under the hood, that defined the
+resource name and the cache. A user shouldn't have to use
+\code{sagerData()}.
 
-The data files are available on zenodo (10.5281/zenodo.7804639)
-and are downloaded and cached by the \code{sagerAddData()} function to
-become accessible.
+The data files are downloaded and cached by \code{sagerAddData()} are
+available on zenodo (10.5281/zenodo.7804639).
 }
 
 \examples{
 
+## Are data already available
+sagerAvailableData()
+
+sagerAvailableData("id")
+
+## Remove data from cache
+sagerRemoveData("id")
+
+sagerAvailableData("id")
+
+## Add data (if not already available)
+sagerAddData(c("id", "quant"))
+
+## Get the path to the data
 sagerQuantData()
 
 sagerIdData()
 
 sagerMzMLData()
+
+## Data are stored in the package's cache
+sagerCache()
 }
 \references{
 \itemize{

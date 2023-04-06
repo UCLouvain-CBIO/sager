@@ -13,7 +13,6 @@
 ##' `inst/scripts/make-data.R` for details on how these data were
 ##' generated and subset.
 ##'
-##'
 ##' @section Functions:
 ##'
 ##' - `sagerMzMLData()` returns the path to the cached mzML file.
@@ -24,19 +23,25 @@
 ##' - `sagerIdData()` returns the path to the cached identifcation
 ##'    tab-separated file.
 ##'
+##' - `sagerAvailableData()` checks if the data are available in the
+##'    package cache.
+##'
 ##' - `sagerAddData(which, cache)` checks if the resources are already
-##'    available in the cache (default is `sagerCache()`). If not,
-##'    data are downloaded and added to the cache.
+##'    available in the cache. If not, data are downloaded and added
+##'    to the cache.
 ##'
 ##' - `sagerRemoveData(which, cache)` removes the cached resource.
 ##'
-##' The `sagerMzMLData()`, `sagerQuantData()` and `sagerIdData()` use
-##' the `sager::sagerData()` function under the hood, that defined the
-##' resource name and the cache.
+##' - `sagerCache()` returns the package's cache, an object of class
+##'    `BiocFileCache`.
 ##'
-##' The data files are available on zenodo (10.5281/zenodo.7804639)
-##' and are downloaded and cached by the `sagerAddData()` function to
-##' become accessible.
+##' The `sagerMzMLData()`, `sagerQuantData()` and `sagerIdData()` use
+##' the `sagerData()` function under the hood, that defined the
+##' resource name and the cache. A user shouldn't have to use
+##' `sagerData()`.
+##'
+##' The data files are downloaded and cached by `sagerAddData()` are
+##' available on zenodo (10.5281/zenodo.7804639).
 ##'
 ##' @param cache Object of class `BiocFileCache`. Default for is the
 ##'     package's cache returned by `sagerCache()`.
@@ -66,11 +71,28 @@
 ##'
 ##' @examples
 ##'
+##' ## Are data already available
+##' sagerAvailableData()
+##'
+##' sagerAvailableData("id")
+##'
+##' ## Remove data from cache
+##' sagerRemoveData("id")
+##'
+##' sagerAvailableData("id")
+##'
+##' ## Add data (if not already available)
+##' sagerAddData(c("id", "quant"))
+##'
+##' ## Get the path to the data
 ##' sagerQuantData()
 ##'
 ##' sagerIdData()
 ##'
 ##' sagerMzMLData()
+##'
+##' ## Data are stored in the package's cache
+##' sagerCache()
 sagerData <- function(cache, rname) {
     if (missing(rname))
         stop("Please provide a resource name to query the cache.")
@@ -88,8 +110,6 @@ sagerData <- function(cache, rname) {
     x$rpath
 }
 
-
-
 ##' @export
 ##'
 ##' @rdname sagerData
@@ -100,27 +120,6 @@ sagerData <- function(cache, rname) {
 sagerCache <- function() {
     cache <- tools::R_user_dir(package = "sager", which = "cache")
     BiocFileCache::BiocFileCache(cache, ask = interactive())
-}
-
-##' @title Sager Cache Resource Identifiers
-##'
-##' @description
-##'
-##' This function is used internally to keep track of the resource
-##' names (rname) in the package's cache in functions such as
-##' `sagerQuantData()`, ... that return the path to a resource
-##' (rpath). When new data are added to the cache, their rname should
-##' be added here.
-##'
-##' @param which `character()` specifying what type of resource to
-##'     return.
-##'
-sager_rids <- function(which = c("quant", "id", "mzml")) {
-    rids <- c(quant = "sager_subset_quant",
-              id = "sager_subset_id",
-              mzml = "sager_subset_PXD016766")
-    which <- match.arg(which, several.ok = TRUE)
-    rids[which]
 }
 
 ##' @export
@@ -155,20 +154,12 @@ sagerMzMLData <- function()
 sagerAddData <- function(which = c("quant", "id", "mzml"),
                          cache = sagerCache()) {
     which <- match.arg(which, several.ok = TRUE)
-    urls <- c(id = "https://zenodo.org/record/7804639/files/1e70515047b45_subset_results.sage.tsv",
-              mzml = "https://zenodo.org/record/7804639/files/1e7051d5dbf58_sager_subset_PXD016766.mzML?download=1",
-              quant = "https://zenodo.org/record/7804639/files/1e705d5d7e79_subset_quant.tsv?download=1")
+    urls <- sager_urls(which)
     for (i in which) {
-        r_i <- bfcquery(cache, sager_rids(i), field = "rname", exact = TRUE)
-        ## Check if the resource is already available
-        if (nrow(r_i) == 1)
+        available <- sagerAvailableData(i)
+        if (available) {
             message("'", i, "'", " already available.")
-        ## Error if multiple matches
-        else if (nrow(r_i) > 1)
-            stop("Found > 1 resource found. Please open an issue in",
-                 packageDescription("sager")$BugReports,
-                 "with the exact code you ran and your session information.")
-        else { ## Add the resource
+        } else { ## Add the resource
             message("Adding '", i, "' to the package cache.")
             BiocFileCache::bfcadd(cache, rname = sager_rids(i), urls[i])
         }
@@ -191,4 +182,69 @@ sagerRemoveData <- function(which = c("quant", "id", "mzml"),
         return(invisible(cache))
     }
     bfcremove(cache, x$rid)
+}
+
+##' @export
+##'
+##' @rdname sagerData
+##'
+##' @importFrom BiocFileCache bfcquery
+sagerAvailableData <- function(which = c("quant", "id", "mzml"),
+                               cache = sagerCache()) {
+    which <- match.arg(which, several.ok = TRUE)
+    sapply(which, function(i) {
+        r_i <- bfcquery(cache, sager_rids(i), field = "rname", exact = TRUE)
+        if (nrow(r_i) > 1)
+            stop("Found > 1 resource found for '", i,
+                 "'. Please open an issue in",
+                 packageDescription("sager")$BugReports,
+                 "with the exact code you ran and your session information.")
+        nrow(r_i) == 1
+    })
+}
+
+## ===============================================
+## Non-exported helper function
+
+##' @title Sager Cache Resource Identifiers
+##'
+##' @description
+##'
+##' - `sager_rids()` is used internally to keep track of the resource
+##'   names (rname) in the package's cache. It is used in functions
+##'   such as [sagerQuantData()], ... that return the path to a
+##'   resource (rpath). When new data are added to the cache, their
+##'   rname should be added here.
+##'
+##' - `sager_urls()` keeps track of the resource URLs on zenodo. It is
+##'   used in [sagerAddData()] the get the URLs of the resources to be
+##'   added.
+##'
+##' Both returne named vectors.
+##'
+##' @param which `character()` specifying what type of resource to
+##'     return.
+##'
+##' @rdname sager_internal
+##'
+##' @examples
+##'
+##' sager_ids()
+##'
+##' sager_urls()
+sager_rids <- function(which = c("quant", "id", "mzml")) {
+    rids <- c(quant = "sager_subset_quant",
+              id = "sager_subset_id",
+              mzml = "sager_subset_PXD016766")
+    which <- match.arg(which, several.ok = TRUE)
+    rids[which]
+}
+
+##' @rdname sager_internal
+sager_urls <- function(which = c("quant", "id", "mzml")) {
+    urls <- c(quant = "https://zenodo.org/record/7804639/files/1e705d5d7e79_subset_quant.tsv",
+              id = "https://zenodo.org/record/7804639/files/1e70515047b45_subset_results.sage.tsv",
+              mzml = "https://zenodo.org/record/7804639/files/1e7051d5dbf58_sager_subset_PXD016766.mzML")
+    which <- match.arg(which, several.ok = TRUE)
+    urls[which]
 }

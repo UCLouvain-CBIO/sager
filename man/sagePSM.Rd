@@ -50,10 +50,14 @@ This function imports sage identification results as a
 }
 \examples{
 
-\dontrun{
+## Add the data to the package's cache if they
+## aren't already available
+
+if (!sagerAvailableData("id"))
+  sagerAddData("id")
 basename(f <- sagerIdData())
+
 sagePSM(f)
-}
 }
 \author{
 Laurent Gatto
