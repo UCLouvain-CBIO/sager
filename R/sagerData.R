@@ -211,7 +211,7 @@ sagerAvailableData <- function(which = c("quant", "id", "mzml"),
 ## ===============================================
 ## Non-exported helper function
 
-##' @title Sager Cache Resource Identifiers
+##' @title Internal functions
 ##'
 ##' @description
 ##'
@@ -225,18 +225,12 @@ sagerAvailableData <- function(which = c("quant", "id", "mzml"),
 ##'   used in [sagerAddData()] the get the URLs of the resources to be
 ##'   added.
 ##'
-##' Both returne named vectors.
+##' Both return named vectors.
 ##'
 ##' @param which `character()` specifying what type of resource to
 ##'     return.
 ##'
 ##' @rdname sager_internal
-##'
-##' @examples
-##'
-##' sager_ids()
-##'
-##' sager_urls()
 sager_rids <- function(which = c("quant", "id", "mzml")) {
     rids <- c(quant = "sager_subset_quant",
               id = "sager_subset_id",

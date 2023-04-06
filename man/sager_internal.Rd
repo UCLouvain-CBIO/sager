@@ -3,7 +3,7 @@
 \name{sager_rids}
 \alias{sager_rids}
 \alias{sager_urls}
-\title{Sager Cache Resource Identifiers}
+\title{Internal functions}
 \usage{
 sager_rids(which = c("quant", "id", "mzml"))
 
@@ -25,11 +25,5 @@ used in \code{\link[=sagerAddData]{sagerAddData()}} the get the URLs of the reso
 added.
 }
 
-Both returne named vectors.
-}
-\examples{
-
-sager_ids()
-
-sager_urls()
+Both return named vectors.
 }
