@@ -1,4 +1,4 @@
-##' @title Import sage results
+##' @title Import sage quantitative results
 ##'
 ##' @description
 ##'

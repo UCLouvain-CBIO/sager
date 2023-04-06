@@ -2,7 +2,7 @@
 % Please edit documentation in R/sageQFeatures.R
 \name{sageQFeatures}
 \alias{sageQFeatures}
-\title{Import sage results}
+\title{Import sage quantitative results}
 \usage{
 sageQFeatures(
   quantTable,
