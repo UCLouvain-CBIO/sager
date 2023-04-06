@@ -16,7 +16,7 @@ Imports:
 Suggests:
     SingleCellExperiment,
     scp
-BugReports: https://github.com/lgatto/sager/issues
+BugReports: https://github.com/UCLouvain-CBIO/sager/issues
 License: Artistic-2.0
 Encoding: UTF-8
 Roxygen: list(markdown = TRUE)
