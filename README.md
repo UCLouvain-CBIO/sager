@@ -18,12 +18,6 @@ establised Bioconductor classes:
   objects with
   [sageQFeatures()](https://uclouvain-cbio.github.io/sager/reference/sageQFeatures.html).
 
-- It is also possible to import quantitation, identification and raw
-  spectra into an
-  [MsExperiment](https://rformassspectrometry.github.io/MsExperiment/articles/MsExperiment.html)
-  object with
-  [sageMsExperiment()](https://uclouvain-cbio.github.io/sager/reference/sageMsExperiment.html).
-
 These functions are described and demonstrated in their respective
 manual pages using data generated from Yu *et al.* [Benchmarking the
 Orbitrap Tribrid Eclipse for Next Generation Multiplexed

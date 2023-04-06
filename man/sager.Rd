@@ -15,9 +15,6 @@ import these result files into establised Bioconductor classes:
 \item Quantitation (and identification) results are parsed, merged and
 imported as \code{\link[QFeatures:QFeatures-class]{QFeatures::QFeatures()}} objects with
 \code{\link[=sageQFeatures]{sageQFeatures()}}.
-\item It is also possible to import quantitation, identification and
-raw spectra into an \code{\link[MsExperiment:MsExperiment]{MsExperiment::MsExperiment()}} object with
-\code{\link[=sageMsExperiment]{sageMsExperiment()}}.
 }
 
 These functions are described and demonstrated in their respective
