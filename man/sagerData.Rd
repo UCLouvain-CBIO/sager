@@ -63,6 +63,10 @@ data are downloaded and added to the cache.
 The \code{sagerMzMLData()}, \code{sagerQuantData()} and \code{sagerIdData()} use
 the \code{sager::sagerData()} function under the hood, that defined the
 resource name and the cache.
+
+The data files are available on zenodo (10.5281/zenodo.7804639)
+and are downloaded and cached by the \code{sagerAddData()} function to
+become accessible.
 }
 
 \examples{
@@ -74,8 +78,13 @@ sagerIdData()
 sagerMzMLData()
 }
 \references{
-Yu \emph{et al.} 'Benchmarking the Orbitrap Tribrid Eclipse for Next
+\itemize{
+\item Project PXD016766:
+\href{https://www.ebi.ac.uk/pride/archive/projects/PXD016766}{www.ebi.ac.uk/pride/archive/projects/PXD016766}.
+\item Yu \emph{et al.} 'Benchmarking the Orbitrap Tribrid Eclipse for Next
 Generation Multiplexed Proteomics' Anal. Chem. 2020, 92, 9,
 6478–6485 Publication Date:April 6, 2020
 \href{https://doi.org/10.1021/acs.analchem.9b05685}{DOI:10.1021/acs.analchem.9b05685}.
+\item sager package test data: \href{https://doi.org/10.5281/zenodo.7804639}{DOI: 10.5281/zenodo.7804639}.
+}
 }

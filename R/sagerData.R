@@ -146,6 +146,8 @@ sagerMzMLData <- function()
 
 ##' @export
 ##'
+##' @importFrom BiocFileCache bfcadd
+##'
 ##' @rdname sagerData
 ##'
 ##' @param which One or several of `"quant"`, `"id"` or `"mzml"`
@@ -168,7 +170,7 @@ sagerAddData <- function(which = c("quant", "id", "mzml"),
                  "with the exact code you ran and your session information.")
         else { ## Add the resource
             message("Adding '", i, "' to the package cache.")
-            bfcadd(cache, rname = sager_rids(i), urls[i])
+            BiocFileCache::bfcadd(cache, rname = sager_rids(i), urls[i])
         }
     }
     invisible(cache)
