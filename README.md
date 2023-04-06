@@ -7,16 +7,21 @@ quantitation results. In `sager`, we import these result files into
 establised Bioconductor classes:
 
 
-- Identification results are parsed and imported as [PSMatch::PSM()]
+- Identification results are parsed and imported as
+  [PSM](https://rformassspectrometry.github.io/PSMatch/articles/PSM.html)
   objects with
   [sagePSM()](https://uclouvain-cbio.github.io/sager/reference/sagePSM.html).
 
 - Quantitation (and identification) results are parsed, merged and
-  imported as [QFeatures::QFeatures()] objects with
+  imported as
+  [QFeatures](https://rformassspectrometry.github.io/QFeatures/articles/QFeatures.html)
+  objects with
   [sageQFeatures()](https://uclouvain-cbio.github.io/sager/reference/sageQFeatures.html).
 
 - It is also possible to import quantitation, identification and raw
-  spectra into an [MsExperiment::MsExperiment()] object with
+  spectra into an
+  [MsExperiment](https://rformassspectrometry.github.io/MsExperiment/articles/MsExperiment.html)
+  object with
   [sageMsExperiment()](https://uclouvain-cbio.github.io/sager/reference/sageMsExperiment.html).
 
 These functions are described and demonstrated in their respective
