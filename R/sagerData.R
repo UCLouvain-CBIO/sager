@@ -13,6 +13,7 @@
 ##' `inst/scripts/make-data.R` for details on how these data were
 ##' generated and subset.
 ##'
+##'
 ##' @section Functions:
 ##'
 ##' - `sagerMzMLData()` returns the path to the cached mzML file.
@@ -33,6 +34,10 @@
 ##' the `sager::sagerData()` function under the hood, that defined the
 ##' resource name and the cache.
 ##'
+##' The data files are available on zenodo (10.5281/zenodo.7804639)
+##' and are downloaded and cached by the `sagerAddData()` function to
+##' become accessible.
+##'
 ##' @param cache Object of class `BiocFileCache`. Default for is the
 ##'     package's cache returned by `sagerCache()`.
 ##'
@@ -49,10 +54,15 @@
 ##'
 ##' @references
 ##'
-##' Yu *et al.* 'Benchmarking the Orbitrap Tribrid Eclipse for Next
-##' Generation Multiplexed Proteomics' Anal. Chem. 2020, 92, 9,
-##' 6478–6485 Publication Date:April 6, 2020
-##' [DOI:10.1021/acs.analchem.9b05685](https://doi.org/10.1021/acs.analchem.9b05685).
+##' - Project PXD016766:
+##' [www.ebi.ac.uk/pride/archive/projects/PXD016766](https://www.ebi.ac.uk/pride/archive/projects/PXD016766).
+##'
+##' - Yu *et al.* 'Benchmarking the Orbitrap Tribrid Eclipse for Next
+##'   Generation Multiplexed Proteomics' Anal. Chem. 2020, 92, 9,
+##'   6478–6485 Publication Date:April 6, 2020
+##'   [DOI:10.1021/acs.analchem.9b05685](https://doi.org/10.1021/acs.analchem.9b05685).
+##'
+##' - sager package test data: [DOI: 10.5281/zenodo.7804639](https://doi.org/10.5281/zenodo.7804639).
 ##'
 ##' @examples
 ##'
@@ -73,7 +83,7 @@ sagerData <- function(cache, rname) {
     }
     if (nrow(x) > 1)
         stop("Found > 1 resource found. Please open an issue in",
-             packageDescription("Spectra")$BugReports,
+             packageDescription("sager")$BugReports,
              "with the exact code you ran and your session information.")
     x$rpath
 }
@@ -143,7 +153,25 @@ sagerMzMLData <- function()
 sagerAddData <- function(which = c("quant", "id", "mzml"),
                          cache = sagerCache()) {
     which <- match.arg(which, several.ok = TRUE)
-    ## add URL resources to cache
+    urls <- c(id = "https://zenodo.org/record/7804639/files/1e70515047b45_subset_results.sage.tsv",
+              mzml = "https://zenodo.org/record/7804639/files/1e7051d5dbf58_sager_subset_PXD016766.mzML?download=1",
+              quant = "https://zenodo.org/record/7804639/files/1e705d5d7e79_subset_quant.tsv?download=1")
+    for (i in which) {
+        r_i <- bfcquery(cache, sager_rids(i), field = "rname", exact = TRUE)
+        ## Check if the resource is already available
+        if (nrow(r_i) == 1)
+            message("'", i, "'", " already available.")
+        ## Error if multiple matches
+        else if (nrow(r_i) > 1)
+            stop("Found > 1 resource found. Please open an issue in",
+                 packageDescription("sager")$BugReports,
+                 "with the exact code you ran and your session information.")
+        else { ## Add the resource
+            message("Adding '", i, "' to the package cache.")
+            bfcadd(cache, rname = sager_rids(i), urls[i])
+        }
+    }
+    invisible(cache)
 }
 
 ##' @export
@@ -155,7 +183,7 @@ sagerRemoveData <- function(which = c("quant", "id", "mzml"),
                             cache = sagerCache()) {
     which <- match.arg(which, several.ok = TRUE)
     rids <- sager_rids(which)
-    x <- bfcquery(cache, rids, field = "rname")
+    x <- bfcquery(cache, rids, field = "rname", exact = TRUE)
     if (!nrow(x)) {
         message("Resource(s) not found, none removed.")
         return(invisible(cache))
