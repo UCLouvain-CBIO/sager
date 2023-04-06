@@ -9,7 +9,7 @@
 ##' contains the raw data used as input to sage.
 ##'
 ##' The data were downloaded from the ProteomeXchange project
-##' [PXD016766]((https://www.ebi.ac.uk/pride/archive/projects/PXD016766)
+##' [PXD016766](https://www.ebi.ac.uk/pride/archive/projects/PXD016766)
 ##' and processed with sage version 0.10.0 and subset to reduce their
 ##' size. See `inst/scripts/make-data.R` for details on how these data
 ##' were generated and subset.
