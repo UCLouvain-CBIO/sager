@@ -1,6 +1,2 @@
-inst/extdata/quant.tsv
-inst/extdata/results.sage.tsv
-inst/extdata/CBIO944_1.mzML
-inst/extdata/CBIO944_2.mzML
-inst/extdata/CBIO944_3.mzML
-inst/extdata/CBIO944_4.mzML
+inst/extdata
+.github

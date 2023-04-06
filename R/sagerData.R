@@ -67,8 +67,10 @@ sagerData <- function(cache, rname) {
     if (missing(cache))
         stop("Please provide BiocFile cache.")
     x <- bfcquery(cache, rname, field = "rname")
-    if (!nrow(x))
-        stop("Data not found. See ?sagerData for details.")
+    if (!nrow(x)) {
+        warning("Data not found. See ?sagerData for details.")
+        return(NA)
+    }
     if (nrow(x) > 1)
         stop("Found > 1 resource found. Please open an issue in",
              packageDescription("Spectra")$BugReports,
