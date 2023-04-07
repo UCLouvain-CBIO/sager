@@ -5,7 +5,6 @@
 tmpdir <- tempdir()
 
 library(jsonlite)
-
 download.file("https://raw.githubusercontent.com/lazear/sage/master/figures/benchmark_params/tmt.json",
               dest = file.path(tmpdir, "tmt.json"))
 mzml_files <- fromJSON(file.path(tmpdir, "tmt.json"))$mzml_paths
@@ -16,14 +15,13 @@ mzml_files <- fromJSON(file.path(tmpdir, "tmt.json"))$mzml_paths
 library(rpx)
 px <- PXDataset("PXD016766")
 
-raw_files <- sub(".mzML", ".raw", mzml_files)
+(raw_files <- sub(".mzML", ".raw", mzml_files))
 f <- pxget(px, raw_files)
 
 ## --------------------------------------------------------------------
 ## Convert the raw files to mzML using ThermoRawFileParser. These mzML
 ## files are stored in a temporary directory before being cached using
 ## BiocFileCache.
-
 
 mzml_dest <- file.path(tmpdir, sub("raw", "mzML", basename(f)))
 convert <- paste0("mono ~/bin/ThermoRawFileParser/1.4.2/ThermoRawFileParser.exe",
@@ -94,6 +92,7 @@ sager_rpath <- c(quant = bfcquery(sager_cache, "sager_quant")$rpath,
 
 library(tidyverse)
 
+## --------------------------------------------------------------------
 ## Subset sage identification results results.sage.tsv
 
 set.seed(123)
@@ -101,7 +100,7 @@ sager_id2 <- read_tsv(sager_rpath["id"]) |>
     filter(label > 0) |>
     filter(spectrum_fdr < 0.01) |>
     filter(rank == 1) |>
-    sample_n(5000)
+    sample_n(500)
 
 write_tsv(sager_id2, file.path(tmpdir, "subset_results.sage.tsv"))
 
@@ -110,6 +109,39 @@ bfcadd(sager_cache,
        fpath = file.path(tmpdir, "subset_results.sage.tsv"),
        action = "copy")
 
+## --------------------------------------------------------------------
+## Subset corresponding spectra: based on this selection of good MS2
+## scans, identify the precursor scans and extract all corresponding
+## MS2 scans.
+
+sp <- Spectra(mzml_rpath)
+sp$filename <- basename(sp$dataOrigin)
+
+prec_scans <-
+    left_join(sager_id2, data.frame(spectraData(sp)),
+              by = join_by(filename == filename,
+                           scannr == spectrumId)) |>
+    mutate(scannr = sub("^.+scan=", "", scannr)) |>
+    select(dataOrigin, precScanNum)
+
+k <- split(prec_scans$precScanNum, prec_scans$dataOrigin)
+
+sager_subset_PXD016766 <-
+    do.call(c, lapply(seq_along(k), function(i)
+        filterPrecursorScan(sp, k[[i]], names(k)[i])))
+sager_subset_PXD016766@processing <- character()
+
+sager_subset_PXD016766 |>
+    export(MsBackendMzR(),
+           file = file.path(tmpdir, "sager_subset_PXD016766.mzML"))
+
+bfcadd(sager_cache,
+       rname = "sager_subset_PXD016766",
+       fpath = file.path(tmpdir, "sager_subset_PXD016766.mzML"),
+       action = "copy")
+
+
+## --------------------------------------------------------------------
 ## Subset sage quantitation results quant.tsv
 
 sager_quant2 <- read_tsv(sager_rpath["quant"]) |> ## has 14 variables
@@ -121,28 +153,4 @@ write_tsv(sager_quant2, file.path(tmpdir, "subset_quant.tsv"))
 bfcadd(sager_cache,
        rname = "sager_subset_quant",
        fpath = file.path(tmpdir, "subset_quant.tsv"),
-       action = "copy")
-
-
-## Subset corresponding spectra
-library(Spectra)
-
-sp <- Spectra(mzml_rpath)
-
-k <- spectraData(sp)[, c("spectrumId", "dataOrigin")] |>
-    data.frame() |>
-    rownames_to_column() |>
-    mutate(dataOrigin = basename(dataOrigin)) |>
-    dplyr::rename(scannr = spectrumId) |>
-    dplyr::rename(filename = dataOrigin) |>
-    right_join(sager_id2, multiple = "all") |>
-    pull(rowname)
-
-sp[as.numeric(k)] |>
-    export(MsBackendMzR(),
-           file = file.path(tmpdir, "sager_subset_PXD016766.mzML"))
-
-bfcadd(sager_cache,
-       rname = "sager_subset_PXD016766",
-       fpath = file.path(tmpdir, "sager_subset_PXD016766.mzML"),
        action = "copy")
