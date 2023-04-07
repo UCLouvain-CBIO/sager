@@ -14,10 +14,6 @@
 ##'   imported as [QFeatures::QFeatures()] objects with
 ##'   [sageQFeatures()].
 ##'
-##' - It is also possible to import quantitation, identification and
-##'   raw spectra into an [MsExperiment::MsExperiment()] object with
-##'   [sageMsExperiment()].
-##'
 ##' These functions are described and demonstrated in their respective
 ##' manual pages using data generated from Yu *et al.* 'Benchmarking
 ##' the Orbitrap Tribrid Eclipse for Next Generation Multiplexed
