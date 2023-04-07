@@ -9,10 +9,12 @@
 ## Data
 
 - Also add the full dataset?
-- Re-generate mzML files including noise (see -n argument) and re-run
-  sage to have SN ration.
-- The current subset only contains good spectra. Would be better to
-  also have some decoy and of low score.
+- [ ] Re-generate mzML files including noise (see -n argument) and
+      re-run sage to have SN ration.
+- [ ] Add the filename corresponding the basename(dataOrigin)), needed
+      for KEY.
+- [ ] The current subset only contains good spectra. Would be better
+      to also have some decoy and of low score.
 
 ## Functionality
 
