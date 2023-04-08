@@ -1,5 +1,6 @@
 setGeneric("makeKEY", function(object, ...) standardGeneric("makeKEY"))
 
+##' @importFrom SummarizedExperiment rowData
 setMethod("makeKEY", "SummarizedExperiment",
           function(object, vars = NULL, key = ".KEY", force = FALSE, sep = ".") {
               if (key %in% names(rowData(object)) & !force)
@@ -17,6 +18,8 @@ setMethod("makeKEY", "SummarizedExperiment",
               object
           })
 
+
+##' @importFrom Spectra spectraData
 setMethod("makeKEY", "Spectra",
           function(object, vars = NULL, key = ".KEY", force = FALSE, sep = ".") {
               if (key %in% spectraVariables(object) & !force)
@@ -24,7 +27,7 @@ setMethod("makeKEY", "Spectra",
               if (is.null(vars) | !all(vars %in% spectraVariables(object)))
                   stop("vars to generate KEY must all be in spectraData().")
               if (length(vars) == 1) {
-                  KEY <- spectraData(object)[[var]]
+                  KEY <- spectraData(object)[[vars]]
               } else {
                   rd <- spectraData(object)[, vars]
                   KEY <- apply(rd, 1, paste, collapse = sep)

@@ -11,7 +11,6 @@ sageQFeatures(
   byId = c("filename", "scannr"),
   splitBy = byQuant[1],
   quantPattern = "tmt_",
-  assayNames = NULL,
   class = c("SummarizedExperiment", "SingleCellExperiment"),
   ...
 )
@@ -46,10 +45,6 @@ were acquired.}
 \code{\link[=grep]{grep()}} to extract the columns containing quantitative
 data. Default is \code{"tmt_"}.}
 
-\item{assayNames}{\code{character()} of length equal to the number of
-assays in the returned object used to set assay names. If
-missing (default), \code{splitBy} is used to name assays.}
-
 \item{class}{\code{character(1)} with one of \code{"SummarizedExperiment"}
 or \code{"SingleCellExperiment"} defining the assay's
 class. Default is the former.}
@@ -83,9 +78,6 @@ sageQFeatures(qf, idf)
 
 ## One single assay
 sageQFeatures(qf, idf, splitBy = NULL)
-
-## Default colname prefixes: assay names
-sageQFeatures(qf, idf, assayNames = paste0("Assay", 1:12))
 }
 \author{
 Laurent Gatto

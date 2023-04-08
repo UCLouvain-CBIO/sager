@@ -35,10 +35,6 @@
 ##'     [grep()] to extract the columns containing quantitative
 ##'     data. Default is `"tmt_"`.
 ##'
-##' @param assayNames `character()` of length equal to the number of
-##'     assays in the returned object used to set assay names. If
-##'     missing (default), `splitBy` is used to name assays.
-##'
 ##' @param class `character(1)` with one of `"SummarizedExperiment"`
 ##'     or `"SingleCellExperiment"` defining the assay's
 ##'     class. Default is the former.
@@ -74,15 +70,11 @@
 ##'
 ##' ## One single assay
 ##' sageQFeatures(qf, idf, splitBy = NULL)
-##'
-##' ## Default colname prefixes: assay names
-##' sageQFeatures(qf, idf, assayNames = paste0("Assay", 1:12))
 sageQFeatures <- function(quantTable, idTable,
                           byQuant = c("file", "scannr"),
                           byId = c("filename", "scannr"),
                           splitBy = byQuant[1],
                           quantPattern = "tmt_",
-                          assayNames = NULL,
                           class = c("SummarizedExperiment", "SingleCellExperiment"),
                           ...) {
     class <- match.arg(class)
@@ -115,12 +107,9 @@ sageQFeatures <- function(quantTable, idTable,
     } else {
         ans <- QFeatures(lapply(x, QFeatures::readSummarizedExperiment, ecol = ecol))
     }
-    if (!is.null(assayNames)) {
-        stopifnot(length(ans) == length(assayNames))
-        names(ans) <- assayNames
-    }
+    ## Differentiate assays' colnames using the assay names
     for (i in seq_along(ans))
-        colnames(ans[[i]]) <- paste(names(ans)[i],
-                                    colnames(ans[[i]]), sep = ".")
+        colnames(ans[[i]]) <-
+            paste(names(ans)[i], colnames(ans[[i]]), sep = ".")
     ans
 }

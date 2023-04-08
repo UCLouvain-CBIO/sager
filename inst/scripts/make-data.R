@@ -97,9 +97,9 @@ library(tidyverse)
 
 set.seed(123)
 sager_id2 <- read_tsv(sager_rpath["id"]) |>
-    filter(label > 0) |>
-    filter(spectrum_fdr < 0.01) |>
-    filter(rank == 1) |>
+    ## filter(label > 0) |>
+    filter(spectrum_fdr < 0.2) |>
+    ## filter(rank == 1) |>
     sample_n(500)
 
 write_tsv(sager_id2, file.path(tmpdir, "subset_results.sage.tsv"))
