@@ -38,12 +38,14 @@ column that will be used to split the merged table into
 different assays, i.e. acquisitions corresponding to different
 sets of samples. Default is to use \code{byQuant[1]}. Set to \code{NULL}
 to not split and return a result with a single assay, for
-instance if several fractions from one sample were used.}
+instance if several fractions from the same set of samples
+were acquired.}
 
 \item{quantPattern}{\code{character(1)} defining the pattern passed to
-\code{\link[=grep]{grep()}} to extract the columns containing quantitative data.}
+\code{\link[=grep]{grep()}} to extract the columns containing quantitative
+data. Default is \code{"tmt_"}.}
 
-\item{class}{\code{character(1)} with pne of \code{"SummarizedExperiment"}
+\item{class}{\code{character(1)} with one of \code{"SummarizedExperiment"}
 or \code{"SingleCellExperiment"} defining the assay's
 class. Default is the former.}
 
@@ -71,7 +73,11 @@ if (!sagerAvailableData("quant"))
   sagerAddData("quant")
 basename(qf <- sagerQuantData())
 
+## Assays are split by filename
 sageQFeatures(qf, idf)
+
+## One single assay
+sageQFeatures(qf, idf, splitBy = NULL)
 }
 \author{
 Laurent Gatto

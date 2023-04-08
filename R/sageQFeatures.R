@@ -28,12 +28,14 @@
 ##'     different assays, i.e. acquisitions corresponding to different
 ##'     sets of samples. Default is to use `byQuant[1]`. Set to `NULL`
 ##'     to not split and return a result with a single assay, for
-##'     instance if several fractions from one sample were used.
+##'     instance if several fractions from the same set of samples
+##'     were acquired.
 ##'
 ##' @param quantPattern `character(1)` defining the pattern passed to
-##'     [grep()] to extract the columns containing quantitative data.
+##'     [grep()] to extract the columns containing quantitative
+##'     data. Default is `"tmt_"`.
 ##'
-##' @param class `character(1)` with pne of `"SummarizedExperiment"`
+##' @param class `character(1)` with one of `"SummarizedExperiment"`
 ##'     or `"SingleCellExperiment"` defining the assay's
 ##'     class. Default is the former.
 ##'
@@ -63,7 +65,11 @@
 ##'   sagerAddData("quant")
 ##' basename(qf <- sagerQuantData())
 ##'
+##' ## Assays are split by filename
 ##' sageQFeatures(qf, idf)
+##'
+##' ## One single assay
+##' sageQFeatures(qf, idf, splitBy = NULL)
 sageQFeatures <- function(quantTable, idTable,
                           byQuant = c("file", "scannr"),
                           byId = c("filename", "scannr"),
@@ -97,7 +103,13 @@ sageQFeatures <- function(quantTable, idTable,
     }
     if (class == "SingleCellExperiment") {
         requireNamespace("scp")
-        return(QFeatures(lapply(x, scp::readSingleCellExperiment, ecol = ecol)))
+        ans <- QFeatures(lapply(x, scp::readSingleCellExperiment, ecol = ecol))
+    } else {
+        ans <- QFeatures(lapply(x, QFeatures::readSummarizedExperiment, ecol = ecol))
     }
-    QFeatures(lapply(x, QFeatures::readSummarizedExperiment, ecol = ecol))
+    ## Differentiate assays' colnames using the assay names
+    for (i in seq_along(ans))
+        colnames(ans[[i]]) <-
+            paste(names(ans)[i], colnames(ans[[i]]), sep = ".")
+    ans
 }

@@ -9,13 +9,15 @@
 ## Data
 
 - Also add the full dataset?
-- Re-generate mzML files including noise (see -n argument) and re-run
-  sage to have SN ration.
-- The current subset only contains good spectra. Would be better to
-  also have some decoy and of low score.
-- When creating the subset, important to keep the original filename in
-  a spectra variable, to match them back to the file/scannr to the
-  quant/id results.
+- [X] Re-generate mzML files including noise (see -n argument) and
+      re-run sage to have SN ration.
+- [X] Add the filename corresponding the basename(dataOrigin)), needed
+      for KEY.
+- [X] The current subset only contains good spectra. Would be better
+      to also have some decoy and of low score.
+- [ ] Add cell types: Pellets from 11 human cell lines (RKO, A549,
+      U87_MG, HCT116, HEK293T, HeLa, MCF7, U2OS, SUM159, PANC1, and
+      Jurkat)
 
 ## Functionality
 

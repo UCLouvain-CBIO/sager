@@ -1,6 +1,6 @@
 Package: sager
 Title: Analysing sage results with R
-Version: 0.1.0
+Version: 0.2.0
 Authors@R:
     person(given = "Laurent",
            family = "Gatto",
@@ -12,7 +12,9 @@ Description: Imports sage proteomics search engine outputs into
 Imports:
     QFeatures,
     PSMatch,
-    BiocFileCache
+    BiocFileCache,
+    Spectra,
+    SummarizedExperiment
 Suggests:
     SingleCellExperiment,
     scp
