@@ -2,12 +2,9 @@
 % Please edit documentation in R/sagerData.R
 \name{sager_rids}
 \alias{sager_rids}
-\alias{sager_urls}
 \title{Internal functions}
 \usage{
 sager_rids(which = c("quant", "id", "mzml", "config"))
-
-sager_urls(which = c("quant", "id", "mzml", "config"))
 }
 \arguments{
 \item{which}{\code{character()} specifying what type of resource to

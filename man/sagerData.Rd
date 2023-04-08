@@ -82,6 +82,10 @@ available on zenodo (10.5281/zenodo.7804639).
 
 The \code{sager} data files will occasionally be updated or new ones
 added. These changes are documented in the NEWS.md file.
+
+To update your local cache, you can either delete it (it's
+location can be found with \code{bfccache(sagerCache())}) to remove and
+add the data by running \code{sagerRemoveData()} and \code{sagerAddData()}.
 }
 
 \examples{

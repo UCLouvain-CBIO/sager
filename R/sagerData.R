@@ -49,6 +49,10 @@
 ##' The `sager` data files will occasionally be updated or new ones
 ##' added. These changes are documented in the NEWS.md file.
 ##'
+##' To update your local cache, you can either delete it (it's
+##' location can be found with `bfccache(sagerCache())`) to remove and
+##' add the data by running `sagerRemoveData()` and `sagerAddData()`.
+##'
 ##' @param cache Object of class `BiocFileCache`. Default for is the
 ##'     package's cache returned by `sagerCache()`.
 ##'
@@ -249,7 +253,6 @@ sager_rids <- function(which = c("quant", "id", "mzml", "config")) {
     rids[which]
 }
 
-##' @rdname sager_internal
 sager_urls <- function(which = c("quant", "id", "mzml", "config")) {
     urls <- c(quant = "https://zenodo.org/record/7810260/files/577925b6185b3_subset_quant.tsv",
               id = "https://zenodo.org/record/7810260/files/5779264d15c02_subset_results.sage.tsv",
