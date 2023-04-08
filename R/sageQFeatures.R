@@ -28,26 +28,22 @@
 ##'     different assays, i.e. acquisitions corresponding to different
 ##'     sets of samples. Default is to use `byQuant[1]`. Set to `NULL`
 ##'     to not split and return a result with a single assay, for
-##'     instance if several fractions from one sample were used.
+##'     instance if several fractions from the same set of samples
+##'     were acquired.
 ##'
 ##' @param quantPattern `character(1)` defining the pattern passed to
-##'     [grep()] to extract the columns containing quantitative data.
+##'     [grep()] to extract the columns containing quantitative
+##'     data. Default is `"tmt_"`.
 ##'
 ##' @param assayNames `character()` of length equal to the number of
 ##'     assays in the returned object used to set assay names. If
 ##'     missing (default), `splitBy` is used to name assays.
 ##'
-##' @param class `character(1)` with pne of `"SummarizedExperiment"`
+##' @param class `character(1)` with one of `"SummarizedExperiment"`
 ##'     or `"SingleCellExperiment"` defining the assay's
 ##'     class. Default is the former.
 ##'
 ##' @param ... Additional parameters passed to [read.delim()].
-##'
-##' @param namePrefix `character()` of length equal to the number of
-##'     assays in the returned value, used to prefix the colnames of
-##'     the assays in the returned `QFeatures` object. When missing
-##'     (default), the names of the assays are used. Ignore when
-##'     `NULL`.
 ##'
 ##' @return An instance of class [QFeatures()] with as many assays as
 ##'     defined by `splitBy`.

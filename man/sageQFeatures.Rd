@@ -39,26 +39,22 @@ column that will be used to split the merged table into
 different assays, i.e. acquisitions corresponding to different
 sets of samples. Default is to use \code{byQuant[1]}. Set to \code{NULL}
 to not split and return a result with a single assay, for
-instance if several fractions from one sample were used.}
+instance if several fractions from the same set of samples
+were acquired.}
 
 \item{quantPattern}{\code{character(1)} defining the pattern passed to
-\code{\link[=grep]{grep()}} to extract the columns containing quantitative data.}
+\code{\link[=grep]{grep()}} to extract the columns containing quantitative
+data. Default is \code{"tmt_"}.}
 
 \item{assayNames}{\code{character()} of length equal to the number of
 assays in the returned object used to set assay names. If
 missing (default), \code{splitBy} is used to name assays.}
 
-\item{class}{\code{character(1)} with pne of \code{"SummarizedExperiment"}
+\item{class}{\code{character(1)} with one of \code{"SummarizedExperiment"}
 or \code{"SingleCellExperiment"} defining the assay's
 class. Default is the former.}
 
 \item{...}{Additional parameters passed to \code{\link[=read.delim]{read.delim()}}.}
-
-\item{namePrefix}{\code{character()} of length equal to the number of
-assays in the returned value, used to prefix the colnames of
-the assays in the returned \code{QFeatures} object. When missing
-(default), the names of the assays are used. Ignore when
-\code{NULL}.}
 }
 \value{
 An instance of class \code{\link[=QFeatures]{QFeatures()}} with as many assays as
