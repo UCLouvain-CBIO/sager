@@ -63,6 +63,7 @@ PSMatch::PSM() object."><!-- mathjax --><script src="https://cdnjs.cloudflare.co
 <span>  decoy <span class="op">=</span> <span class="st">"label"</span>,</span>
 <span>  rank <span class="op">=</span> <span class="st">"rank"</span>,</span>
 <span>  score <span class="op">=</span> <span class="st">"hyperscore"</span>,</span>
+<span>  fdr <span class="op">=</span> <span class="st">"spectrum_fdr"</span>,</span>
 <span>  <span class="va">...</span></span>
 <span><span class="op">)</span></span></code></pre></div>
     </div>
@@ -96,14 +97,21 @@ in the PSM data. Detaults are <code>"label"</code>.</p></dd>
 
 
 <dt>rank</dt>
-<dd><p>rank <code>character(1)</code> variable name that defines the
+<dd><p><code>character(1)</code> variable name that defines the
 rank of the peptide spectrum match in the PSM data. Default is
 <code>"rank"</code>.</p></dd>
 
 
 <dt>score</dt>
-<dd><p>score <code>character(1)</code> variable name that defines the
+<dd><p><code>character(1)</code> variable name that defines the
 PSM score. default is <code>"hyperscore"</code>.</p></dd>
+
+
+<dt>fdr</dt>
+<dd><p><code>character(1)</code> variable name that defines the spectrum
+FDR (or any relevant reliability score that can be used for
+filtering, such as the PEP) in the PSM data. Default is
+<code>"spectrum_fdr"</code>.</p></dd>
 
 
 <dt>...</dt>
@@ -130,15 +138,10 @@ PSM score. default is <code>"hyperscore"</code>.</p></dd>
 <span class="r-in"><span><span class="kw">if</span> <span class="op">(</span><span class="op">!</span><span class="fu"><a href="sagerData.html">sagerAvailableData</a></span><span class="op">(</span><span class="st">"id"</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-in"><span>  <span class="fu"><a href="sagerData.html">sagerAddData</a></span><span class="op">(</span><span class="st">"id"</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/basename.html" class="external-link">basename</a></span><span class="op">(</span><span class="va">f</span> <span class="op">&lt;-</span> <span class="fu"><a href="sagerData.html">sagerIdData</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "113aea546ce_5779264d15c02_subset_results.sage.tsv"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "5b72660cdeb09_5779264d15c02_subset_results.sage.tsv"</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="fu">sagePSM</span><span class="op">(</span><span class="va">f</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> PSM with 500 rows and 34 columns.</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Spectra: 497 unique</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   db: 331 target, 169 decoy</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   ranks: 1:500 </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Peptides: 500 unique, 0 multiple</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Proteins: 490 </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> names(34): peptide proteins ... protein_fdr ms1_intensity</span>
 </code></pre></div>
     </div>
@@ -154,7 +157,7 @@ PSM score. default is <code>"hyperscore"</code>.</p></dd>
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.7.9000.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.7.</p>
 </div>
 
       </footer></div>
