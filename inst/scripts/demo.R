@@ -1,5 +1,3 @@
-## --------------------------------------------------------------------
-## Import with sager
 library(sager)
 
 library(QFeatures)
@@ -8,21 +6,19 @@ library(scp)
 sageQFeatures(sagerQuantData(), sagerIdData(), splitBy = NULL)
 
 qf <- sageQFeatures(sagerQuantData(), sagerIdData())
-
-
 qf$filename <- rep(names(qf), each = 11)
 qf$tmt_tag <- rep(paste0("tmt_", 1:11), 12)
-qf <- renamePrimary(qf,
-                    sub("\\.mzML", "",
-                        sub("^.+hrMS2_", "", rownames(colData(qf)))))
-
+qf$acquisition <- sub("\\.mzML", "", sub("^.+hrMS2_", "", qf$filename))
 names(qf) <- sub("\\.mzML", "", sub("^.+MS2_", "psm", names(qf)))
-qf
 
+## qf <- renamePrimary(qf, paste(qf$acquisition, qf$tmt_tag, sep = "."))
+## renameColname(qf, rownames(colData(qf)))
+
+qf
 colData(qf)
 
 
-nms <- sub("psm", "", names(qf))
+
 qf |>
     filterFeatures(~ label > 0) |>
     filterFeatures(~ rank == 1) |>

@@ -113,6 +113,7 @@ bfcadd(sager_cache,
 ## Subset corresponding spectra: based on this selection of good MS2
 ## scans, identify the precursor scans and extract all corresponding
 ## MS2 scans.
+library(Spectra)
 
 sp <- Spectra(mzml_rpath)
 sp$filename <- basename(sp$dataOrigin)
