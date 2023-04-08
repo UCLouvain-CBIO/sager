@@ -66,7 +66,7 @@ manual page.
 
 ## Identification data
 
-```{r}
+```{r sagePSM, message = FALSE}
 library(PSMatch)
 psm <- sagePSM(sagerIdData())
 psm
@@ -161,7 +161,7 @@ qf
 
 ## Spectra and Quantitative data
 
-```{r}
+```{r spectra, message = FALSE}
 library(Spectra)
 sp <- Spectra(sagerMzMLData())
 sp
@@ -174,11 +174,11 @@ sp
 Please [open an issue](https://github.com/UCLouvain-CBIO/sager/issues)
 on the package's Github repository.
 
-## Citing `sager`
+<!-- ## Citing `sager` -->
 
-```{r citation}
-citation("sager")
-```
+<!-- ```{r citation} -->
+<!-- citation("sager") -->
+<!-- ``` -->
 
 ## Session information
 
