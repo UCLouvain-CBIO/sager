@@ -12,6 +12,7 @@ sagePSM(
   decoy = "label",
   rank = "rank",
   score = "hyperscore",
+  fdr = "spectrum_fdr",
   ...
 )
 }
@@ -32,12 +33,17 @@ protein in the PSM data. Detaults are \code{"proteins"}.}
 \item{decoy}{\code{character(1)} variable name that defines a decoy hit
 in the PSM data. Detaults are \code{"label"}.}
 
-\item{rank}{rank \code{character(1)} variable name that defines the
+\item{rank}{\code{character(1)} variable name that defines the
 rank of the peptide spectrum match in the PSM data. Default is
 \code{"rank"}.}
 
-\item{score}{score \code{character(1)} variable name that defines the
+\item{score}{\code{character(1)} variable name that defines the
 PSM score. default is \code{"hyperscore"}.}
+
+\item{fdr}{\code{character(1)} variable name that defines the spectrum
+FDR (or any relevant reliability score that can be used for
+filtering, such as the PEP) in the PSM data. Default is
+\code{"spectrum_fdr"}.}
 
 \item{...}{Additional arguments passed to \code{\link[=read.delim]{read.delim()}}.}
 }

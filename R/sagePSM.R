@@ -21,12 +21,17 @@
 ##' @param decoy `character(1)` variable name that defines a decoy hit
 ##'     in the PSM data. Detaults are `"label"`.
 ##'
-##' @param rank rank `character(1)` variable name that defines the
+##' @param rank `character(1)` variable name that defines the
 ##'     rank of the peptide spectrum match in the PSM data. Default is
 ##'     `"rank"`.
 ##'
-##' @param score score `character(1)` variable name that defines the
+##' @param score `character(1)` variable name that defines the
 ##'     PSM score. default is `"hyperscore"`.
+##'
+##' @param fdr `character(1)` variable name that defines the spectrum
+##'     FDR (or any relevant reliability score that can be used for
+##'     filtering, such as the PEP) in the PSM data. Default is
+##'     `"spectrum_fdr"`.
 ##'
 ##' @param ... Additional arguments passed to [read.delim()].
 ##'
@@ -55,6 +60,7 @@ sagePSM <- function(idTable,
                     decoy = "label",
                     rank = "rank",
                     score = "hyperscore",
+                    fdr = "spectrum_fdr",
                     ...) {
     ## Get the identification data from input or from file
     if (is.data.frame(idTable)) {
@@ -67,5 +73,5 @@ sagePSM <- function(idTable,
     psmdf[, decoy] <- psmdf[, decoy] < 0
     PSMatch::PSM(psmdf, spectrum = spectrum, peptide = peptide,
                  protein = protein, decoy = decoy,
-                 rank = rank, score = score)
+                 rank = rank, score = score, fdr = fdr)
 }

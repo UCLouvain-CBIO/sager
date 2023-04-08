@@ -11,7 +11,7 @@ Description: Imports sage proteomics search engine outputs into
     appropriate R/Bioconductor objects.
 Imports:
     QFeatures,
-    PSMatch,
+    PSMatch (>= 1.3.3),
     BiocFileCache,
     Spectra,
     SummarizedExperiment
