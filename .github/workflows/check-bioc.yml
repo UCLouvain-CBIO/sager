@@ -193,6 +193,11 @@ jobs:
           BiocManager::install("BiocCheck")
         shell: Rscript {0}
 
+      - name: Manually install PSMatch from Github
+        run: |
+          BiocManager::install("RforMassSpectrometry/PSMatch") ## for version 1.3.3
+        shell: Rscript {0}
+
       - name: Install BiocGenerics
         if:  env.has_RUnit == 'true'
         run: |
