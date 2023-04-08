@@ -19,6 +19,7 @@ Imports:
 Suggests:
     SingleCellExperiment,
     scp,
+    mzR,
     BiocStyle,
     knitr,
     rmarkdown,
