@@ -251,10 +251,10 @@ sager_rids <- function(which = c("quant", "id", "mzml", "config")) {
 
 ##' @rdname sager_internal
 sager_urls <- function(which = c("quant", "id", "mzml", "config")) {
-    c(quant = "https://zenodo.org/record/7810260/files/577925b6185b3_subset_quant.tsv",
-      id = "https://zenodo.org/record/7810260/files/5779264d15c02_subset_results.sage.tsv",
-      mzml = "https://zenodo.org/record/7810260/files/5779224eb8e7_sager_subset_PXD016766.mzML",
-      config = "https://zenodo.org/record/7810260/files/5109a34782e0b_results.json")
+    urls <- c(quant = "https://zenodo.org/record/7810260/files/577925b6185b3_subset_quant.tsv",
+              id = "https://zenodo.org/record/7810260/files/5779264d15c02_subset_results.sage.tsv",
+              mzml = "https://zenodo.org/record/7810260/files/5779224eb8e7_sager_subset_PXD016766.mzML",
+              config = "https://zenodo.org/record/7810260/files/5109a34782e0b_results.json")
     which <- match.arg(which, several.ok = TRUE)
     urls[which]
 }
