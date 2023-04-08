@@ -19,7 +19,7 @@ QFeatures::QFeatures() object."><!-- mathjax --><script src="https://cdnjs.cloud
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">sager</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.2.1</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.2.0</span>
       </span>
     </div>
 
@@ -64,7 +64,6 @@ results and combines them into a
 <span>  byId <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"filename"</span>, <span class="st">"scannr"</span><span class="op">)</span>,</span>
 <span>  splitBy <span class="op">=</span> <span class="va">byQuant</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span>,</span>
 <span>  quantPattern <span class="op">=</span> <span class="st">"tmt_"</span>,</span>
-<span>  assayNames <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  class <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"SummarizedExperiment"</span>, <span class="st">"SingleCellExperiment"</span><span class="op">)</span>,</span>
 <span>  <span class="va">...</span></span>
 <span><span class="op">)</span></span></code></pre></div>
@@ -113,12 +112,6 @@ were acquired.</p></dd>
 data. Default is <code>"tmt_"</code>.</p></dd>
 
 
-<dt>assayNames</dt>
-<dd><p><code><a href="https://rdrr.io/r/base/character.html" class="external-link">character()</a></code> of length equal to the number of
-assays in the returned object used to set assay names. If
-missing (default), <code>splitBy</code> is used to name assays.</p></dd>
-
-
 <dt>class</dt>
 <dd><p><code>character(1)</code> with one of <code>"SummarizedExperiment"</code>
 or <code>"SingleCellExperiment"</code> defining the assay's
@@ -150,12 +143,12 @@ defined by <code>splitBy</code>.</p>
 <span class="r-in"><span><span class="kw">if</span> <span class="op">(</span><span class="op">!</span><span class="fu"><a href="sagerData.html">sagerAvailableData</a></span><span class="op">(</span><span class="st">"id"</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-in"><span>  <span class="fu"><a href="sagerData.html">sagerAddData</a></span><span class="op">(</span><span class="st">"id"</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/basename.html" class="external-link">basename</a></span><span class="op">(</span><span class="va">idf</span> <span class="op">&lt;-</span> <span class="fu"><a href="sagerData.html">sagerIdData</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "1b30425a1afd_1e70515047b45_subset_results.sage.tsv"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "1b323d897c75_1e70515047b45_subset_results.sage.tsv"</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="kw">if</span> <span class="op">(</span><span class="op">!</span><span class="fu"><a href="sagerData.html">sagerAvailableData</a></span><span class="op">(</span><span class="st">"quant"</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-in"><span>  <span class="fu"><a href="sagerData.html">sagerAddData</a></span><span class="op">(</span><span class="st">"quant"</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/basename.html" class="external-link">basename</a></span><span class="op">(</span><span class="va">qf</span> <span class="op">&lt;-</span> <span class="fu"><a href="sagerData.html">sagerQuantData</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "1b3053e16b71_1e705d5d7e79_subset_quant.tsv"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "1b323d238e21_1e705d5d7e79_subset_quant.tsv"</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co">## Assays are split by filename</span></span></span>
 <span class="r-in"><span><span class="fu">sageQFeatures</span><span class="op">(</span><span class="va">qf</span>, <span class="va">idf</span><span class="op">)</span></span></span>
@@ -172,17 +165,6 @@ defined by <code>splitBy</code>.</p>
 <span class="r-in"><span><span class="fu">sageQFeatures</span><span class="op">(</span><span class="va">qf</span>, <span class="va">idf</span>, splitBy <span class="op">=</span> <span class="cn">NULL</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> An instance of class QFeatures containing 1 assays:</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  [1] sage: SummarizedExperiment with 5780 rows and 11 columns </span>
-<span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="co">## Default colname prefixes: assay names</span></span></span>
-<span class="r-in"><span><span class="fu">sageQFeatures</span><span class="op">(</span><span class="va">qf</span>, <span class="va">idf</span>, assayNames <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste0</a></span><span class="op">(</span><span class="st">"Assay"</span>, <span class="fl">1</span><span class="op">:</span><span class="fl">12</span><span class="op">)</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> An instance of class QFeatures containing 12 assays:</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [1] Assay1: SummarizedExperiment with 504 rows and 11 columns </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [2] Assay2: SummarizedExperiment with 465 rows and 11 columns </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [3] Assay3: SummarizedExperiment with 454 rows and 11 columns </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  ...</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [10] Assay10: SummarizedExperiment with 483 rows and 11 columns </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [11] Assay11: SummarizedExperiment with 459 rows and 11 columns </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [12] Assay12: SummarizedExperiment with 435 rows and 11 columns </span>
 </code></pre></div>
     </div>
   </div>
