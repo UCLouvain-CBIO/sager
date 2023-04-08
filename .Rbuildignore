@@ -1,2 +1,4 @@
 inst/extdata
 .github
+inst/scripts/sage_output
+inst/scripts/tmt2.json
