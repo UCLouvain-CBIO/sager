@@ -44,6 +44,11 @@
 ##' The data files are downloaded and cached by `sagerAddData()` are
 ##' available on zenodo (10.5281/zenodo.7804639).
 ##'
+##' @section Update locally cached data:
+##'
+##' The `sager` data files will occasionally be updated or new ones
+##' added. These changes are documented in the NEWS.md file.
+##'
 ##' @param cache Object of class `BiocFileCache`. Default for is the
 ##'     package's cache returned by `sagerCache()`.
 ##'
@@ -227,20 +232,34 @@ sagerAvailableData <- function(which = c("quant", "id", "mzml"),
 ##'
 ##' Both return named vectors.
 ##'
+##' ChangeLog:
+##'
+##' - version 2: updated 'subset' data files and new config file
+##'
 ##' @param which `character()` specifying what type of resource to
 ##'     return.
 ##'
 ##' @rdname sager_internal
-sager_rids <- function(which = c("quant", "id", "mzml")) {
+sager_rids <- function(which = c("quant", "id", "mzml", "config")) {
     rids <- c(quant = "sager_subset_quant",
               id = "sager_subset_id",
-              mzml = "sager_subset_PXD016766")
+              mzml = "sager_subset_PXD016766",
+              config = "sager_results.json")
     which <- match.arg(which, several.ok = TRUE)
     rids[which]
 }
 
 ##' @rdname sager_internal
-sager_urls <- function(which = c("quant", "id", "mzml")) {
+sager_urls <- function(which = c("quant", "id", "mzml", "config")) {
+    c(quant = "https://zenodo.org/record/7810260/files/577925b6185b3_subset_quant.tsv",
+      id = "https://zenodo.org/record/7810260/files/5779264d15c02_subset_results.sage.tsv",
+      mzml = "https://zenodo.org/record/7810260/files/5779224eb8e7_sager_subset_PXD016766.mzML",
+      config = "https://zenodo.org/record/7810260/files/5109a34782e0b_results.json")
+    which <- match.arg(which, several.ok = TRUE)
+    urls[which]
+}
+
+sager_urls_v1 <- function(which = c("quant", "id", "mzml")) {
     urls <- c(quant = "https://zenodo.org/record/7804639/files/1e705d5d7e79_subset_quant.tsv",
               id = "https://zenodo.org/record/7804639/files/1e70515047b45_subset_results.sage.tsv",
               mzml = "https://zenodo.org/record/7804639/files/1e7051d5dbf58_sager_subset_PXD016766.mzML")

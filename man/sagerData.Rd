@@ -77,6 +77,13 @@ The data files are downloaded and cached by \code{sagerAddData()} are
 available on zenodo (10.5281/zenodo.7804639).
 }
 
+\section{Update locally cached data}{
+
+
+The \code{sager} data files will occasionally be updated or new ones
+added. These changes are documented in the NEWS.md file.
+}
+
 \examples{
 
 ## Are data already available

@@ -5,9 +5,9 @@
 \alias{sager_urls}
 \title{Internal functions}
 \usage{
-sager_rids(which = c("quant", "id", "mzml"))
+sager_rids(which = c("quant", "id", "mzml", "config"))
 
-sager_urls(which = c("quant", "id", "mzml"))
+sager_urls(which = c("quant", "id", "mzml", "config"))
 }
 \arguments{
 \item{which}{\code{character()} specifying what type of resource to
@@ -26,4 +26,9 @@ added.
 }
 
 Both return named vectors.
+
+ChangeLog:
+\itemize{
+\item version 2: updated 'subset' data files and new config file
+}
 }
