@@ -85,10 +85,8 @@ bfcadd(sager_cache,
 sager_rpath <- c(quant = bfcquery(sager_cache, "sager_quant")$rpath,
                  id = bfcquery(sager_cache, "sager_results.sage.tsv")$rpath)
 
-## --------------------------------------------------------------------
-## Create smaller data and add them to the cache. The subset is a
-## selectiob of 5000 forward PSMs (label of 1), with a spectrum FDR <
-## 0.01, and a rank of 1).
+## ====================================================================
+## Create smaller data and add them to the cache.
 
 library(tidyverse)
 
@@ -97,9 +95,10 @@ library(tidyverse)
 
 set.seed(123)
 sager_id2 <- read_tsv(sager_rpath["id"]) |>
-    ## filter(label > 0) |>
-    filter(spectrum_fdr < 0.2) |>
-    ## filter(rank == 1) |>
+    filter(filename %in%
+           c("5109a2c76e223_3ff35e72d009e6_dq_00087_11cell_90min_hrMS2_A11.mzML",
+             "5109a2c76e223_3ff35ee5d5a37_dq_00084_11cell_90min_hrMS2_A5.mzML",
+             "5109a2c76e223_3ff35e790c7b57_dq_00086_11cell_90min_hrMS2_A9.mzML")) |>
     sample_n(500)
 
 write_tsv(sager_id2, file.path(tmpdir, "subset_results.sage.tsv"))

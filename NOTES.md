@@ -15,6 +15,9 @@
       for KEY.
 - [ ] The current subset only contains good spectra. Would be better
       to also have some decoy and of low score.
+- [ ] Add cell types: Pellets from 11 human cell lines (RKO, A549,
+      U87_MG, HCT116, HEK293T, HeLa, MCF7, U2OS, SUM159, PANC1, and
+      Jurkat)
 
 ## Functionality
 
