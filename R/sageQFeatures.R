@@ -33,6 +33,12 @@
 ##' @param quantPattern `character(1)` defining the pattern passed to
 ##'     [grep()] to extract the columns containing quantitative data.
 ##'
+##' @param namePrefix `character()` of length equal to the number of
+##'     assays in the returned value, used to prefix the colnames of
+##'     the assays in the returned `QFeatures` object. When missing
+##'     (default), the names of the assays are used. Ignore when
+##'     `NULL`.
+##'
 ##' @param class `character(1)` with pne of `"SummarizedExperiment"`
 ##'     or `"SingleCellExperiment"` defining the assay's
 ##'     class. Default is the former.
@@ -69,6 +75,7 @@ sageQFeatures <- function(quantTable, idTable,
                           byId = c("filename", "scannr"),
                           splitBy = byQuant[1],
                           quantPattern = "tmt_",
+                          namePrefix,
                           class = c("SummarizedExperiment", "SingleCellExperiment"),
                           ...) {
     class <- match.arg(class)
@@ -97,7 +104,17 @@ sageQFeatures <- function(quantTable, idTable,
     }
     if (class == "SingleCellExperiment") {
         requireNamespace("scp")
-        return(QFeatures(lapply(x, scp::readSingleCellExperiment, ecol = ecol)))
+        ans <- QFeatures(lapply(x, scp::readSingleCellExperiment, ecol = ecol))
+    } else {
+        ans <- QFeatures(lapply(x, QFeatures::readSummarizedExperiment, ecol = ecol))
     }
-    QFeatures(lapply(x, QFeatures::readSummarizedExperiment, ecol = ecol))
+    if (missing(namePrefix))
+        namePrefix <- names(ans)
+    if (!is.null(namePrefix)) {
+        stopifnot(length(ans) == length(namePrefix))
+        for (i in seq_along(namePrefix))
+            colnames(ans[[i]]) <- paste(namePrefix[i],
+                                        colnames(ans[[i]]), sep = ".")
+    }
+    ans
 }
