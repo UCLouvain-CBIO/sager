@@ -1,0 +1,66 @@
+---
+title: "Using the `sager` package to import and analyse `sage` results in R"
+author:
+  - name: Laurent Gatto
+    affiliation:
+    - Computational Biology and Bioinformatics, UCLouvain
+    email: laurent.gatto@uclouvain.be
+output:
+  BiocStyle::html_document:
+    self_contained: yes
+    toc: true
+    toc_float: true
+    toc_depth: 2
+    code_folding: show
+date: "`r doc_date()`"
+package: "`r pkg_ver('sager')`"
+vignette: >
+  %\VignetteIndexEntry{The sager package}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r setup, include = FALSE}
+knitr::opts_chunk$set(
+    collapse = TRUE,
+    comment = "#>",
+    crop = NULL ## Related to https://stat.ethz.ch/pipermail/bioc-devel/2020-April/016656.html
+    )
+suppressPackageStartupMessages(library("BiocStyle"))
+```
+
+
+# Introduction
+
+## The `sager` package
+
+## Installation instructions
+
+```{r "install", eval = FALSE}
+if (!requireNamespace("BiocManager"))
+      install.packages("BiocManager")
+
+BiocManager::install("UCLouvain-CBIO/sager")
+```
+
+# Analysing `sage` results
+
+
+# Misc
+
+## Asking for help
+
+Please [open an issue](https://github.com/UCLouvain-CBIO/sager/issues)
+on the package's Github repository.
+
+## Citing `sager`
+
+```{r "citation"}
+citation("sager")
+```
+
+## Session information
+
+```{r reproduce3, echo=FALSE}
+sessionInfo()
+```
