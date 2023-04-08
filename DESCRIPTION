@@ -21,7 +21,8 @@ Suggests:
     scp,
     BiocStyle,
     knitr,
-    rmarkdown
+    rmarkdown,
+    ggplot2
 BugReports: https://github.com/UCLouvain-CBIO/sager/issues
 License: Artistic-2.0
 Encoding: UTF-8
