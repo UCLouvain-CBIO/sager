@@ -14,7 +14,8 @@ Imports:
     PSMatch (>= 1.3.3),
     BiocFileCache,
     Spectra,
-    SummarizedExperiment
+    SummarizedExperiment,
+    methods
 Suggests:
     SingleCellExperiment,
     scp

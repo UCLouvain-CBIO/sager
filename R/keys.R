@@ -1,6 +1,8 @@
 setGeneric("makeKEY", function(object, ...) standardGeneric("makeKEY"))
 
-##' @importFrom SummarizedExperiment rowData
+##' @importFrom SummarizedExperiment rowData rowData<-
+##'
+##' @importFrom methods setMethod setGeneric
 setMethod("makeKEY", "SummarizedExperiment",
           function(object, vars = NULL, key = ".KEY", force = FALSE, sep = ".") {
               if (key %in% names(rowData(object)) & !force)
@@ -19,7 +21,7 @@ setMethod("makeKEY", "SummarizedExperiment",
           })
 
 
-##' @importFrom Spectra spectraData
+##' @importFrom Spectra spectraData spectraVariables spectraData<-
 setMethod("makeKEY", "Spectra",
           function(object, vars = NULL, key = ".KEY", force = FALSE, sep = ".") {
               if (key %in% spectraVariables(object) & !force)
@@ -37,6 +39,7 @@ setMethod("makeKEY", "Spectra",
               object
           })
 
+##' @importFrom QFeatures replaceAssay
 setMethod("makeKEY", "QFeatures",
           function(object, vars = NULL, key = ".KEY", force = FALSE, sep = ".") {
               if (is.null(vars))
