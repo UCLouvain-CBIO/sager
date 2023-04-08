@@ -143,28 +143,24 @@ defined by <code>splitBy</code>.</p>
 <span class="r-in"><span><span class="kw">if</span> <span class="op">(</span><span class="op">!</span><span class="fu"><a href="sagerData.html">sagerAvailableData</a></span><span class="op">(</span><span class="st">"id"</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-in"><span>  <span class="fu"><a href="sagerData.html">sagerAddData</a></span><span class="op">(</span><span class="st">"id"</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/basename.html" class="external-link">basename</a></span><span class="op">(</span><span class="va">idf</span> <span class="op">&lt;-</span> <span class="fu"><a href="sagerData.html">sagerIdData</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "113a1e1b6c4c_1e70515047b45_subset_results.sage.tsv"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "5779264d15c02_subset_results.sage.tsv"</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="kw">if</span> <span class="op">(</span><span class="op">!</span><span class="fu"><a href="sagerData.html">sagerAvailableData</a></span><span class="op">(</span><span class="st">"quant"</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-in"><span>  <span class="fu"><a href="sagerData.html">sagerAddData</a></span><span class="op">(</span><span class="st">"quant"</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/basename.html" class="external-link">basename</a></span><span class="op">(</span><span class="va">qf</span> <span class="op">&lt;-</span> <span class="fu"><a href="sagerData.html">sagerQuantData</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "113abbddaf4_1e705d5d7e79_subset_quant.tsv"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "577925b6185b3_subset_quant.tsv"</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co">## Assays are split by filename</span></span></span>
 <span class="r-in"><span><span class="fu">sageQFeatures</span><span class="op">(</span><span class="va">qf</span>, <span class="va">idf</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> An instance of class QFeatures containing 12 assays:</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [1] 1e70567da563f_3ff35e127a1e80_dq_00093_11cell_90min_hrMS2_B11.mzML: SummarizedExperiment with 504 rows and 11 columns </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [2] 1e70567da563f_3ff35e21356dc_dq_00089_11cell_90min_hrMS2_B3.mzML: SummarizedExperiment with 465 rows and 11 columns </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [3] 1e70567da563f_3ff35e32eb78de_dq_00083_11cell_90min_hrMS2_A3.mzML: SummarizedExperiment with 454 rows and 11 columns </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  ...</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [10] 1e70567da563f_3ff35e790c7b57_dq_00086_11cell_90min_hrMS2_A9.mzML: SummarizedExperiment with 483 rows and 11 columns </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [11] 1e70567da563f_3ff35e7c19e7c6_dq_00090_11cell_90min_hrMS2_B5.mzML: SummarizedExperiment with 459 rows and 11 columns </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [12] 1e70567da563f_3ff35ee5d5a37_dq_00084_11cell_90min_hrMS2_A5.mzML: SummarizedExperiment with 435 rows and 11 columns </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> An instance of class QFeatures containing 3 assays:</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [1] 5109a2c76e223_3ff35e72d009e6_dq_00087_11cell_90min_hrMS2_A11.mzML: SummarizedExperiment with 181 rows and 11 columns </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [2] 5109a2c76e223_3ff35e790c7b57_dq_00086_11cell_90min_hrMS2_A9.mzML: SummarizedExperiment with 176 rows and 11 columns </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [3] 5109a2c76e223_3ff35ee5d5a37_dq_00084_11cell_90min_hrMS2_A5.mzML: SummarizedExperiment with 149 rows and 11 columns </span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co">## One single assay</span></span></span>
 <span class="r-in"><span><span class="fu">sageQFeatures</span><span class="op">(</span><span class="va">qf</span>, <span class="va">idf</span>, splitBy <span class="op">=</span> <span class="cn">NULL</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> An instance of class QFeatures containing 1 assays:</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [1] sage: SummarizedExperiment with 5780 rows and 11 columns </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [1] sage: SummarizedExperiment with 506 rows and 11 columns </span>
 </code></pre></div>
     </div>
   </div>
@@ -179,7 +175,7 @@ defined by <code>splitBy</code>.</p>
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.7.9000.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.7.</p>
 </div>
 
       </footer></div>
