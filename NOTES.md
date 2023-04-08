@@ -13,6 +13,9 @@
   sage to have SN ration.
 - The current subset only contains good spectra. Would be better to
   also have some decoy and of low score.
+- When creating the subset, important to keep the original filename in
+  a spectra variable, to match them back to the file/scannr to the
+  quant/id results.
 
 ## Functionality
 
