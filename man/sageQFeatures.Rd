@@ -11,7 +11,7 @@ sageQFeatures(
   byId = c("filename", "scannr"),
   splitBy = byQuant[1],
   quantPattern = "tmt_",
-  namePrefix,
+  assayNames = NULL,
   class = c("SummarizedExperiment", "SingleCellExperiment"),
   ...
 )
@@ -44,17 +44,21 @@ instance if several fractions from one sample were used.}
 \item{quantPattern}{\code{character(1)} defining the pattern passed to
 \code{\link[=grep]{grep()}} to extract the columns containing quantitative data.}
 
-\item{namePrefix}{\code{character()} of length equal to the number of
-assays in the returned value, used to prefix the colnames of
-the assays in the returned \code{QFeatures} object. When missing
-(default), the names of the assays are used. Ignore when
-\code{NULL}.}
+\item{assayNames}{\code{character()} of length equal to the number of
+assays in the returned object used to set assay names. If
+missing (default), \code{splitBy} is used to name assays.}
 
 \item{class}{\code{character(1)} with pne of \code{"SummarizedExperiment"}
 or \code{"SingleCellExperiment"} defining the assay's
 class. Default is the former.}
 
 \item{...}{Additional parameters passed to \code{\link[=read.delim]{read.delim()}}.}
+
+\item{namePrefix}{\code{character()} of length equal to the number of
+assays in the returned value, used to prefix the colnames of
+the assays in the returned \code{QFeatures} object. When missing
+(default), the names of the assays are used. Ignore when
+\code{NULL}.}
 }
 \value{
 An instance of class \code{\link[=QFeatures]{QFeatures()}} with as many assays as
@@ -78,7 +82,14 @@ if (!sagerAvailableData("quant"))
   sagerAddData("quant")
 basename(qf <- sagerQuantData())
 
+## Assays are split by filename
 sageQFeatures(qf, idf)
+
+## One single assay
+sageQFeatures(qf, idf, splitBy = NULL)
+
+## Default colname prefixes: assay names
+sageQFeatures(qf, idf, assayNames = paste0("Assay", 1:12))
 }
 \author{
 Laurent Gatto

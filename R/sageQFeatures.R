@@ -33,17 +33,21 @@
 ##' @param quantPattern `character(1)` defining the pattern passed to
 ##'     [grep()] to extract the columns containing quantitative data.
 ##'
-##' @param namePrefix `character()` of length equal to the number of
-##'     assays in the returned value, used to prefix the colnames of
-##'     the assays in the returned `QFeatures` object. When missing
-##'     (default), the names of the assays are used. Ignore when
-##'     `NULL`.
+##' @param assayNames `character()` of length equal to the number of
+##'     assays in the returned object used to set assay names. If
+##'     missing (default), `splitBy` is used to name assays.
 ##'
 ##' @param class `character(1)` with pne of `"SummarizedExperiment"`
 ##'     or `"SingleCellExperiment"` defining the assay's
 ##'     class. Default is the former.
 ##'
 ##' @param ... Additional parameters passed to [read.delim()].
+##'
+##' @param namePrefix `character()` of length equal to the number of
+##'     assays in the returned value, used to prefix the colnames of
+##'     the assays in the returned `QFeatures` object. When missing
+##'     (default), the names of the assays are used. Ignore when
+##'     `NULL`.
 ##'
 ##' @return An instance of class [QFeatures()] with as many assays as
 ##'     defined by `splitBy`.
@@ -69,13 +73,20 @@
 ##'   sagerAddData("quant")
 ##' basename(qf <- sagerQuantData())
 ##'
+##' ## Assays are split by filename
 ##' sageQFeatures(qf, idf)
+##'
+##' ## One single assay
+##' sageQFeatures(qf, idf, splitBy = NULL)
+##'
+##' ## Default colname prefixes: assay names
+##' sageQFeatures(qf, idf, assayNames = paste0("Assay", 1:12))
 sageQFeatures <- function(quantTable, idTable,
                           byQuant = c("file", "scannr"),
                           byId = c("filename", "scannr"),
                           splitBy = byQuant[1],
                           quantPattern = "tmt_",
-                          namePrefix,
+                          assayNames = NULL,
                           class = c("SummarizedExperiment", "SingleCellExperiment"),
                           ...) {
     class <- match.arg(class)
@@ -108,13 +119,12 @@ sageQFeatures <- function(quantTable, idTable,
     } else {
         ans <- QFeatures(lapply(x, QFeatures::readSummarizedExperiment, ecol = ecol))
     }
-    if (missing(namePrefix))
-        namePrefix <- names(ans)
-    if (!is.null(namePrefix)) {
-        stopifnot(length(ans) == length(namePrefix))
-        for (i in seq_along(namePrefix))
-            colnames(ans[[i]]) <- paste(namePrefix[i],
-                                        colnames(ans[[i]]), sep = ".")
+    if (!is.null(assayNames)) {
+        stopifnot(length(ans) == length(assayNames))
+        names(ans) <- assayNames
     }
+    for (i in seq_along(ans))
+        colnames(ans[[i]]) <- paste(names(ans)[i],
+                                    colnames(ans[[i]]), sep = ".")
     ans
 }
