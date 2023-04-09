@@ -69,10 +69,17 @@
 </ul></div>
 <div class="section level2">
 <h2 id="functionality">Functionality<a class="anchor" aria-label="anchor" href="#functionality"></a></h2>
+<div class="section level3">
+<h3 id="msexperiment">MsExperiment<a class="anchor" aria-label="anchor" href="#msexperiment"></a></h3>
 <ul><li>How to link the different slots in an MsExperiment? Could have a KEY variable as <code>spectraData(.)$KEY</code>, <code>rowData(.)$KEY</code> and <code>.$KEY</code> to be used as a unique consolidated foreign key. To be discussed with Jo.</li>
 <li>We could then have a <code>ProtGenerics::makeKEY()</code> generic and different methods if <code>Spectra</code>, <code>QFeatures</code> and <code>PSM</code> that add the KEY variables.</li>
 <li>Assuming we have it, how to use it? Could be a <code>subByKEY()</code> function that filter the respective data types. When called on an <code>MsExperiment</code>, it delegates to its data types.</li>
 </ul></div>
+<div class="section level3">
+<h3 id="sage-configs">sage configs<a class="anchor" aria-label="anchor" href="#sage-configs"></a></h3>
+<ul><li>R interface to manage config files; provide a set of standard configs.</li>
+</ul></div>
+</div>
 
 
   </div>
