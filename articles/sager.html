@@ -78,7 +78,7 @@ Gatto</h4>
 UCLouvain<br><a class="author_email" href="mailto:#"></a><a href="mailto:laurent.gatto@uclouvain.be" class="email">laurent.gatto@uclouvain.be</a>
       </address>
                   
-            <h4 data-toc-skip class="date">8 April 2023</h4>
+            <h4 data-toc-skip class="date">9 April 2023</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/UCLouvain-CBIO/sager/blob/HEAD/vignettes/sager.Rmd" class="external-link"><code>vignettes/sager.Rmd</code></a></small>
       <div class="hidden name"><code>sager.Rmd</code></div>
@@ -93,6 +93,32 @@ UCLouvain<br><a class="author_email" href="mailto:#"></a><a href="mailto:laurent
 <div class="section level3">
 <h3 id="the-sager-package">The <code>sager</code> package<a class="anchor" aria-label="anchor" href="#the-sager-package"></a>
 </h3>
+<p><a href="https://lazear.github.io/sage/" class="external-link">Sage</a> is a new
+cross-platform, extremely performant, open source proteomics search
+engine <a href="https://github.com/lazear" class="external-link">Michael Lazear</a>. It uses
+mzML files as input, is parameterised by a <a href="https://github.com/lazear/sage/blob/master/DOCS.md" class="external-link">json file</a>
+and is executed from the command line. In addition to peptide
+identification, sage also includes a variety of advanced features such
+as retention time prediction and quantification (both isobaric &amp;
+LFQ). It produces two files: <code>results.sage.tsv</code> with the
+identification results and, when configured to quantify features,
+<code>quant.tsv</code>.</p>
+<p>The <code>sager</code> package uses these two files as input. It
+facilitates their import into established Bioconductor classes:</p>
+<ul>
+<li><p>Identification results are parsed and imported as <a href="https://rformassspectrometry.github.io/PSMatch/" class="external-link">PSMatch::PSM()</a>
+objects with <code><a href="../reference/sagePSM.html">sagePSM()</a></code>.</p></li>
+<li><p>Quantitation (and identification) results are parsed, merged and
+imported as <a href="https://rformassspectrometry.github.io/QFeatures/articles/QFeatures.html" class="external-link">QFeatures::QFeatures()</a>
+objects with <code><a href="../reference/sageQFeatures.html">sageQFeatures()</a></code>.</p></li>
+<li><p>Sage results can also be integrated with a <a href="https://rformassspectrometry.github.io/Spectra/" class="external-link">Spectra::Spectra()</a>
+instance (holding the raw data) into a <a href="https://rformassspectrometry.github.io/MsExperiment/" class="external-link">MsExperiment::MsExperiment()</a>
+object, as documented in this document.</p></li>
+</ul>
+<p>The goal of the <code>sager</code> package can thus be summarised as
+a way to leverage the existing <a href="https://www.rformassspectrometry.org/" class="external-link">R for Mass Spectrometry</a>
+and <a href="https://bioconductor.org/" class="external-link">Bioconductor</a> infrastructure
+to analyse sage results.</p>
 </div>
 <div class="section level3">
 <h3 id="installation-instructions">Installation instructions<a class="anchor" aria-label="anchor" href="#installation-instructions"></a>
@@ -107,9 +133,8 @@ UCLouvain<br><a class="author_email" href="mailto:#"></a><a href="mailto:laurent
 <div class="section level2">
 <h2 id="analysing-sage-results">Analysing <code>sage</code> results<a class="anchor" aria-label="anchor" href="#analysing-sage-results"></a>
 </h2>
-<div class="section level3">
-<h3 id="example-data">Example data<a class="anchor" aria-label="anchor" href="#example-data"></a>
-</h3>
+<p><a href="https://rformassspectrometry.github.io/PSMatch/" class="external-link uri">https://rformassspectrometry.github.io/PSMatch/</a> ##
+Example data</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va">sager</span><span class="op">)</span></span></code></pre></div>
 <p>The <code>sager</code> package provides example data</p>
@@ -124,7 +149,6 @@ UCLouvain<br><a class="author_email" href="mailto:#"></a><a href="mailto:laurent
 <span><span class="co">#&gt; 'mzml' already available.</span></span></code></pre></div>
 <p>For details and provenance of the data, please see the
 <code><a href="../reference/sagerData.html">?sagerData</a></code> manual page.</p>
-</div>
 <div class="section level3">
 <h3 id="identification-data">Identification data<a class="anchor" aria-label="anchor" href="#identification-data"></a>
 </h3>
@@ -286,7 +310,7 @@ UCLouvain<br><a class="author_email" href="mailto:#"></a><a href="mailto:laurent
 <span><span class="co">#&gt;  ... 33 more variables/columns.</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; file(s):</span></span>
-<span><span class="co">#&gt; 36f711a3a67_5779224eb8e7_sager_subset_PXD016766.mzML</span></span></code></pre></div>
+<span><span class="co">#&gt; 36cce2bcb2_5779224eb8e7_sager_subset_PXD016766.mzML</span></span></code></pre></div>
 </div>
 </div>
 <div class="section level2">
