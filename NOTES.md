@@ -21,6 +21,8 @@
 
 ## Functionality
 
+### MsExperiment
+
 - How to link the different slots in an MsExperiment? Could have a KEY
   variable as `spectraData(.)$KEY`, `rowData(.)$KEY` and `.$KEY` to be
   used as a unique consolidated foreign key. To be discussed with Jo.
@@ -30,3 +32,7 @@
 - Assuming we have it, how to use it? Could be a `subByKEY()` function
   that filter the respective data types. When called on an
   `MsExperiment`, it delegates to its data types.
+
+### sage configs
+
+- R interface to manage config files; provide a set of standard configs.
