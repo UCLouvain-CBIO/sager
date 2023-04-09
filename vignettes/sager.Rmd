@@ -34,6 +34,41 @@ suppressPackageStartupMessages(library("BiocStyle"))
 
 ## The `sager` package
 
+[Sage](https://lazear.github.io/sage/) is a new cross-platform,
+extremely performant, open source proteomics search engine [Michael
+Lazear](https://github.com/lazear). It uses mzML files as input, is
+parameterised by a [json
+file](https://github.com/lazear/sage/blob/master/DOCS.md) and is
+executed from the command line. In addition to peptide identification,
+sage also includes a variety of advanced features such as retention
+time prediction and quantification (both isobaric & LFQ). It produces
+two files: `results.sage.tsv` with the identification results and,
+when configured to quantify features, `quant.tsv`.
+
+The `sager` package uses these two files as input. It facilitates
+their import into established Bioconductor classes:
+
+- Identification results are parsed and imported as
+  [PSMatch::PSM()](https://rformassspectrometry.github.io/PSMatch/)
+  objects with `sagePSM()`.
+
+- Quantitation (and identification) results are parsed, merged and
+  imported as
+  [QFeatures::QFeatures()](https://rformassspectrometry.github.io/QFeatures/articles/QFeatures.html)
+  objects with `sageQFeatures()`.
+
+- Sage results can also be integrated with a
+  [Spectra::Spectra()](https://rformassspectrometry.github.io/Spectra/)
+  instance (holding the raw data) into a
+  [MsExperiment::MsExperiment()](https://rformassspectrometry.github.io/MsExperiment/)
+  object, as documented in this document.
+
+The goal of the `sager` package can thus be summarised as a way to
+leverage the existing [R for Mass
+Spectrometry](https://www.rformassspectrometry.org/) and
+[Bioconductor](https://bioconductor.org/) infrastructure to analyse
+sage results.
+
 ## Installation instructions
 
 ```{r "install", eval = FALSE}
@@ -44,7 +79,7 @@ BiocManager::install("UCLouvain-CBIO/sager")
 ```
 
 # Analysing `sage` results
-
+https://rformassspectrometry.github.io/PSMatch/
 ## Example data
 
 ```{r}

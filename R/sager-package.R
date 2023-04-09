@@ -5,7 +5,7 @@
 ##' The `sager` package can be used to import results produced by the
 ##' sage search engine into R. Sage produces tab-separated output
 ##' files for identification and quantitation results. In `sager`, we
-##' import these result files into establised Bioconductor classes:
+##' import these result files into established Bioconductor classes:
 ##'
 ##' - Identification results are parsed and imported as
 ##'   [PSMatch::PSM()] objects with [sagePSM()].

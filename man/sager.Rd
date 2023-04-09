@@ -8,7 +8,7 @@
 The \code{sager} package can be used to import results produced by the
 sage search engine into R. Sage produces tab-separated output
 files for identification and quantitation results. In \code{sager}, we
-import these result files into establised Bioconductor classes:
+import these result files into established Bioconductor classes:
 \itemize{
 \item Identification results are parsed and imported as
 \code{\link[PSMatch:PSM]{PSMatch::PSM()}} objects with \code{\link[=sagePSM]{sagePSM()}}.
