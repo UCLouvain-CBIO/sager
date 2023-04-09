@@ -77,10 +77,10 @@ package, that can be installed from CRAN (unless you already have it):
 ```{r installbiocmanager, eval = FALSE}
 if (!requireNamespace("BiocManager"))
     install.packages("BiocManager")
-````
+```
 
 Note that `sager` is under constant development, and thus will depend
-on some under-development dependencies, that have not made it into the
+on some under-development dependencies, that haven't made it into the
 stable releases yet. Here are the instructions to install these:
 
 To install the *devel* version of `PSMatch`:
