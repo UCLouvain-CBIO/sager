@@ -1,4 +1,5 @@
 setGeneric("makeKEY", function(object, ...) standardGeneric("makeKEY"))
+setGeneric("subsetByKEY", function(object, ...) standardGeneric("subsetByKEY"))
 
 ##' @importFrom SummarizedExperiment rowData rowData<-
 ##'
@@ -52,4 +53,22 @@ setMethod("makeKEY", "QFeatures",
                   object <- replaceAssay(object, x, i)
               }
               object
+          })
+
+
+setMethod("subsetByKEY", "Spectra",
+          function(object, value, key = ".KEY") {
+              stopifnot(key %in% spectraVariables(object))
+              object[spectraData(object[[.KEY]]) == value]
+          })
+
+setMethod("subsetByKEY", "SummarizedExperiment",
+          function(object, value, key = ".KEY") {
+              stopifnot(key %in% names(rowData(object)))
+              object[rowData(object[[.KEY]]) == value, ]
+          })
+
+
+setMethod("subsetByKEY", "SummarizedExperiment",
+          function(object, value, key = ".KEY") {
           })
