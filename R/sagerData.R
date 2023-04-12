@@ -51,9 +51,6 @@
 ##' @param cache Object of class `BiocFileCache`. Default for is the
 ##'     package's cache returned by `sagerCache()`.
 ##'
-##' @param rname `character(1)` defining the resource name used to
-##'     query `cache`.
-##'
 ##' @importFrom BiocFileCache bfcquery BiocFileCache
 ##'
 ##' @importFrom utils packageDescription

@@ -31,9 +31,6 @@ specifying what data to download.}
 
 \item{cache}{Object of class \code{BiocFileCache}. Default for is the
 package's cache returned by \code{sagerCache()}.}
-
-\item{rname}{\code{character(1)} defining the resource name used to
-query \code{cache}.}
 }
 \description{
 A set of function to install and access \code{sager} example
