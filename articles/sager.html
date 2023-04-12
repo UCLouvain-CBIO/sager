@@ -170,12 +170,12 @@ following command:</p>
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/RforMassSpectrometry/PSM" class="external-link">PSMatch</a></span><span class="op">)</span></span>
 <span><span class="va">psm</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/sagePSM.html">sagePSM</a></span><span class="op">(</span><span class="fu"><a href="../reference/sagerData.html">sagerIdData</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="va">psm</span></span>
-<span><span class="co">#&gt; PSM with 500 rows and 34 columns.</span></span>
+<span><span class="co">#&gt; PSM with 820 rows and 34 columns.</span></span>
 <span><span class="co">#&gt; Spectra: 497 unique</span></span>
-<span><span class="co">#&gt;   db: 331 target, 169 decoy</span></span>
-<span><span class="co">#&gt;   ranks: 1:500 </span></span>
-<span><span class="co">#&gt; Peptides: 500 unique, 0 multiple</span></span>
-<span><span class="co">#&gt; Proteins: 490 </span></span>
+<span><span class="co">#&gt;   db: 568 target, 252 decoy</span></span>
+<span><span class="co">#&gt;   ranks: 1:820 </span></span>
+<span><span class="co">#&gt; Peptides: 819 unique, 0 multiple</span></span>
+<span><span class="co">#&gt; Proteins: 797 </span></span>
 <span><span class="co">#&gt; names(34): peptide proteins ... protein_fdr ms1_intensity</span></span></code></pre></div>
 <div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://ggplot2.tidyverse.org" class="external-link">ggplot2</a></span><span class="op">)</span></span>
@@ -193,12 +193,12 @@ following command:</p>
 <div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">psm</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/PSMatch/man/filterPSMs.html" class="external-link">filterPSMs</a></span><span class="op">(</span><span class="va">psm</span><span class="op">)</span> <span class="op">|&gt;</span></span>
 <span>    <span class="fu"><a href="https://rdrr.io/pkg/PSMatch/man/filterPSMs.html" class="external-link">filterPsmFdr</a></span><span class="op">(</span><span class="op">)</span></span>
-<span><span class="co">#&gt; Starting with 500 PSMs:</span></span>
-<span><span class="co">#&gt; Removed 169 decoy hits.</span></span>
+<span><span class="co">#&gt; Starting with 820 PSMs:</span></span>
+<span><span class="co">#&gt; Removed 252 decoy hits.</span></span>
 <span><span class="co">#&gt; Removed 0 PSMs with rank &gt; 1.</span></span>
 <span><span class="co">#&gt; Removed 0 shared peptides.</span></span>
-<span><span class="co">#&gt; 331 PSMs left.</span></span>
-<span><span class="co">#&gt; Removed 174 PSMs with FDR &lt; spectrum_fdr.</span></span></code></pre></div>
+<span><span class="co">#&gt; 568 PSMs left.</span></span>
+<span><span class="co">#&gt; Removed 314 PSMs with FDR &lt; spectrum_fdr.</span></span></code></pre></div>
 </div>
 <div class="section level3">
 <h3 id="quantitative-data">Quantitative data<a class="anchor" aria-label="anchor" href="#quantitative-data"></a>
@@ -210,15 +210,15 @@ following command:</p>
 <div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/sageQFeatures.html">sageQFeatures</a></span><span class="op">(</span><span class="fu"><a href="../reference/sagerData.html">sagerQuantData</a></span><span class="op">(</span><span class="op">)</span>, <span class="fu"><a href="../reference/sagerData.html">sagerIdData</a></span><span class="op">(</span><span class="op">)</span>, splitBy <span class="op">=</span> <span class="cn">NULL</span><span class="op">)</span></span>
 <span><span class="co">#&gt; An instance of class QFeatures containing 1 assays:</span></span>
-<span><span class="co">#&gt;  [1] sage: SummarizedExperiment with 506 rows and 11 columns</span></span></code></pre></div>
+<span><span class="co">#&gt;  [1] sage: SummarizedExperiment with 820 rows and 11 columns</span></span></code></pre></div>
 <p>Different sets of samples per acquisition:</p>
 <div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">qf</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/sageQFeatures.html">sageQFeatures</a></span><span class="op">(</span><span class="fu"><a href="../reference/sagerData.html">sagerQuantData</a></span><span class="op">(</span><span class="op">)</span>, <span class="fu"><a href="../reference/sagerData.html">sagerIdData</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="va">qf</span></span>
 <span><span class="co">#&gt; An instance of class QFeatures containing 3 assays:</span></span>
-<span><span class="co">#&gt;  [1] 5109a2c76e223_3ff35e72d009e6_dq_00087_11cell_90min_hrMS2_A11.mzML: SummarizedExperiment with 181 rows and 11 columns </span></span>
-<span><span class="co">#&gt;  [2] 5109a2c76e223_3ff35e790c7b57_dq_00086_11cell_90min_hrMS2_A9.mzML: SummarizedExperiment with 176 rows and 11 columns </span></span>
-<span><span class="co">#&gt;  [3] 5109a2c76e223_3ff35ee5d5a37_dq_00084_11cell_90min_hrMS2_A5.mzML: SummarizedExperiment with 149 rows and 11 columns</span></span></code></pre></div>
+<span><span class="co">#&gt;  [1] subset_dq_00084_11cell_90min_hrMS2_A5.mzML: SummarizedExperiment with 247 rows and 11 columns </span></span>
+<span><span class="co">#&gt;  [2] subset_dq_00086_11cell_90min_hrMS2_A9.mzML: SummarizedExperiment with 284 rows and 11 columns </span></span>
+<span><span class="co">#&gt;  [3] subset_dq_00087_11cell_90min_hrMS2_A11.mzML: SummarizedExperiment with 289 rows and 11 columns</span></span></code></pre></div>
 <p>Annotate data:</p>
 <div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">renameqf</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">x</span><span class="op">)</span> <span class="fu"><a href="https://rdrr.io/r/base/grep.html" class="external-link">sub</a></span><span class="op">(</span><span class="st">"\\.mzML"</span>, <span class="st">""</span>, <span class="fu"><a href="https://rdrr.io/r/base/grep.html" class="external-link">sub</a></span><span class="op">(</span><span class="st">"^.+hrMS2_"</span>, <span class="st">""</span>, <span class="va">x</span><span class="op">)</span><span class="op">)</span></span>
@@ -231,24 +231,24 @@ following command:</p>
 <div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">qf</span></span>
 <span><span class="co">#&gt; An instance of class QFeatures containing 3 assays:</span></span>
-<span><span class="co">#&gt;  [1] psmA11: SummarizedExperiment with 181 rows and 11 columns </span></span>
-<span><span class="co">#&gt;  [2] psmA9: SummarizedExperiment with 176 rows and 11 columns </span></span>
-<span><span class="co">#&gt;  [3] psmA5: SummarizedExperiment with 149 rows and 11 columns</span></span>
+<span><span class="co">#&gt;  [1] psmA5: SummarizedExperiment with 247 rows and 11 columns </span></span>
+<span><span class="co">#&gt;  [2] psmA9: SummarizedExperiment with 284 rows and 11 columns </span></span>
+<span><span class="co">#&gt;  [3] psmA11: SummarizedExperiment with 289 rows and 11 columns</span></span>
 <span><span class="fu">colData</span><span class="op">(</span><span class="va">qf</span><span class="op">)</span></span>
 <span><span class="co">#&gt; DataFrame with 33 rows and 3 columns</span></span>
-<span><span class="co">#&gt;                filename     tmt_tag acquisition</span></span>
-<span><span class="co">#&gt;             &lt;character&gt; &lt;character&gt; &lt;character&gt;</span></span>
-<span><span class="co">#&gt; A11.tmt_1 5109a2c76e...       tmt_1         A11</span></span>
-<span><span class="co">#&gt; A11.tmt_2 5109a2c76e...       tmt_2         A11</span></span>
-<span><span class="co">#&gt; A11.tmt_3 5109a2c76e...       tmt_3         A11</span></span>
-<span><span class="co">#&gt; A11.tmt_4 5109a2c76e...       tmt_4         A11</span></span>
-<span><span class="co">#&gt; A11.tmt_5 5109a2c76e...       tmt_5         A11</span></span>
-<span><span class="co">#&gt; ...                 ...         ...         ...</span></span>
-<span><span class="co">#&gt; A5.tmt_7  5109a2c76e...       tmt_7          A5</span></span>
-<span><span class="co">#&gt; A5.tmt_8  5109a2c76e...       tmt_8          A5</span></span>
-<span><span class="co">#&gt; A5.tmt_9  5109a2c76e...       tmt_9          A5</span></span>
-<span><span class="co">#&gt; A5.tmt_10 5109a2c76e...      tmt_10          A5</span></span>
-<span><span class="co">#&gt; A5.tmt_11 5109a2c76e...      tmt_11          A5</span></span></code></pre></div>
+<span><span class="co">#&gt;                 filename     tmt_tag acquisition</span></span>
+<span><span class="co">#&gt;              &lt;character&gt; &lt;character&gt; &lt;character&gt;</span></span>
+<span><span class="co">#&gt; A5.tmt_1   subset_dq_...       tmt_1          A5</span></span>
+<span><span class="co">#&gt; A5.tmt_2   subset_dq_...       tmt_2          A5</span></span>
+<span><span class="co">#&gt; A5.tmt_3   subset_dq_...       tmt_3          A5</span></span>
+<span><span class="co">#&gt; A5.tmt_4   subset_dq_...       tmt_4          A5</span></span>
+<span><span class="co">#&gt; A5.tmt_5   subset_dq_...       tmt_5          A5</span></span>
+<span><span class="co">#&gt; ...                  ...         ...         ...</span></span>
+<span><span class="co">#&gt; A11.tmt_7  subset_dq_...       tmt_7         A11</span></span>
+<span><span class="co">#&gt; A11.tmt_8  subset_dq_...       tmt_8         A11</span></span>
+<span><span class="co">#&gt; A11.tmt_9  subset_dq_...       tmt_9         A11</span></span>
+<span><span class="co">#&gt; A11.tmt_10 subset_dq_...      tmt_10         A11</span></span>
+<span><span class="co">#&gt; A11.tmt_11 subset_dq_...      tmt_11         A11</span></span></code></pre></div>
 <p>Data processing:</p>
 <div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">qf</span> <span class="op">|&gt;</span></span>
@@ -288,17 +288,27 @@ following command:</p>
 <span></span>
 <span><span class="co">#&gt; Warning in rlm.default(X, expression, ...): some of ... do not match</span></span>
 <span></span>
+<span><span class="co">#&gt; Warning in rlm.default(X, expression, ...): some of ... do not match</span></span>
+<span></span>
+<span><span class="co">#&gt; Warning in rlm.default(X, expression, ...): some of ... do not match</span></span>
+<span></span>
+<span><span class="co">#&gt; Warning in rlm.default(X, expression, ...): some of ... do not match</span></span>
+<span></span>
+<span><span class="co">#&gt; Warning in rlm.default(X, expression, ...): some of ... do not match</span></span>
+<span></span>
+<span><span class="co">#&gt; Warning in rlm.default(X, expression, ...): some of ... do not match</span></span>
+<span></span>
 <span><span class="co">#&gt; Warning in rlm.default(X, expression, ...): some of ... do not match</span></span></code></pre></div>
 <div class="sourceCode" id="cb17"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">qf</span></span>
 <span><span class="co">#&gt; An instance of class QFeatures containing 12 assays:</span></span>
-<span><span class="co">#&gt;  [1] psmA11: SummarizedExperiment with 58 rows and 11 columns </span></span>
-<span><span class="co">#&gt;  [2] psmA9: SummarizedExperiment with 55 rows and 11 columns </span></span>
-<span><span class="co">#&gt;  [3] psmA5: SummarizedExperiment with 47 rows and 11 columns </span></span>
+<span><span class="co">#&gt;  [1] psmA5: SummarizedExperiment with 76 rows and 11 columns </span></span>
+<span><span class="co">#&gt;  [2] psmA9: SummarizedExperiment with 84 rows and 11 columns </span></span>
+<span><span class="co">#&gt;  [3] psmA11: SummarizedExperiment with 94 rows and 11 columns </span></span>
 <span><span class="co">#&gt;  ...</span></span>
-<span><span class="co">#&gt;  [10] peptides: SummarizedExperiment with 157 rows and 33 columns </span></span>
-<span><span class="co">#&gt;  [11] norm_peptides: SummarizedExperiment with 157 rows and 33 columns </span></span>
-<span><span class="co">#&gt;  [12] proteins: SummarizedExperiment with 154 rows and 33 columns</span></span></code></pre></div>
+<span><span class="co">#&gt;  [10] peptides: SummarizedExperiment with 253 rows and 33 columns </span></span>
+<span><span class="co">#&gt;  [11] norm_peptides: SummarizedExperiment with 253 rows and 33 columns </span></span>
+<span><span class="co">#&gt;  [12] proteins: SummarizedExperiment with 245 rows and 33 columns</span></span></code></pre></div>
 </div>
 <div class="section level3">
 <h3 id="spectra-and-quantitative-data">Spectra and Quantitative data<a class="anchor" aria-label="anchor" href="#spectra-and-quantitative-data"></a>
@@ -307,24 +317,26 @@ following command:</p>
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/RforMassSpectrometry/Spectra" class="external-link">Spectra</a></span><span class="op">)</span></span>
 <span><span class="va">sp</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/Spectra/man/Spectra.html" class="external-link">Spectra</a></span><span class="op">(</span><span class="fu"><a href="../reference/sagerData.html">sagerMzMLData</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="va">sp</span></span>
-<span><span class="co">#&gt; MSn data (Spectra) with 5103 spectra in a MsBackendMzR backend:</span></span>
-<span><span class="co">#&gt;        msLevel     rtime scanIndex</span></span>
-<span><span class="co">#&gt;      &lt;integer&gt; &lt;numeric&gt; &lt;integer&gt;</span></span>
-<span><span class="co">#&gt; 1            1   626.429         1</span></span>
-<span><span class="co">#&gt; 2            2   627.038         2</span></span>
-<span><span class="co">#&gt; 3            1   636.291         3</span></span>
-<span><span class="co">#&gt; 4            2   636.681         4</span></span>
-<span><span class="co">#&gt; 5            2   636.941         5</span></span>
-<span><span class="co">#&gt; ...        ...       ...       ...</span></span>
-<span><span class="co">#&gt; 5099         2   5215.66      5099</span></span>
-<span><span class="co">#&gt; 5100         2   5215.77      5100</span></span>
-<span><span class="co">#&gt; 5101         1   5220.26      5101</span></span>
-<span><span class="co">#&gt; 5102         2   5221.17      5102</span></span>
-<span><span class="co">#&gt; 5103         2   5221.43      5103</span></span>
+<span><span class="co">#&gt; MSn data (Spectra) with 500 spectra in a MsBackendMzR backend:</span></span>
+<span><span class="co">#&gt;       msLevel     rtime scanIndex</span></span>
+<span><span class="co">#&gt;     &lt;integer&gt; &lt;numeric&gt; &lt;integer&gt;</span></span>
+<span><span class="co">#&gt; 1           2   279.184         1</span></span>
+<span><span class="co">#&gt; 2           2   731.098         2</span></span>
+<span><span class="co">#&gt; 3           2   736.768         3</span></span>
+<span><span class="co">#&gt; 4           2   863.610         4</span></span>
+<span><span class="co">#&gt; 5           2   866.034         5</span></span>
+<span><span class="co">#&gt; ...       ...       ...       ...</span></span>
+<span><span class="co">#&gt; 496         2   5155.97       174</span></span>
+<span><span class="co">#&gt; 497         2   5163.48       175</span></span>
+<span><span class="co">#&gt; 498         2   5178.80       176</span></span>
+<span><span class="co">#&gt; 499         2   5179.03       177</span></span>
+<span><span class="co">#&gt; 500         2   5249.68       178</span></span>
 <span><span class="co">#&gt;  ... 33 more variables/columns.</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; file(s):</span></span>
-<span><span class="co">#&gt; 57366e118db_5779224eb8e7_sager_subset_PXD016766.mzML</span></span></code></pre></div>
+<span><span class="co">#&gt; 56e5a2eae8e_87fa94493400b_subset_dq_00084_11cell_90min_hrMS2_A5.mzML</span></span>
+<span><span class="co">#&gt; 56e5a2eae8e_87fa94493400b_subset_dq_00086_11cell_90min_hrMS2_A9.mzML</span></span>
+<span><span class="co">#&gt; 56e5a2eae8e_87fa94493400b_subset_dq_00087_11cell_90min_hrMS2_A11.mzML</span></span></code></pre></div>
 </div>
 </div>
 <div class="section level2">
