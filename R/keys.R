@@ -59,13 +59,13 @@ setMethod("makeKEY", "QFeatures",
 setMethod("subsetByKEY", "Spectra",
           function(object, value, key = ".KEY") {
               stopifnot(key %in% spectraVariables(object))
-              object[spectraData(object[[.KEY]]) == value]
+              object[spectraData(object)[[key]] == value]
           })
 
 setMethod("subsetByKEY", "SummarizedExperiment",
           function(object, value, key = ".KEY") {
               stopifnot(key %in% names(rowData(object)))
-              object[rowData(object[[.KEY]]) == value, ]
+              object[rowData(object)[[key]] == value, ]
           })
 
 
