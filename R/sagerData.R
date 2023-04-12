@@ -149,7 +149,7 @@ sagerIdData <- function()
 ##' @rdname sagerData
 sagerMzMLData <- function() {
     r_i <- bfcquery(sagerCache(), "subset.+\\.mzML", exact = FALSE)
-    stopifnot(all(sager:::sager_rids()[["mzml"]] %in% r_i$rname))
+    stopifnot(all(sager_rids()[["mzml"]] %in% r_i$rname))
     r_i$rpath
 }
 
@@ -216,7 +216,7 @@ sagerAvailableData <- function(which = c("quant", "id", "mzml"),
 }
 
 sagerAvailableId <- function(cache = sagerCache()) {
-    r_i <- bfcquery(cache, sager:::sager_rids()[["id"]], field = "rname")
+    r_i <- bfcquery(cache, sager_rids()[["id"]], field = "rname")
     if (nrow(r_i) > 1)
         stop("Found > 1 'id' resource found.",
              "Please open an issue in",
@@ -226,7 +226,7 @@ sagerAvailableId <- function(cache = sagerCache()) {
 }
 
 sagerAvailableQuant <- function(cache = sagerCache()) {
-    r_i <- bfcquery(cache, sager:::sager_rids()[["quant"]], field = "rname")
+    r_i <- bfcquery(cache, sager_rids()[["quant"]], field = "rname")
     if (nrow(r_i) > 1)
         stop("Found > 1 'quant' resource found.",
              "Please open an issue in",
@@ -237,7 +237,7 @@ sagerAvailableQuant <- function(cache = sagerCache()) {
 
 sagerAvailableMzML <- function(cache = sagerCache()) {
     r_i <- bfcquery(cache, "subset.+\\.mzML", exact = FALSE)
-    all(sager:::sager_rids()[["mzml"]] %in% r_i$rname )
+    all(sager_rids()[["mzml"]] %in% r_i$rname )
 }
 
 ## ===============================================
