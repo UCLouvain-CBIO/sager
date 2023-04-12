@@ -168,14 +168,15 @@ sagerMzMLData <- function()
 sagerAddData <- function(which = c("quant", "id", "mzml"),
                          cache = sagerCache()) {
     which <- match.arg(which, several.ok = TRUE)
-    urls <- sager_urls(which)
     for (i in which) {
         available <- sagerAvailableData()[i]
         if (available) {
             message("'", i, "'", " already available.")
         } else { ## Add the resource
             message("Adding '", i, "' to the package cache.")
-            BiocFileCache::bfcadd(cache, rname = sager_rids(i), urls[i])
+            BiocFileCache::bfcadd(cache,
+                                  rname = sager_rids()[[i]],
+                                  sager_urls()[[i]])
         }
     }
     invisible(cache)
@@ -189,13 +190,20 @@ sagerAddData <- function(which = c("quant", "id", "mzml"),
 sagerRemoveData <- function(which = c("quant", "id", "mzml"),
                             cache = sagerCache()) {
     which <- match.arg(which, several.ok = TRUE)
-    rids <- sager_rids()[[which]]
-    x <- bfcquery(cache, rids, field = "rname", exact = TRUE)
-    if (!nrow(x)) {
-        message("Resource(s) not found, none removed.")
-        return(invisible(cache))
+    for (i in which) {
+        rids <- sager_rids()[[i]]
+        if (i == "mzml") {
+            x <- bfcquery(cache, "subset.+\\.mzML", field = "rname")
+        } else {
+            x <- bfcquery(cache, rids, field = "rname", exact = TRUE)
+        }
+        if (!nrow(x)) {
+            message("Resource '", i, "' not found, none removed.")
+            next()
+        }
+        bfcremove(cache, x$rid)
     }
-    bfcremove(cache, x$rid)
+    invisible(cache)
 }
 
 ##' @export
@@ -206,13 +214,13 @@ sagerRemoveData <- function(which = c("quant", "id", "mzml"),
 sagerAvailableData <- function(which = c("quant", "id", "mzml"),
                                cache = sagerCache()) {
     which <- match.arg(which, several.ok = TRUE)
-    c(quant = sagerAvailableId(),
+    c(quant = sagerAvailableQuant(),
       id = sagerAvailableId(),
       mzml = sagerAvailableMzML())
 }
 
 sagerAvailableId <- function(cache = sagerCache()) {
-    r_i <- bfcquery(cache, sager:::sager_rids()[["id"]])
+    r_i <- bfcquery(cache, sager:::sager_rids()[["id"]], field = "rname")
     if (nrow(r_i) > 1)
         stop("Found > 1 'id' resource found.",
              "Please open an issue in",
@@ -221,8 +229,8 @@ sagerAvailableId <- function(cache = sagerCache()) {
     nrow(r_i) == 1
 }
 
-sagerAvailableId <- function(cache = sagerCache()) {
-    r_i <- bfcquery(cache, sager:::sager_rids()[["quant"]])
+sagerAvailableQuant <- function(cache = sagerCache()) {
+    r_i <- bfcquery(cache, sager:::sager_rids()[["quant"]], field = "rname")
     if (nrow(r_i) > 1)
         stop("Found > 1 'quant' resource found.",
              "Please open an issue in",
