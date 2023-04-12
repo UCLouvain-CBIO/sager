@@ -1,10 +1,10 @@
-setGeneric("makeKEY", function(object, ...) standardGeneric("makeKEY"))
+setGeneric("addKEY", function(object, ...) standardGeneric("addKEY"))
 setGeneric("subsetByKEY", function(object, ...) standardGeneric("subsetByKEY"))
 
 ##' @importFrom SummarizedExperiment rowData rowData<-
 ##'
 ##' @importFrom methods setMethod setGeneric
-setMethod("makeKEY", "SummarizedExperiment",
+setMethod("addKEY", "SummarizedExperiment",
           function(object, vars = NULL, key = ".KEY", force = FALSE, sep = ".") {
               if (key %in% names(rowData(object)) & !force)
                   stop(key, " already in names(rowData()). Use 'force = TRUE to overwrite.")
@@ -23,7 +23,7 @@ setMethod("makeKEY", "SummarizedExperiment",
 
 
 ##' @importFrom Spectra spectraData spectraVariables spectraData<-
-setMethod("makeKEY", "Spectra",
+setMethod("addKEY", "Spectra",
           function(object, vars = NULL, key = ".KEY", force = FALSE, sep = ".") {
               if (key %in% spectraVariables(object) & !force)
                   stop(key, " already in spectraData(). Use 'force = TRUE to overwrite.")
@@ -41,7 +41,7 @@ setMethod("makeKEY", "Spectra",
           })
 
 ##' @importFrom QFeatures replaceAssay
-setMethod("makeKEY", "QFeatures",
+setMethod("addKEY", "QFeatures",
           function(object, vars = NULL, key = ".KEY", force = FALSE, sep = ".") {
               if (is.null(vars))
                   return(object)
@@ -49,7 +49,7 @@ setMethod("makeKEY", "QFeatures",
                   x <- object[[i]]
                   if (!all(vars %in% names(rowData(x))))
                       next()
-                  x <- makeKEY(x, vars, key, force, sep)
+                  x <- addKEY(x, vars, key, force, sep)
                   object <- replaceAssay(object, x, i)
               }
               object
@@ -69,6 +69,19 @@ setMethod("subsetByKEY", "SummarizedExperiment",
           })
 
 
-setMethod("subsetByKEY", "SummarizedExperiment",
+setMethod("subsetByKEY", "QFeatures",
           function(object, value, key = ".KEY") {
           })
+
+
+setMethod("subsetByKEY", "MsExperiment",
+          function(object, value, key = ".KEY") {
+              ## call subsetByKEY on spectra(object), qdata(object)
+              ## and possible other in otherData(object)
+          })
+
+
+
+## TODO:
+## - vectorise subsetByKEY
+## - findKEY to get indices

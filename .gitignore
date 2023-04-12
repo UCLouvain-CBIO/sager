@@ -7,3 +7,5 @@ inst/scripts/tmt.json
 inst/scripts/tmt2.json
 inst/scripts/sage_output
 inst/doc
+inst/scripts/sage_subset
+inst/scripts/tmt_subset.json

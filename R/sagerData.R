@@ -141,21 +141,21 @@ sagerCache <- function() {
 ##' @rdname sagerData
 sagerQuantData <- function()
     sagerData(cache = sagerCache(),
-              rname = sager_rids("quant"))
+              rname = sager_rids()[["quant"]])
 
 ##' @export
 ##'
 ##' @rdname sagerData
 sagerIdData <- function()
     sagerData(cache = sagerCache(),
-              rname = sager_rids("id"))
+              rname = sager_rids()[["id"]])
 
 ##' @export
 ##'
 ##' @rdname sagerData
 sagerMzMLData <- function()
     sagerData(cache = sagerCache(),
-              rname = sager_rids("mzml"))
+              rname = sager_rids()[["mzml"]])
 
 ##' @export
 ##'
@@ -170,7 +170,7 @@ sagerAddData <- function(which = c("quant", "id", "mzml"),
     which <- match.arg(which, several.ok = TRUE)
     urls <- sager_urls(which)
     for (i in which) {
-        available <- sagerAvailableData(i)
+        available <- sagerAvailableData()[i]
         if (available) {
             message("'", i, "'", " already available.")
         } else { ## Add the resource
@@ -189,7 +189,7 @@ sagerAddData <- function(which = c("quant", "id", "mzml"),
 sagerRemoveData <- function(which = c("quant", "id", "mzml"),
                             cache = sagerCache()) {
     which <- match.arg(which, several.ok = TRUE)
-    rids <- sager_rids(which)
+    rids <- sager_rids()[[which]]
     x <- bfcquery(cache, rids, field = "rname", exact = TRUE)
     if (!nrow(x)) {
         message("Resource(s) not found, none removed.")
@@ -206,15 +206,34 @@ sagerRemoveData <- function(which = c("quant", "id", "mzml"),
 sagerAvailableData <- function(which = c("quant", "id", "mzml"),
                                cache = sagerCache()) {
     which <- match.arg(which, several.ok = TRUE)
-    sapply(which, function(i) {
-        r_i <- bfcquery(cache, sager_rids(i), field = "rname", exact = TRUE)
-        if (nrow(r_i) > 1)
-            stop("Found > 1 resource found for '", i,
-                 "'. Please open an issue in",
-                 packageDescription("sager")$BugReports,
-                 "with the exact code you ran and your session information.")
-        nrow(r_i) == 1
-    })
+    c(quant = sagerAvailableId(),
+      id = sagerAvailableId(),
+      mzml = sagerAvailableMzML())
+}
+
+sagerAvailableId <- function(cache = sagerCache()) {
+    r_i <- bfcquery(cache, sager:::sager_rids()[["id"]])
+    if (nrow(r_i) > 1)
+        stop("Found > 1 'id' resource found.",
+             "Please open an issue in",
+             packageDescription("sager")$BugReports,
+             "with the exact code you ran and your session information.")
+    nrow(r_i) == 1
+}
+
+sagerAvailableId <- function(cache = sagerCache()) {
+    r_i <- bfcquery(cache, sager:::sager_rids()[["quant"]])
+    if (nrow(r_i) > 1)
+        stop("Found > 1 'quant' resource found.",
+             "Please open an issue in",
+             packageDescription("sager")$BugReports,
+             "with the exact code you ran and your session information.")
+    nrow(r_i) == 1
+}
+
+sagerAvailableMzML <- function(cache = sagerCache()) {
+    r_i <- bfcquery(cache, "subset.+\\.mzML", exact = FALSE)
+    all(sager:::sager_rids()[["mzml"]] %in% r_i$rname )
 }
 
 ## ===============================================
@@ -239,21 +258,38 @@ sagerAvailableData <- function(which = c("quant", "id", "mzml"),
 ##' ChangeLog:
 ##'
 ##' - version 2: updated 'subset' data files and new config file
+##' - version 3: provide 3 separate subsetted mzML files, and update
+##'   quant and id files (generated from re-running sage on the mzML
+##'   subsets).
+##'
 ##'
 ##' @param which `character()` specifying what type of resource to
 ##'     return.
 ##'
 ##' @rdname sager_internal
 sager_rids <- function(which = c("quant", "id", "mzml", "config")) {
-    rids <- c(quant = "sager_subset_quant",
-              id = "sager_subset_id",
-              mzml = "sager_subset_PXD016766",
-              config = "sager_results.json")
+    rids <- list(quant = "sager_subset_quant",
+                 id = "sager_subset_id",
+                 mzml = c("subset_dq_00084_11cell_90min_hrMS2_A5.mzML",
+                          "subset_dq_00086_11cell_90min_hrMS2_A9.mzML",
+                          "subset_dq_00087_11cell_90min_hrMS2_A11.mzML"),
+                 config = "sager_subset_json")
     which <- match.arg(which, several.ok = TRUE)
     rids[which]
 }
 
 sager_urls <- function(which = c("quant", "id", "mzml", "config")) {
+    urls <- list(quant = "https://zenodo.org/record/7821565/files/87fa96d942bef_quant.tsv",
+                 id = "https://zenodo.org/record/7821565/files/87fa969be47cd_results.sage.tsv",
+                 mzml = c("https://zenodo.org/record/7821565/files/87fa94493400b_subset_dq_00084_11cell_90min_hrMS2_A5.mzML",
+                       "https://zenodo.org/record/7821565/files/87fa94493400b_subset_dq_00086_11cell_90min_hrMS2_A9.mzML",
+                       "https://zenodo.org/record/7821565/files/87fa94493400b_subset_dq_00087_11cell_90min_hrMS2_A11.mzML"),
+                 config = "https://zenodo.org/record/7821565/files/87fa9328f5683_results.json")
+    which <- match.arg(which, several.ok = TRUE)
+    urls[which]
+}
+
+sager_urls_v2 <- function(which = c("quant", "id", "mzml", "config")) {
     urls <- c(quant = "https://zenodo.org/record/7810260/files/577925b6185b3_subset_quant.tsv",
               id = "https://zenodo.org/record/7810260/files/5779264d15c02_subset_results.sage.tsv",
               mzml = "https://zenodo.org/record/7810260/files/5779224eb8e7_sager_subset_PXD016766.mzML",

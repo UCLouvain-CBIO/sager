@@ -3,6 +3,8 @@
 ## sager 0.2.1
 
 - Add `sager` vignette.
+- Update data: `sagerMzMLData()` now returns the path to 3 separate
+  subsetted mzML files.
 
 ## sager 0.2.0
 

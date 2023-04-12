@@ -7,7 +7,7 @@ tmpdir <- tempdir()
 library(jsonlite)
 download.file("https://raw.githubusercontent.com/lazear/sage/master/figures/benchmark_params/tmt.json",
               dest = file.path(tmpdir, "tmt.json"))
-mzml_files <- fromJSON(file.path(tmpdir, "tmt.json"))$mzml_paths
+(mzml_files <- fromJSON(file.path(tmpdir, "tmt.json"))$mzml_paths)
 
 
 ## --------------------------------------------------------------------
@@ -86,71 +86,73 @@ sager_rpath <- c(quant = bfcquery(sager_cache, "sager_quant")$rpath,
                  id = bfcquery(sager_cache, "sager_results.sage.tsv")$rpath)
 
 ## ====================================================================
-## Create smaller data and add them to the cache.
+## Create smaller data and add them to the cache. First, a set of
+## scans from 3 mzML files are selected. These new subsetted mzML
+## files are then saved to the sager cache and re-searched using sage
+## and config file above.
 
 library(tidyverse)
 
 ## --------------------------------------------------------------------
 ## Subset sage identification results results.sage.tsv
 
+selected_mzml_files <-
+    c("5109a2c76e223_3ff35e72d009e6_dq_00087_11cell_90min_hrMS2_A11.mzML",
+      "5109a2c76e223_3ff35ee5d5a37_dq_00084_11cell_90min_hrMS2_A5.mzML",
+      "5109a2c76e223_3ff35e790c7b57_dq_00086_11cell_90min_hrMS2_A9.mzML")
+
 set.seed(123)
-sager_id2 <- read_tsv(sager_rpath["id"]) |>
+subset_scannr <- read_tsv(sager_rpath["id"]) |>
     filter(filename %in%
-           c("5109a2c76e223_3ff35e72d009e6_dq_00087_11cell_90min_hrMS2_A11.mzML",
-             "5109a2c76e223_3ff35ee5d5a37_dq_00084_11cell_90min_hrMS2_A5.mzML",
-             "5109a2c76e223_3ff35e790c7b57_dq_00086_11cell_90min_hrMS2_A9.mzML")) |>
-    sample_n(500)
+           selected_mzml_files) |>
+    sample_n(500) |>
+    select(filename, scannr)
 
-write_tsv(sager_id2, file.path(tmpdir, "subset_results.sage.tsv"))
-
-bfcadd(sager_cache,
-       rname = "sager_subset_id",
-       fpath = file.path(tmpdir, "subset_results.sage.tsv"),
-       action = "copy")
 
 ## --------------------------------------------------------------------
-## Subset corresponding spectra: based on this selection of good MS2
-## scans, identify the precursor scans and extract all corresponding
-## MS2 scans.
+## Create the subsetted mzML files
+
 library(Spectra)
 
-sp <- Spectra(mzml_rpath)
-sp$filename <- basename(sp$dataOrigin)
+for (f in selected_mzml_files) {
+    i <- match(f, basename(bfcinfo(sager_cache)$rpath))
+    fi <- bfcinfo(sager_cache)$rpath[i]
+    sp <- Spectra(fi)
+    scans <- filter(subset_scannr, filename == f)[[2]]
+    sp <- sp[sp$spectrumId %in% scans]
+    sp |>
+        export(MsBackendMzR(),
+               file = file.path(tmpdir, sub("^.+dq", "subset_dq", basename(fi))))
+}
 
-prec_scans <-
-    left_join(sager_id2, data.frame(spectraData(sp)),
-              by = join_by(filename == filename,
-                           scannr == spectrumId)) |>
-    mutate(scannr = sub("^.+scan=", "", scannr)) |>
-    select(dataOrigin, precScanNum)
 
-k <- split(prec_scans$precScanNum, prec_scans$dataOrigin)
-
-sager_subset_PXD016766 <-
-    do.call(c, lapply(seq_along(k), function(i)
-        filterPrecursorScan(sp, k[[i]], names(k)[i])))
-sager_subset_PXD016766@processing <- character()
-
-sager_subset_PXD016766 |>
-    export(MsBackendMzR(),
-           file = file.path(tmpdir, "sager_subset_PXD016766.mzML"))
+subset_mzmls <- dir(tmpdir, full.names = TRUE, pattern = "subset.+mzML")
 
 bfcadd(sager_cache,
-       rname = "sager_subset_PXD016766",
-       fpath = file.path(tmpdir, "sager_subset_PXD016766.mzML"),
+       rname = basename(subset_mzmls),
+       fpath = subset_mzmls,
        action = "copy")
 
 
 ## --------------------------------------------------------------------
-## Subset sage quantitation results quant.tsv
+## Re-run sage
 
-sager_quant2 <- read_tsv(sager_rpath["quant"]) |> ## has 14 variables
-    right_join(sager_id2, multiple = "all") |>
-    select(1:14)
+config$mzml_paths <- subset_mzmls
+config$output_directory <- "sage_subset"
+toJSON(config, auto_unbox = TRUE, pretty = TRUE) |>
+    writeLines("tmt_subset.json")
 
-write_tsv(sager_quant2, file.path(tmpdir, "subset_quant.tsv"))
+system("~/bin/sage/sage-v0.10.0-x86_64-unknown-linux-gnu/sage tmt_subset.json")
+
+(sage_subset_results <- dir("sage_subset", full.names = TRUE))
+
 
 bfcadd(sager_cache,
        rname = "sager_subset_quant",
-       fpath = file.path(tmpdir, "subset_quant.tsv"),
+       fpath = grep("quant.tsv", sage_subset_results, value = TRUE),
+       action = "copy")
+
+bfcadd(sager_cache,
+       rname = "sager_subset_json",
+       fpath = grep("results.json", sage_subset_results, value = TRUE),
        action = "copy")
