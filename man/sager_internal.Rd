@@ -6,10 +6,6 @@
 \usage{
 sager_rids(which = c("quant", "id", "mzml", "config"))
 }
-\arguments{
-\item{which}{\code{character()} specifying what type of resource to
-return.}
-}
 \description{
 \itemize{
 \item \code{sager_rids()} is used internally to keep track of the resource

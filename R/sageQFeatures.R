@@ -57,11 +57,11 @@
 ##' ## Add the data to the package's cache if they
 ##' ## aren't already available
 ##'
-##' if (!sagerAvailableData()["id"])
+##' if (!sagerAvailableData("id"))
 ##'   sagerAddData("id")
 ##' basename(idf <- sagerIdData())
 ##'
-##' if (!sagerAvailableData()["quant"])
+##' if (!sagerAvailableData("quant"))
 ##'   sagerAddData("quant")
 ##' basename(qf <- sagerQuantData())
 ##'

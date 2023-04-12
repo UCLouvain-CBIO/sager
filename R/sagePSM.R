@@ -48,7 +48,7 @@
 ##' ## Add the data to the package's cache if they
 ##' ## aren't already available
 ##'
-##' if (!sagerAvailableData()["id"])
+##' if (!sagerAvailableData("id"))
 ##'   sagerAddData("id")
 ##' basename(f <- sagerIdData())
 ##'
