@@ -27,5 +27,8 @@ Both return named vectors.
 ChangeLog:
 \itemize{
 \item version 2: updated 'subset' data files and new config file
+\item version 3: provide 3 separate subsetted mzML files, and update
+quant and id files (generated from re-running sage on the mzML
+subsets).
 }
 }

@@ -97,8 +97,6 @@ BiocManager::install("UCLouvain-CBIO/sager")
 ```
 
 
-
-
 # Analysing `sage` results
 
 ## Example data

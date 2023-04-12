@@ -11,8 +11,6 @@
 \alias{sagerAvailableData}
 \title{Sager Data}
 \usage{
-sagerData(cache, rname)
-
 sagerCache()
 
 sagerQuantData()
@@ -28,14 +26,14 @@ sagerRemoveData(which = c("quant", "id", "mzml"), cache = sagerCache())
 sagerAvailableData(which = c("quant", "id", "mzml"), cache = sagerCache())
 }
 \arguments{
+\item{which}{One or several of \code{"quant"}, \code{"id"} or \code{"mzml"}
+specifying what data to download.}
+
 \item{cache}{Object of class \code{BiocFileCache}. Default for is the
 package's cache returned by \code{sagerCache()}.}
 
 \item{rname}{\code{character(1)} defining the resource name used to
 query \code{cache}.}
-
-\item{which}{One or several of \code{"quant"}, \code{"id"} or \code{"mzml"}
-specifying what data to download.}
 }
 \description{
 A set of function to install and access \code{sager} example
@@ -67,11 +65,6 @@ to the cache.
 \item \code{sagerCache()} returns the package's cache, an object of class
 \code{BiocFileCache}.
 }
-
-The \code{sagerMzMLData()}, \code{sagerQuantData()} and \code{sagerIdData()} use
-the \code{sagerData()} function under the hood, that defined the
-resource name and the cache. A user shouldn't have to use
-\code{sagerData()}.
 
 The data files are downloaded and cached by \code{sagerAddData()} are
 available on zenodo (10.5281/zenodo.7804639).

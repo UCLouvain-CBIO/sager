@@ -36,11 +36,6 @@
 ##' - `sagerCache()` returns the package's cache, an object of class
 ##'    `BiocFileCache`.
 ##'
-##' The `sagerMzMLData()`, `sagerQuantData()` and `sagerIdData()` use
-##' the `sagerData()` function under the hood, that defined the
-##' resource name and the cache. A user shouldn't have to use
-##' `sagerData()`.
-##'
 ##' The data files are downloaded and cached by `sagerAddData()` are
 ##' available on zenodo (10.5281/zenodo.7804639).
 ##'
@@ -63,12 +58,9 @@
 ##'
 ##' @importFrom utils packageDescription
 ##'
-##' @export
-##'
-##' @rdname sagerData
+##' @name sagerData
 ##'
 ##' @references
-##'
 ##'
 ##' - **Sage**: proteomics searching so fast it seems like
 ##'   magic. [https://github.com/lazear/sage](https://github.com/lazear/sage).
@@ -107,7 +99,9 @@
 ##'
 ##' ## Data are stored in the package's cache
 ##' sagerCache()
-sagerData <- function(cache, rname) {
+NULL
+
+.sagerData <- function(cache, rname) {
     if (missing(rname))
         stop("Please provide a resource name to query the cache.")
     if (missing(cache))
@@ -140,22 +134,24 @@ sagerCache <- function() {
 ##'
 ##' @rdname sagerData
 sagerQuantData <- function()
-    sagerData(cache = sagerCache(),
-              rname = sager_rids()[["quant"]])
+    .sagerData(cache = sagerCache(),
+               rname = sager_rids()[["quant"]])
 
 ##' @export
 ##'
 ##' @rdname sagerData
 sagerIdData <- function()
-    sagerData(cache = sagerCache(),
-              rname = sager_rids()[["id"]])
+    .sagerData(cache = sagerCache(),
+               rname = sager_rids()[["id"]])
 
 ##' @export
 ##'
 ##' @rdname sagerData
-sagerMzMLData <- function()
-    sagerData(cache = sagerCache(),
-              rname = sager_rids()[["mzml"]])
+sagerMzMLData <- function() {
+    r_i <- bfcquery(sagerCache(), "subset.+\\.mzML", exact = FALSE)
+    stopifnot(all(sager:::sager_rids()[["mzml"]] %in% r_i$rname))
+    r_i$rpath
+}
 
 ##' @export
 ##'
