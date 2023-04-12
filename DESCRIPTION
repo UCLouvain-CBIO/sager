@@ -19,6 +19,7 @@ Imports:
 Suggests:
     SingleCellExperiment,
     MsCoreUtils,
+    MsExperiment,
     scp,
     mzR,
     BiocStyle,
