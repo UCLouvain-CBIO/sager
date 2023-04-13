@@ -6,6 +6,16 @@ setGeneric("subsetByKEY", function(object, ...) standardGeneric("subsetByKEY"))
 ##'
 ##' @description
 ##'
+##' A key is a variable that is used to identify features within an
+##' object. These features can refer to spectra in a `Spectra` object,
+##' peptide-spectrum matches in a `PSM` object, or PSMs, peptides of
+##' proteins in a `SummarizedExperiment` or `QFeatures` object. They
+##' do not need to be unique.
+##'
+##' The goal of a key is to identify matching features across data
+##' types, such as for example to match de MS spectra to the PSMs and
+##' peptides. These different data types can be stored together in an
+##' `MsExperiment` object, and matched through one or multiple keys.
 ##'
 ##' @param object An instance of class `SummarizedExperiment`,
 ##'     `QFeatures`, `PSM` or `Spectra`.
@@ -29,6 +39,8 @@ setGeneric("subsetByKEY", function(object, ...) standardGeneric("subsetByKEY"))
 ##'     `"."`.
 ##'
 ##' @export
+##'
+##' @aliases addKEY
 ##'
 ##' @rdname addKEY
 ##'
@@ -91,6 +103,25 @@ setMethod("addKEY", "QFeatures",
                   x <- addKEY(x, vars, key, force, sep)
                   object <- replaceAssay(object, x, i)
               }
+              object
+          })
+
+##' @export
+##'
+##' @rdname addKEY
+setMethod("addKEY", "PSM",
+          function(object, vars = NULL, key = ".KEY", force = FALSE, sep = ".") {
+              if (key %in% names(object) & !force)
+                  stop(key, " already in names(). Use 'force = TRUE' to overwrite.")
+              if (is.null(vars) | !all(vars %in% names(object)))
+                  stop("vars to generate KEY must all be in names().")
+              if (length(vars) == 1) {
+                  KEY <- object[[vars]]
+              } else {
+                  KEY <- apply(object[, vars], 1, paste, collapse = sep)
+
+              }
+              object[, key] <- KEY
               object
           })
 

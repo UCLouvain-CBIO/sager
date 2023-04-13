@@ -260,6 +260,10 @@ sagerAvailableMzML <- function(cache = sagerCache()) {
 ##'
 ##' Both return named vectors.
 ##'
+##'
+##' @param which `character()` specifying what type of resource to
+##'     return. One or multiple of `"quant"`, `"id"` and `"mzml"`.
+##'
 ##' ChangeLog:
 ##'
 ##' - version 2: updated 'subset' data files and new config file

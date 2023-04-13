@@ -2,8 +2,10 @@
 % Please edit documentation in R/keys.R
 \name{addKEY,SummarizedExperiment-method}
 \alias{addKEY,SummarizedExperiment-method}
+\alias{addKEY}
 \alias{addKEY,Spectra-method}
 \alias{addKEY,QFeatures-method}
+\alias{addKEY,PSM-method}
 \title{Add a key to an object}
 \usage{
 \S4method{addKEY}{SummarizedExperiment}(object, vars = NULL, key = ".KEY", force = FALSE, sep = ".")
@@ -11,6 +13,8 @@
 \S4method{addKEY}{Spectra}(object, vars = NULL, key = ".KEY", force = FALSE, sep = ".")
 
 \S4method{addKEY}{QFeatures}(object, vars = NULL, key = ".KEY", force = FALSE, sep = ".")
+
+\S4method{addKEY}{PSM}(object, vars = NULL, key = ".KEY", force = FALSE, sep = ".")
 }
 \arguments{
 \item{object}{An instance of class \code{SummarizedExperiment},
@@ -35,5 +39,14 @@ variables are pasted together to generate the key. Default is
 \code{"."}.}
 }
 \description{
-Add a key to an object
+A key is a variable that is used to identify features within an
+object. These features can refer to spectra in a \code{Spectra} object,
+peptide-spectrum matches in a \code{PSM} object, or PSMs, peptides of
+proteins in a \code{SummarizedExperiment} or \code{QFeatures} object. They
+do not need to be unique.
+
+The goal of a key is to identify matching features across data
+types, such as for example to match de MS spectra to the PSMs and
+peptides. These different data types can be stored together in an
+\code{MsExperiment} object, and matched through one or multiple keys.
 }

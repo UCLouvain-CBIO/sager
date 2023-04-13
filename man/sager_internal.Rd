@@ -6,6 +6,18 @@
 \usage{
 sager_rids(which = c("quant", "id", "mzml", "config"))
 }
+\arguments{
+\item{which}{\code{character()} specifying what type of resource to
+return. One or multiple of \code{"quant"}, \code{"id"} and \code{"mzml"}.
+
+ChangeLog:
+\itemize{
+\item version 2: updated 'subset' data files and new config file
+\item version 3: provide 3 separate subsetted mzML files, and update
+quant and id files (generated from re-running sage on the mzML
+subsets).
+}}
+}
 \description{
 \itemize{
 \item \code{sager_rids()} is used internally to keep track of the resource
@@ -19,12 +31,4 @@ added.
 }
 
 Both return named vectors.
-
-ChangeLog:
-\itemize{
-\item version 2: updated 'subset' data files and new config file
-\item version 3: provide 3 separate subsetted mzML files, and update
-quant and id files (generated from re-running sage on the mzML
-subsets).
-}
 }

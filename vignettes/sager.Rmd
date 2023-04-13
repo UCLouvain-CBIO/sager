@@ -215,15 +215,62 @@ qf
 
 ## Spectra and Quantitative data
 
+We have seen above how to import and process identification and
+quantitation data produced by sage using standard R/Bioconductor
+tools. Our main goal is to integrate these with the raw MS data that
+was used to generate them.
+
+Let's start by importing these raw data into R as a `Spectra`
+object. The three mzML files can be retrieved with the
+`sagerMzMLData()` function.
+
 ```{r spectra, message = FALSE}
 library(Spectra)
 sp <- Spectra(sagerMzMLData())
 sp
 ```
 
+We can now create a *key* to identify features (spectra, in this case)
+within the `sp` object. Later, we will create a similar key in the
+`QFeatures` and `PSM` objects generated above. The goal of these keys
+will be to identify matching features across data types, such as for
+example to match de MS spectra to the PSMs and peptides or
+proteins. These different data types can be stored together in an
+`MsExperiment` object, and matched through one or multiple keys.
+
+We can add a key (by default, names `.KEY` that will identify a
+feature/scan by concatenating the scan number and the file in which
+that scan was acquired.
+
+```{r addkeySpectra}
+sp <- addKEY(sp, vars = c("filename", "spectrumId"))
+head(sp$.KEY)
+```
+
+Let's do the same of the PSM object created above:
+
+```{r addkeyPSM}
+psm <- addKEY(psm, vars = c("filename", "scannr"))
+head(psm$.KEY)
+```
+
+And finally, with the QFeatures object.
+
+```{r}
+qf <- addKEY(qf, vars = c("file", "scannr"))
+```
+
+Running `addKEY` on a `QFeatures` object will only add a key to assays
+that do have the relevant variables:
+
+```{r}
+sapply(rowData(qf), function(x) ".KEY" %in% names(x))
+head(rowData(qf[["psmA5"]])$.KEY)
+```
+
 # Misc
 
-## Asking for help
+## Getting help
 
 Please [open an issue](https://github.com/UCLouvain-CBIO/sager/issues)
 on the package's Github repository.
