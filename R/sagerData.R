@@ -286,15 +286,19 @@ sager_rids <- function(which = c("quant", "id", "mzml", "config")) {
 }
 
 sager_urls <- function(which = c("quant", "id", "mzml", "config")) {
-    urls <- list(quant = "https://zenodo.org/record/7821565/files/87fa96d942bef_quant.tsv",
-                 id = "https://zenodo.org/record/7821565/files/87fa969be47cd_results.sage.tsv",
-                 mzml = c("https://zenodo.org/record/7821565/files/87fa94493400b_subset_dq_00084_11cell_90min_hrMS2_A5.mzML",
-                       "https://zenodo.org/record/7821565/files/87fa94493400b_subset_dq_00086_11cell_90min_hrMS2_A9.mzML",
-                       "https://zenodo.org/record/7821565/files/87fa94493400b_subset_dq_00087_11cell_90min_hrMS2_A11.mzML"),
-                 config = "https://zenodo.org/record/7821565/files/87fa9328f5683_results.json")
+    urls <- list(quant = "https://zenodo.org/record/7824517/files/92fe0301bd0ba_quant.tsv",
+                 id = "https://zenodo.org/record/7824517/files/92fe02655fa2c_results.sage.tsv",
+                 mzml = c(
+                     "https://zenodo.org/record/7824517/files/subset_dq_00084_11cell_90min_hrMS2_A5.mzML",
+                     "https://zenodo.org/record/7824517/files/subset_dq_00086_11cell_90min_hrMS2_A9.mzML",
+                     "https://zenodo.org/record/7824517/files/subset_dq_00087_11cell_90min_hrMS2_A11.mzML"),
+                 config = "https://zenodo.org/record/7824517/files/92fe02e3cc083_results.json?download=1")
     which <- match.arg(which, several.ok = TRUE)
     urls[which]
 }
+
+## --------------------------------------------------------------------
+## Previous data versions
 
 sager_urls_v3 <- function(which = c("quant", "id", "mzml", "config")) {
     urls <- list(quant = "https://zenodo.org/record/7821565/files/87fa96d942bef_quant.tsv",
