@@ -18,6 +18,7 @@
 - [ ] Add cell types: Pellets from 11 human cell lines (RKO, A549,
       U87_MG, HCT116, HEK293T, HeLa, MCF7, U2OS, SUM159, PANC1, and
       Jurkat)
+- [ ] MS data has only MS2 scans.
 
 ## Analysis
 

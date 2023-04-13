@@ -178,8 +178,13 @@ qf1 |>
 ```
 
 ```{r}
+plot(qf1)
+```
+
+```{r}
 qf1
 ```
+
 
 Different sets of samples per acquisition:
 
@@ -229,6 +234,11 @@ qf |>
                       fcol = "proteins",
                       fun = colMedians,
                       na.rm = TRUE) -> qf
+```
+
+
+```{r}
+plot(qf)
 ```
 
 ```{r}
@@ -290,6 +300,23 @@ that do have the relevant variables:
 sapply(rowData(qf), function(x) ".KEY" %in% names(x))
 head(rowData(qf[["psmA5"]])$.KEY)
 ```
+
+Let's now bundle these three types of data together into and
+`MsExperiment` object:
+
+```{r mse}
+library(MsExperiment)
+mse <- MsExperiment()
+spectra(mse) <- sp
+qdata(mse) <- qf
+mse@otherData$PSM <- psm
+```
+
+```{r}
+mse
+```
+
+
 
 # Misc
 
