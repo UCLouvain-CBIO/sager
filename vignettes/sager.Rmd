@@ -167,7 +167,7 @@ qf1 |>
     filterFeatures(~ spectrum_fdr < 0.05) |>
     zeroIsNA(1) |>
     logTransform(i = 1, name = "log_sage") |>
-    normalize(i = 1,
+    normalize(i = "log_sage",
               name = "norm_sage",
               method = "center.mean") |>
     aggregateFeatures(i = "norm_sage",
