@@ -83,9 +83,9 @@
 ##' sagerAvailableData("id")
 ##'
 ##' ## Remove data from cache
-##' sagerRemoveData("id")
+##' sagerRemoveData("quant")
 ##'
-##' sagerAvailableData("id")
+##' sagerAvailableData("quant")
 ##'
 ##' ## Add data (if not already available)
 ##' sagerAddData(c("id", "quant"))
@@ -172,7 +172,8 @@ sagerAddData <- function(which = c("quant", "id", "mzml"),
             message("Adding '", i, "' to the package cache.")
             BiocFileCache::bfcadd(cache,
                                   rname = sager_rids()[[i]],
-                                  sager_urls()[[i]])
+                                  sager_urls()[[i]],
+                                  fname = "exact")
         }
     }
     invisible(cache)
@@ -292,7 +293,7 @@ sager_urls <- function(which = c("quant", "id", "mzml", "config")) {
                      "https://zenodo.org/record/7824517/files/subset_dq_00084_11cell_90min_hrMS2_A5.mzML",
                      "https://zenodo.org/record/7824517/files/subset_dq_00086_11cell_90min_hrMS2_A9.mzML",
                      "https://zenodo.org/record/7824517/files/subset_dq_00087_11cell_90min_hrMS2_A11.mzML"),
-                 config = "https://zenodo.org/record/7824517/files/92fe02e3cc083_results.json?download=1")
+                 config = "https://zenodo.org/record/7824517/files/92fe02e3cc083_results.json")
     which <- match.arg(which, several.ok = TRUE)
     urls[which]
 }

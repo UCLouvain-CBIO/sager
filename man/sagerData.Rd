@@ -86,9 +86,9 @@ sagerAvailableData()
 sagerAvailableData("id")
 
 ## Remove data from cache
-sagerRemoveData("id")
+sagerRemoveData("quant")
 
-sagerAvailableData("id")
+sagerAvailableData("quant")
 
 ## Add data (if not already available)
 sagerAddData(c("id", "quant"))
