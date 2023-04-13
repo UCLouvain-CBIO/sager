@@ -355,9 +355,9 @@ the <code><a href="../reference/sagerData.html">sagerMzMLData()</a></code> funct
 <span><span class="co">#&gt;  ... 33 more variables/columns.</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; file(s):</span></span>
-<span><span class="co">#&gt; 4147ea2dfaa_subset_dq_00084_11cell_90min_hrMS2_A5.mzML</span></span>
-<span><span class="co">#&gt; 4147ea2dfaa_subset_dq_00086_11cell_90min_hrMS2_A9.mzML</span></span>
-<span><span class="co">#&gt; 4147ea2dfaa_subset_dq_00087_11cell_90min_hrMS2_A11.mzML</span></span></code></pre></div>
+<span><span class="co">#&gt; subset_dq_00084_11cell_90min_hrMS2_A5.mzML</span></span>
+<span><span class="co">#&gt; subset_dq_00086_11cell_90min_hrMS2_A9.mzML</span></span>
+<span><span class="co">#&gt; subset_dq_00087_11cell_90min_hrMS2_A11.mzML</span></span></code></pre></div>
 <p>We can now create a <em>key</em> to identify features (spectra, in
 this case) within the <code>sp</code> object. Later, we will create a
 similar key in the <code>QFeatures</code> and <code>PSM</code> objects
@@ -373,12 +373,12 @@ which that scan was acquired.</p>
 <code class="sourceCode R"><span><span class="va">sp</span><span class="op">$</span><span class="va">filename</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/basename.html" class="external-link">basename</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/pkg/ProtGenerics/man/protgenerics.html" class="external-link">dataOrigin</a></span><span class="op">(</span><span class="va">sp</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="va">sp</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/addKEY.html">addKEY</a></span><span class="op">(</span><span class="va">sp</span>, vars <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"filename"</span>, <span class="st">"spectrumId"</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">sp</span><span class="op">$</span><span class="va">.KEY</span><span class="op">)</span></span>
-<span><span class="co">#&gt; [1] "4147ea2dfaa_subset_dq_00084_11cell_90min_hrMS2_A5.mzML.controllerType=0 controllerNumber=1 scan=1004"</span></span>
-<span><span class="co">#&gt; [2] "4147ea2dfaa_subset_dq_00084_11cell_90min_hrMS2_A5.mzML.controllerType=0 controllerNumber=1 scan=4181"</span></span>
-<span><span class="co">#&gt; [3] "4147ea2dfaa_subset_dq_00084_11cell_90min_hrMS2_A5.mzML.controllerType=0 controllerNumber=1 scan=4224"</span></span>
-<span><span class="co">#&gt; [4] "4147ea2dfaa_subset_dq_00084_11cell_90min_hrMS2_A5.mzML.controllerType=0 controllerNumber=1 scan=5124"</span></span>
-<span><span class="co">#&gt; [5] "4147ea2dfaa_subset_dq_00084_11cell_90min_hrMS2_A5.mzML.controllerType=0 controllerNumber=1 scan=5144"</span></span>
-<span><span class="co">#&gt; [6] "4147ea2dfaa_subset_dq_00084_11cell_90min_hrMS2_A5.mzML.controllerType=0 controllerNumber=1 scan=5517"</span></span></code></pre></div>
+<span><span class="co">#&gt; [1] "subset_dq_00084_11cell_90min_hrMS2_A5.mzML.controllerType=0 controllerNumber=1 scan=1004"</span></span>
+<span><span class="co">#&gt; [2] "subset_dq_00084_11cell_90min_hrMS2_A5.mzML.controllerType=0 controllerNumber=1 scan=4181"</span></span>
+<span><span class="co">#&gt; [3] "subset_dq_00084_11cell_90min_hrMS2_A5.mzML.controllerType=0 controllerNumber=1 scan=4224"</span></span>
+<span><span class="co">#&gt; [4] "subset_dq_00084_11cell_90min_hrMS2_A5.mzML.controllerType=0 controllerNumber=1 scan=5124"</span></span>
+<span><span class="co">#&gt; [5] "subset_dq_00084_11cell_90min_hrMS2_A5.mzML.controllerType=0 controllerNumber=1 scan=5144"</span></span>
+<span><span class="co">#&gt; [6] "subset_dq_00084_11cell_90min_hrMS2_A5.mzML.controllerType=0 controllerNumber=1 scan=5517"</span></span></code></pre></div>
 <p>Let’s do the same of the PSM object created above:</p>
 <div class="sourceCode" id="cb22"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">psm</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/addKEY.html">addKEY</a></span><span class="op">(</span><span class="va">psm</span>, vars <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"filename"</span>, <span class="st">"scannr"</span><span class="op">)</span><span class="op">)</span></span>

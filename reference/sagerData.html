@@ -159,28 +159,28 @@ Generation Multiplexed Proteomics' Anal. Chem. 2020, 92, 9,
 <span class="r-out co"><span class="r-pr">#&gt;</span> TRUE </span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co">## Remove data from cache</span></span></span>
-<span class="r-in"><span><span class="fu">sagerRemoveData</span><span class="op">(</span><span class="st">"id"</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu">sagerRemoveData</span><span class="op">(</span><span class="st">"quant"</span><span class="op">)</span></span></span>
 <span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="fu">sagerAvailableData</span><span class="op">(</span><span class="st">"id"</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>    id </span>
+<span class="r-in"><span><span class="fu">sagerAvailableData</span><span class="op">(</span><span class="st">"quant"</span><span class="op">)</span></span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> quant </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> FALSE </span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co">## Add data (if not already available)</span></span></span>
 <span class="r-in"><span><span class="fu">sagerAddData</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"id"</span>, <span class="st">"quant"</span><span class="op">)</span><span class="op">)</span></span></span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> Adding 'id' to the package cache.</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> 'quant' already available.</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> 'id' already available.</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Adding 'quant' to the package cache.</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co">## Get the path to the data</span></span></span>
 <span class="r-in"><span><span class="fu">sagerQuantData</span><span class="op">(</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "/github/home/.cache/R/sager/41466f5109d_92fe0301bd0ba_quant.tsv"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "/github/home/.cache/R/sager/92fe0301bd0ba_quant.tsv"</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="fu">sagerIdData</span><span class="op">(</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "/github/home/.cache/R/sager/6fb21b46dbb_92fe02655fa2c_results.sage.tsv"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "/github/home/.cache/R/sager/92fe02655fa2c_results.sage.tsv"</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="fu">sagerMzMLData</span><span class="op">(</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "/github/home/.cache/R/sager/4147ea2dfaa_subset_dq_00084_11cell_90min_hrMS2_A5.mzML" </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [2] "/github/home/.cache/R/sager/4147ea2dfaa_subset_dq_00086_11cell_90min_hrMS2_A9.mzML" </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [3] "/github/home/.cache/R/sager/4147ea2dfaa_subset_dq_00087_11cell_90min_hrMS2_A11.mzML"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "/github/home/.cache/R/sager/subset_dq_00084_11cell_90min_hrMS2_A5.mzML" </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [2] "/github/home/.cache/R/sager/subset_dq_00086_11cell_90min_hrMS2_A9.mzML" </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [3] "/github/home/.cache/R/sager/subset_dq_00087_11cell_90min_hrMS2_A11.mzML"</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co">## Data are stored in the package's cache</span></span></span>
 <span class="r-in"><span><span class="fu">sagerCache</span><span class="op">(</span><span class="op">)</span></span></span>
