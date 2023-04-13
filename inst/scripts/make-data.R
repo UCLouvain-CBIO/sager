@@ -128,6 +128,7 @@ for (f in selected_mzml_files) {
 
 subset_mzmls <- dir(tmpdir, full.names = TRUE, pattern = "subset.+mzML")
 
+## Use fname = "exact" to store with exact name, not making it unique.
 bfcadd(sager_cache,
        rname = basename(subset_mzmls),
        fpath = subset_mzmls,
@@ -146,12 +147,13 @@ system("~/bin/sage/sage-v0.10.0-x86_64-unknown-linux-gnu/sage tmt_subset.json")
 
 (sage_subset_results <- dir("sage_subset", full.names = TRUE))
 
-
+## Use fname = "exact" to store with exact name, not making it unique.
 bfcadd(sager_cache,
        rname = "sager_subset_quant",
        fpath = grep("quant.tsv", sage_subset_results, value = TRUE),
        action = "copy")
 
+## Use fname = "exact" to store with exact name, not making it unique.
 bfcadd(sager_cache,
        rname = "sager_subset_json",
        fpath = grep("results.json", sage_subset_results, value = TRUE),

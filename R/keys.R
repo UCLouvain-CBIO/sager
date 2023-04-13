@@ -125,6 +125,7 @@ setMethod("addKEY", "PSM",
               object
           })
 
+## ============================================================================
 
 setMethod("subsetByKEY", "Spectra",
           function(object, value, key = ".KEY") {

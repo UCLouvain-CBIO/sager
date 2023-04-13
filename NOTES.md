@@ -19,6 +19,10 @@
       U87_MG, HCT116, HEK293T, HeLa, MCF7, U2OS, SUM159, PANC1, and
       Jurkat)
 
+## Analysis
+
+- Remove contaminants.
+
 ## Functionality
 
 ### MsExperiment

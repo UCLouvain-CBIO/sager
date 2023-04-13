@@ -101,17 +101,17 @@ BiocManager::install("UCLouvain-CBIO/sager")
 
 ## Example data
 
-```{r}
+```{r loadpkg}
 library(sager)
 ```
 
 The `sager` package provides example data
 
-```{r}
+```{r dataavailability}
 sagerAvailableData()
 ```
 
-```{r}
+```{r dataadd}
 sagerAddData()
 ```
 
@@ -155,13 +155,35 @@ library(scp)
 
 Multiple fractions for the same set of samples:
 
+```{r qf1}
+qf1 <- sageQFeatures(sagerQuantData(), sagerIdData(), splitBy = NULL)
+qf1
+```
+
+```{r qf1process}
+qf1 |>
+    filterFeatures(~ label > 0) |>
+    filterFeatures(~ rank == 1) |>
+    filterFeatures(~ spectrum_fdr < 0.05) |>
+    zeroIsNA(1) |>
+    logTransform(i = 1, name = "log_sage") |>
+    normalize(i = 1,
+              name = "norm_sage",
+              method = "center.mean") |>
+    aggregateFeatures(i = "norm_sage",
+                      name = "proteins",
+                      fcol = "proteins",
+                      fun = colMedians,
+                      na.rm = TRUE) -> qf1
+```
+
 ```{r}
-sageQFeatures(sagerQuantData(), sagerIdData(), splitBy = NULL)
+qf1
 ```
 
 Different sets of samples per acquisition:
 
-```{r}
+```{r qf2}
 qf <- sageQFeatures(sagerQuantData(), sagerIdData())
 qf
 ```
@@ -205,7 +227,7 @@ qf |>
     aggregateFeatures(i = "norm_peptides",
                       name = "proteins",
                       fcol = "proteins",
-                      fun = MsCoreUtils::robustSummary,
+                      fun = colMedians,
                       na.rm = TRUE) -> qf
 ```
 
