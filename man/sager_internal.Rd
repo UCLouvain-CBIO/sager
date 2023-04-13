@@ -16,6 +16,8 @@ ChangeLog:
 \item version 3: provide 3 separate subsetted mzML files, and update
 quant and id files (generated from re-running sage on the mzML
 subsets).
+\item version 4: udpate subset files, and remove the prefix from three
+subsetted mzML files.
 }}
 }
 \description{
