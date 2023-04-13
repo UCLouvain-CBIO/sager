@@ -243,6 +243,7 @@ feature/scan by concatenating the scan number and the file in which
 that scan was acquired.
 
 ```{r addkeySpectra}
+sp$filename <- basename(dataOrigin(sp))
 sp <- addKEY(sp, vars = c("filename", "spectrumId"))
 head(sp$.KEY)
 ```
@@ -256,7 +257,7 @@ head(psm$.KEY)
 
 And finally, with the QFeatures object.
 
-```{r}
+```{r addkeyQFeatures}
 qf <- addKEY(qf, vars = c("file", "scannr"))
 ```
 
