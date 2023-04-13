@@ -78,7 +78,7 @@ Gatto</h4>
 UCLouvain<br><a class="author_email" href="mailto:#"></a><a href="mailto:laurent.gatto@uclouvain.be" class="email">laurent.gatto@uclouvain.be</a>
       </address>
                   
-            <h4 data-toc-skip class="date">12 April 2023</h4>
+            <h4 data-toc-skip class="date">13 April 2023</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/UCLouvain-CBIO/sager/blob/HEAD/vignettes/sager.Rmd" class="external-link"><code>vignettes/sager.Rmd</code></a></small>
       <div class="hidden name"><code>sager.Rmd</code></div>
@@ -313,6 +313,13 @@ following command:</p>
 <div class="section level3">
 <h3 id="spectra-and-quantitative-data">Spectra and Quantitative data<a class="anchor" aria-label="anchor" href="#spectra-and-quantitative-data"></a>
 </h3>
+<p>We have seen above how to import and process identification and
+quantitation data produced by sage using standard R/Bioconductor tools.
+Our main goal is to integrate these with the raw MS data that was used
+to generate them.</p>
+<p>Let’s start by importing these raw data into R as a
+<code>Spectra</code> object. The three mzML files can be retrieved with
+the <code><a href="../reference/sagerData.html">sagerMzMLData()</a></code> function.</p>
 <div class="sourceCode" id="cb18"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/RforMassSpectrometry/Spectra" class="external-link">Spectra</a></span><span class="op">)</span></span>
 <span><span class="va">sp</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/Spectra/man/Spectra.html" class="external-link">Spectra</a></span><span class="op">(</span><span class="fu"><a href="../reference/sagerData.html">sagerMzMLData</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span></span>
@@ -334,16 +341,73 @@ following command:</p>
 <span><span class="co">#&gt;  ... 33 more variables/columns.</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; file(s):</span></span>
-<span><span class="co">#&gt; 56e5a2eae8e_87fa94493400b_subset_dq_00084_11cell_90min_hrMS2_A5.mzML</span></span>
-<span><span class="co">#&gt; 56e5a2eae8e_87fa94493400b_subset_dq_00086_11cell_90min_hrMS2_A9.mzML</span></span>
-<span><span class="co">#&gt; 56e5a2eae8e_87fa94493400b_subset_dq_00087_11cell_90min_hrMS2_A11.mzML</span></span></code></pre></div>
+<span><span class="co">#&gt; 36d22b03608_87fa94493400b_subset_dq_00084_11cell_90min_hrMS2_A5.mzML</span></span>
+<span><span class="co">#&gt; 36d22b03608_87fa94493400b_subset_dq_00086_11cell_90min_hrMS2_A9.mzML</span></span>
+<span><span class="co">#&gt; 36d22b03608_87fa94493400b_subset_dq_00087_11cell_90min_hrMS2_A11.mzML</span></span></code></pre></div>
+<p>We can now create a <em>key</em> to identify features (spectra, in
+this case) within the <code>sp</code> object. Later, we will create a
+similar key in the <code>QFeatures</code> and <code>PSM</code> objects
+generated above. The goal of these keys will be to identify matching
+features across data types, such as for example to match de MS spectra
+to the PSMs and peptides or proteins. These different data types can be
+stored together in an <code>MsExperiment</code> object, and matched
+through one or multiple keys.</p>
+<p>We can add a key (by default, names <code>.KEY</code> that will
+identify a feature/scan by concatenating the scan number and the file in
+which that scan was acquired.</p>
+<div class="sourceCode" id="cb19"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">sp</span><span class="op">$</span><span class="va">filename</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/basename.html" class="external-link">basename</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/pkg/ProtGenerics/man/protgenerics.html" class="external-link">dataOrigin</a></span><span class="op">(</span><span class="va">sp</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="va">sp</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/addKEY.html">addKEY</a></span><span class="op">(</span><span class="va">sp</span>, vars <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"filename"</span>, <span class="st">"spectrumId"</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">sp</span><span class="op">$</span><span class="va">.KEY</span><span class="op">)</span></span>
+<span><span class="co">#&gt; [1] "36d22b03608_87fa94493400b_subset_dq_00084_11cell_90min_hrMS2_A5.mzML.controllerType=0 controllerNumber=1 scan=1004"</span></span>
+<span><span class="co">#&gt; [2] "36d22b03608_87fa94493400b_subset_dq_00084_11cell_90min_hrMS2_A5.mzML.controllerType=0 controllerNumber=1 scan=4181"</span></span>
+<span><span class="co">#&gt; [3] "36d22b03608_87fa94493400b_subset_dq_00084_11cell_90min_hrMS2_A5.mzML.controllerType=0 controllerNumber=1 scan=4224"</span></span>
+<span><span class="co">#&gt; [4] "36d22b03608_87fa94493400b_subset_dq_00084_11cell_90min_hrMS2_A5.mzML.controllerType=0 controllerNumber=1 scan=5124"</span></span>
+<span><span class="co">#&gt; [5] "36d22b03608_87fa94493400b_subset_dq_00084_11cell_90min_hrMS2_A5.mzML.controllerType=0 controllerNumber=1 scan=5144"</span></span>
+<span><span class="co">#&gt; [6] "36d22b03608_87fa94493400b_subset_dq_00084_11cell_90min_hrMS2_A5.mzML.controllerType=0 controllerNumber=1 scan=5517"</span></span></code></pre></div>
+<p>Let’s do the same of the PSM object created above:</p>
+<div class="sourceCode" id="cb20"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">psm</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/addKEY.html">addKEY</a></span><span class="op">(</span><span class="va">psm</span>, vars <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"filename"</span>, <span class="st">"scannr"</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">psm</span><span class="op">$</span><span class="va">.KEY</span><span class="op">)</span></span>
+<span><span class="co">#&gt; [1] "subset_dq_00084_11cell_90min_hrMS2_A5.mzML.controllerType=0 controllerNumber=1 scan=31852" </span></span>
+<span><span class="co">#&gt; [2] "subset_dq_00087_11cell_90min_hrMS2_A11.mzML.controllerType=0 controllerNumber=1 scan=16197"</span></span>
+<span><span class="co">#&gt; [3] "subset_dq_00087_11cell_90min_hrMS2_A11.mzML.controllerType=0 controllerNumber=1 scan=31961"</span></span>
+<span><span class="co">#&gt; [4] "subset_dq_00087_11cell_90min_hrMS2_A11.mzML.controllerType=0 controllerNumber=1 scan=32666"</span></span>
+<span><span class="co">#&gt; [5] "subset_dq_00087_11cell_90min_hrMS2_A11.mzML.controllerType=0 controllerNumber=1 scan=34355"</span></span>
+<span><span class="co">#&gt; [6] "subset_dq_00086_11cell_90min_hrMS2_A9.mzML.controllerType=0 controllerNumber=1 scan=22318"</span></span></code></pre></div>
+<p>And finally, with the QFeatures object.</p>
+<div class="sourceCode" id="cb21"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">qf</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/addKEY.html">addKEY</a></span><span class="op">(</span><span class="va">qf</span>, vars <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"file"</span>, <span class="st">"scannr"</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
+<p>Running <code>addKEY</code> on a <code>QFeatures</code> object will
+only add a key to assays that do have the relevant variables:</p>
+<div class="sourceCode" id="cb22"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/lapply.html" class="external-link">sapply</a></span><span class="op">(</span><span class="fu">rowData</span><span class="op">(</span><span class="va">qf</span><span class="op">)</span>, <span class="kw">function</span><span class="op">(</span><span class="va">x</span><span class="op">)</span> <span class="st">".KEY"</span> <span class="op"><a href="https://rdrr.io/r/base/match.html" class="external-link">%in%</a></span> <span class="fu"><a href="https://rdrr.io/r/base/names.html" class="external-link">names</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="co">#&gt;         psmA5         psmA9        psmA11     log_psmA5     log_psmA9 </span></span>
+<span><span class="co">#&gt;          TRUE          TRUE          TRUE          TRUE          TRUE </span></span>
+<span><span class="co">#&gt;    log_psmA11     peptideA5     peptideA9    peptideA11      peptides </span></span>
+<span><span class="co">#&gt;          TRUE          TRUE         FALSE          TRUE         FALSE </span></span>
+<span><span class="co">#&gt; norm_peptides      proteins </span></span>
+<span><span class="co">#&gt;         FALSE         FALSE</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="fu">rowData</span><span class="op">(</span><span class="va">qf</span><span class="op">[[</span><span class="st">"psmA5"</span><span class="op">]</span><span class="op">]</span><span class="op">)</span><span class="op">$</span><span class="va">.KEY</span><span class="op">)</span></span>
+<span><span class="co">#&gt;                                                                                           4 </span></span>
+<span><span class="co">#&gt; "subset_dq_00084_11cell_90min_hrMS2_A5.mzML.controllerType=0 controllerNumber=1 scan=10460" </span></span>
+<span><span class="co">#&gt;                                                                                           5 </span></span>
+<span><span class="co">#&gt; "subset_dq_00084_11cell_90min_hrMS2_A5.mzML.controllerType=0 controllerNumber=1 scan=10530" </span></span>
+<span><span class="co">#&gt;                                                                                           7 </span></span>
+<span><span class="co">#&gt; "subset_dq_00084_11cell_90min_hrMS2_A5.mzML.controllerType=0 controllerNumber=1 scan=10648" </span></span>
+<span><span class="co">#&gt;                                                                                           9 </span></span>
+<span><span class="co">#&gt; "subset_dq_00084_11cell_90min_hrMS2_A5.mzML.controllerType=0 controllerNumber=1 scan=10803" </span></span>
+<span><span class="co">#&gt;                                                                                          16 </span></span>
+<span><span class="co">#&gt; "subset_dq_00084_11cell_90min_hrMS2_A5.mzML.controllerType=0 controllerNumber=1 scan=11785" </span></span>
+<span><span class="co">#&gt;                                                                                          19 </span></span>
+<span><span class="co">#&gt; "subset_dq_00084_11cell_90min_hrMS2_A5.mzML.controllerType=0 controllerNumber=1 scan=12179"</span></span></code></pre></div>
 </div>
 </div>
 <div class="section level2">
 <h2 id="misc">Misc<a class="anchor" aria-label="anchor" href="#misc"></a>
 </h2>
 <div class="section level3">
-<h3 id="asking-for-help">Asking for help<a class="anchor" aria-label="anchor" href="#asking-for-help"></a>
+<h3 id="getting-help">Getting help<a class="anchor" aria-label="anchor" href="#getting-help"></a>
 </h3>
 <p>Please <a href="https://github.com/UCLouvain-CBIO/sager/issues" class="external-link">open
 an issue</a> on the package’s Github repository.</p>
