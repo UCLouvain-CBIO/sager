@@ -46,6 +46,11 @@ bfcadd(sager_cache,
 
 (mzml_rpath <- bfcquery(sager_cache, "11cell_90min_hrMS2.+\\.mzML", exact = FALSE)$rpath)
 
+## there might be subsetted mzML files here, so make sure we remove
+## these before proceeded
+(mzml_rpath <- mzml_rpath[!grepl("subset_", mzml_rpath)])
+
+
 ## --------------------------------------------------------------------
 ## Update the sage config with new mzML filenames and run it
 
@@ -105,7 +110,7 @@ set.seed(123)
 subset_scannr <- read_tsv(sager_rpath["id"]) |>
     filter(filename %in%
            selected_mzml_files) |>
-    sample_n(500) |>
+    sample_n(600) |>
     select(filename, scannr)
 
 
@@ -126,14 +131,13 @@ for (f in selected_mzml_files) {
 }
 
 
-subset_mzmls <- dir(tmpdir, full.names = TRUE, pattern = "subset.+mzML")
+(subset_mzmls <- dir(tmpdir, full.names = TRUE, pattern = "subset.+mzML"))
 
-## Use fname = "exact" to store with exact name, not making it unique.
 bfcadd(sager_cache,
        rname = basename(subset_mzmls),
        fpath = subset_mzmls,
-       action = "copy")
-
+       action = "copy",
+       fname = "exact")
 
 ## --------------------------------------------------------------------
 ## Re-run sage
@@ -147,13 +151,16 @@ system("~/bin/sage/sage-v0.10.0-x86_64-unknown-linux-gnu/sage tmt_subset.json")
 
 (sage_subset_results <- dir("sage_subset", full.names = TRUE))
 
-## Use fname = "exact" to store with exact name, not making it unique.
 bfcadd(sager_cache,
        rname = "sager_subset_quant",
        fpath = grep("quant.tsv", sage_subset_results, value = TRUE),
        action = "copy")
 
-## Use fname = "exact" to store with exact name, not making it unique.
+bfcadd(sager_cache,
+       rname = "sager_subset_id",
+       fpath = grep("results.sage.tsv", sage_subset_results, value = TRUE),
+       action = "copy")
+
 bfcadd(sager_cache,
        rname = "sager_subset_json",
        fpath = grep("results.json", sage_subset_results, value = TRUE),

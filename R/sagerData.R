@@ -270,6 +270,8 @@ sagerAvailableMzML <- function(cache = sagerCache()) {
 ##' - version 3: provide 3 separate subsetted mzML files, and update
 ##'   quant and id files (generated from re-running sage on the mzML
 ##'   subsets).
+##' - version 4: udpate subset files, and remove the prefix from three
+##'   subsetted mzML files.
 ##'
 ##' @rdname sager_internal
 sager_rids <- function(which = c("quant", "id", "mzml", "config")) {
@@ -284,6 +286,17 @@ sager_rids <- function(which = c("quant", "id", "mzml", "config")) {
 }
 
 sager_urls <- function(which = c("quant", "id", "mzml", "config")) {
+    urls <- list(quant = "https://zenodo.org/record/7821565/files/87fa96d942bef_quant.tsv",
+                 id = "https://zenodo.org/record/7821565/files/87fa969be47cd_results.sage.tsv",
+                 mzml = c("https://zenodo.org/record/7821565/files/87fa94493400b_subset_dq_00084_11cell_90min_hrMS2_A5.mzML",
+                       "https://zenodo.org/record/7821565/files/87fa94493400b_subset_dq_00086_11cell_90min_hrMS2_A9.mzML",
+                       "https://zenodo.org/record/7821565/files/87fa94493400b_subset_dq_00087_11cell_90min_hrMS2_A11.mzML"),
+                 config = "https://zenodo.org/record/7821565/files/87fa9328f5683_results.json")
+    which <- match.arg(which, several.ok = TRUE)
+    urls[which]
+}
+
+sager_urls_v3 <- function(which = c("quant", "id", "mzml", "config")) {
     urls <- list(quant = "https://zenodo.org/record/7821565/files/87fa96d942bef_quant.tsv",
                  id = "https://zenodo.org/record/7821565/files/87fa969be47cd_results.sage.tsv",
                  mzml = c("https://zenodo.org/record/7821565/files/87fa94493400b_subset_dq_00084_11cell_90min_hrMS2_A5.mzML",
