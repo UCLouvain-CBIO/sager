@@ -87,25 +87,6 @@ setMethod("addKEY", "Spectra",
               object
           })
 
-##' @importFrom QFeatures replaceAssay
-##'
-##' @export
-##'
-##' @rdname addKEY
-setMethod("addKEY", "QFeatures",
-          function(object, vars = NULL, key = ".KEY", force = FALSE, sep = ".") {
-              if (is.null(vars))
-                  return(object)
-              for (i in seq_along(object)) {
-                  x <- object[[i]]
-                  if (!all(vars %in% names(rowData(x))))
-                      next()
-                  x <- addKEY(x, vars, key, force, sep)
-                  object <- replaceAssay(object, x, i)
-              }
-              object
-          })
-
 ##' @export
 ##'
 ##' @rdname addKEY
@@ -122,6 +103,25 @@ setMethod("addKEY", "PSM",
 
               }
               object[, key] <- KEY
+              object
+          })
+
+##' @importFrom QFeatures replaceAssay
+##'
+##' @export
+##'
+##' @rdname addKEY
+setMethod("addKEY", "QFeatures",
+          function(object, vars = NULL, key = ".KEY", force = FALSE, sep = ".") {
+              if (is.null(vars))
+                  return(object)
+              for (i in seq_along(object)) {
+                  x <- object[[i]]
+                  if (!all(vars %in% names(rowData(x))))
+                      next()
+                  x <- addKEY(x, vars, key, force, sep)
+                  object <- replaceAssay(object, x, i)
+              }
               object
           })
 
@@ -142,15 +142,14 @@ setMethod("subsetByKEY", "SummarizedExperiment",
 
 setMethod("subsetByKEY", "QFeatures",
           function(object, value, key = ".KEY") {
+              ## apply subsettByKEY on each assay
           })
 
 
 setMethod("subsetByKEY", "MsExperiment",
           function(object, value, key = ".KEY") {
-              ## call subsetByKEY on spectra(object), qdata(object)
-              ## and possible other in otherData(object)
+              ## use filterFeatures to preserve assayLinks
           })
-
 
 
 ## TODO:
