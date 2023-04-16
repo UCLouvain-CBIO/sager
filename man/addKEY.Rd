@@ -4,17 +4,17 @@
 \alias{addKEY,SummarizedExperiment-method}
 \alias{addKEY}
 \alias{addKEY,Spectra-method}
-\alias{addKEY,QFeatures-method}
 \alias{addKEY,PSM-method}
+\alias{addKEY,QFeatures-method}
 \title{Add a key to an object}
 \usage{
 \S4method{addKEY}{SummarizedExperiment}(object, vars = NULL, key = ".KEY", force = FALSE, sep = ".")
 
 \S4method{addKEY}{Spectra}(object, vars = NULL, key = ".KEY", force = FALSE, sep = ".")
 
-\S4method{addKEY}{QFeatures}(object, vars = NULL, key = ".KEY", force = FALSE, sep = ".")
-
 \S4method{addKEY}{PSM}(object, vars = NULL, key = ".KEY", force = FALSE, sep = ".")
+
+\S4method{addKEY}{QFeatures}(object, vars = NULL, key = ".KEY", force = FALSE, sep = ".")
 }
 \arguments{
 \item{object}{An instance of class \code{SummarizedExperiment},

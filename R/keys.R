@@ -127,25 +127,50 @@ setMethod("addKEY", "QFeatures",
 
 ## ============================================================================
 
+
+##' @importFrom Spectra spectraData spectraVariables
+##'
+##' @export
 setMethod("subsetByKEY", "Spectra",
           function(object, value, key = ".KEY") {
               stopifnot(key %in% spectraVariables(object))
               object[spectraData(object)[[key]] == value]
           })
 
+##' @importFrom SummarizedExperiment rowData
+##'
+##' @export
 setMethod("subsetByKEY", "SummarizedExperiment",
           function(object, value, key = ".KEY") {
               stopifnot(key %in% names(rowData(object)))
               object[rowData(object)[[key]] == value, ]
           })
 
-
-setMethod("subsetByKEY", "QFeatures",
+##' @importFrom PSMatch PSM
+##'
+##' @export
+setMethod("subsetByKEY", "PSM",
           function(object, value, key = ".KEY") {
-              ## apply subsettByKEY on each assay
+              stopifnot(key %in% names(object))
+              object[object[[key]] == value, ]
+          })
+
+##' @importFrom QFeatures VariableFilter filterFeatures
+##'
+##' @export
+setMethod("subsetByKEY", "QFeatures",
+          function(object, value, key = ".KEY", keep = FALSE) {
+              vflt <- VariableFilter(field = key, value = value,
+                                   condition = "==")
+              filterFeatures(object, filter = vflt,
+                             i = seq_along(object),
+                             keep = keep)
           })
 
 
+##' @importFrom MsExperiment MsExperiment
+##'
+##' @export
 setMethod("subsetByKEY", "MsExperiment",
           function(object, value, key = ".KEY") {
               ## use filterFeatures to preserve assayLinks

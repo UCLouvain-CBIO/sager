@@ -3,30 +3,45 @@ library(Spectra)
 library(QFeatures)
 library(SummarizedExperiment)
 
-## ---------------------------
-## With Spectra
-sp <- Spectra(sagerMzMLData())
+## ## ---------------------------
+## ## With Spectra
+## sp <- Spectra(sagerMzMLData())
 
-sp$filename <- basename(dataOrigin(sp))
-sp <- makeKEY(sp, var = c("filename", "spectrumId"))
-sp$.KEY
+## sp$filename <- basename(dataOrigin(sp))
+## sp <- makeKEY(sp, var = c("filename", "spectrumId"))
+## sp$.KEY
 
+## sp <- makeKEY(sp, var = c("dataOrigin", "spectrumId"), key = "KEY2")
 
-sp <- makeKEY(sp, var = c("dataOrigin", "spectrumId"), key = "KEY2")
+## qf <- sageQFeatures(sagerQuantData(), sagerIdData())
 
-subsetByKEY(sp, "5779224eb8e7_sager_subset_PXD016766.mzML.controllerType=0 controllerNumber=1 scan=5869")
+## ## ---------------------------
+## ## With SE
+## se <- makeKEY(qf[[1]], vars = c("file", "scannr"))
+## rowData(se)$.KEY
 
-qf <- sageQFeatures(sagerQuantData(), sagerIdData())
+## ## ---------------------------
+## ## With QFreature
 
-## ---------------------------
-## With SE
-se <- makeKEY(qf[[1]], vars = c("file", "scannr"))
-rowData(se)$.KEY
+## qf <- makeKEY(qf, vars = c("file", "scannr"))
+## head(rowData(qf[[1]])$.KEY)
+## head(rowData(qf[[2]])$.KEY)
+## rowData(qf[[3]])$.KEY
 
-## ---------------------------
-## With QFreature
+## Run vignette up to creation of mse
 
-qf <- makeKEY(qf, vars = c("file", "scannr"))
-head(rowData(qf[[1]])$.KEY)
-head(rowData(qf[[2]])$.KEY)
-rowData(qf[[3]])$.KEY
+## k <- "subset_dq_00084_11cell_90min_hrMS2_A5.mzML.controllerType=0 controllerNumber=1 scan=11785"
+
+k <- "subset_dq_00084_11cell_90min_hrMS2_A5.mzML.controllerType=0 controllerNumber=1 scan=17928"
+
+subsetByKEY(psm, k)
+
+subsetByKEY(qf[[1]], k)
+
+subsetByKEY(qf, k) |> nrows()
+
+subsetByKEY(sp, k)
+
+x <- qf["sp|P49916|DNLI3_HUMAN", , ]
+
+subsetByKEY(qf, k)
