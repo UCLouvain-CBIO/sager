@@ -213,7 +213,8 @@ setMethod("subsetByKEY", "QFeatures",
 ##'
 ##' @rdname keys
 setMethod("subsetByKEY", "MsExperiment",
-          function(object, value, key = ".KEY") {
+          function(object, value, key = ".KEY",
+                   keep = FALSE, data) {
               stop("Not yet implemented")
           })
 

@@ -245,7 +245,7 @@ plot(qf)
 qf
 ```
 
-## Spectra and Quantitative data
+## Raw data
 
 We have seen above how to import and process identification and
 quantitation data produced by sage using standard R/Bioconductor
@@ -262,13 +262,20 @@ sp <- Spectra(sagerMzMLData())
 sp
 ```
 
-We can now create a *key* to identify features (spectra, in this case)
-within the `sp` object. Later, we will create a similar key in the
-`QFeatures` and `PSM` objects generated above. The goal of these keys
-will be to identify matching features across data types, such as for
-example to match de MS spectra to the PSMs and peptides or
-proteins. These different data types can be stored together in an
-`MsExperiment` object, and matched through one or multiple keys.
+# Combining raw, quantitation and identification data
+
+## Defining keys
+
+We can now create dedicates *keys* to identify features in the
+different data produced above. Let's start with the spectra within the
+`sp` object. Later, we will create a similar key in the `QFeatures`
+and `PSM` objects generated above.
+
+The goal of these keys will be to identify matching features across
+data types, such as for example to match de MS spectra to the PSMs and
+peptides or proteins. These different data types can be stored
+together in an `MsExperiment` object, and matched through one or
+multiple keys.
 
 We can add a key (by default, names `.KEY` that will identify a
 feature/scan by concatenating the scan number and the file in which
@@ -315,6 +322,8 @@ mse@otherData$PSM <- psm
 ```{r}
 mse
 ```
+
+## Searching for keys across data types
 
 Each data element `mse` is references by the same key, which we can
 now use on the the `MsExperiment` object, that will percolate the
