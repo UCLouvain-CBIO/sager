@@ -30,7 +30,14 @@
 
 \S4method{subsetByKEY}{QFeatures}(object, value, key = ".KEY", keep = FALSE)
 
-\S4method{subsetByKEY}{MsExperiment}(object, value, key = ".KEY")
+\S4method{subsetByKEY}{MsExperiment}(
+  object,
+  value,
+  key = ".KEY",
+  data = c("spectra", "qdata"),
+  otherdata = NULL,
+  keep = FALSE
+)
 }
 \arguments{
 \item{object}{An instance of class \code{SummarizedExperiment},
@@ -62,6 +69,14 @@ didn't contain the key of interest. If \code{TRUE}, these are
 returned as empty assays (i.e. with zero
 rows/features)\verb{. Default is }FALSE`; only assays containing
 matching keys are returned.}
+
+\item{data}{\code{character()} defining what data type to subset by
+key. Default are \code{"spectra"} and \code{"qdata"}. Note that these
+data are ignored if their slot is NULL.}
+
+\item{otherdata}{\code{character()} listing the name(s) of the
+additional data types in \code{otherData(.)} to run \code{subsetByKEY()}
+on.}
 }
 \description{
 A key is a variable that is used to identify features within an

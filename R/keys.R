@@ -207,7 +207,7 @@ setMethod("subsetByKEY", "QFeatures",
           })
 
 
-##' @importFrom MsExperiment MsExperiment
+##' @importFrom MsExperiment MsExperiment spectra spectra<- qdata qdata<-
 ##'
 ##' @export
 ##'
@@ -217,7 +217,9 @@ setMethod("subsetByKEY", "QFeatures",
 ##'     key. Default are `"spectra"` and `"qdata"`. Note that these
 ##'     data are ignored if their slot is NULL.
 ##'
-##' @param otherdata
+##' @param otherdata `character()` listing the name(s) of the
+##'     additional data types in `otherData(.)` to run `subsetByKEY()`
+##'     on.
 setMethod("subsetByKEY", "MsExperiment",
           function(object, value, key = ".KEY",
                    data = c("spectra", "qdata"),
@@ -233,7 +235,7 @@ setMethod("subsetByKEY", "MsExperiment",
                           subsetByKEY(qdata(object), value, key, keep)
                   )
               if (!is.null(otherdata)) {
-                  othersel <- otherdata %in% names(otherData(object))
+                  othersel <- otherdata %in% names(object@otherData)
                   if (!all(othersel)) {
                       warning("Missing otherData items: ",
                               paste(otherdata[!othersel], collapse = ","))
@@ -241,7 +243,7 @@ setMethod("subsetByKEY", "MsExperiment",
                   }
                   for (k in seq_along(otherdata))
                       object@otherData[[k]] <-
-                          subsetByKEY(otherData(object)[[k]],
+                          subsetByKEY(object@otherData[[k]],
                                       value, key)
               }
               object
