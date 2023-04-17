@@ -2,7 +2,7 @@ setGeneric("addKEY", function(object, ...) standardGeneric("addKEY"))
 setGeneric("subsetByKEY", function(object, ...) standardGeneric("subsetByKEY"))
 
 
-##' @title Add a key to an object
+##' @title Add and subsetting keys
 ##'
 ##' @description
 ##'
@@ -16,6 +16,13 @@ setGeneric("subsetByKEY", function(object, ...) standardGeneric("subsetByKEY"))
 ##' types, such as for example to match de MS spectra to the PSMs and
 ##' peptides. These different data types can be stored together in an
 ##' `MsExperiment` object, and matched through one or multiple keys.
+##'
+##' There are two general functions to work with keys across objects:
+##'
+##' - `addKEY()` will add a single key to an object.
+##'
+##' - `subsetByKEY()` will subset the object based on the presence of
+##'   one or multiple values in one key..
 ##'
 ##' @param object An instance of class `SummarizedExperiment`,
 ##'     `QFeatures`, `PSM` or `Spectra`.
@@ -42,7 +49,7 @@ setGeneric("subsetByKEY", function(object, ...) standardGeneric("subsetByKEY"))
 ##'
 ##' @aliases addKEY
 ##'
-##' @rdname addKEY
+##' @rdname keys
 ##'
 ##' @importFrom SummarizedExperiment rowData rowData<-
 ##'
@@ -69,7 +76,7 @@ setMethod("addKEY", "SummarizedExperiment",
 ##'
 ##' @export
 ##'
-##' @rdname addKEY
+##' @rdname keys
 setMethod("addKEY", "Spectra",
           function(object, vars = NULL, key = ".KEY", force = FALSE, sep = ".") {
               if (key %in% spectraVariables(object) & !force)
@@ -89,7 +96,7 @@ setMethod("addKEY", "Spectra",
 
 ##' @export
 ##'
-##' @rdname addKEY
+##' @rdname keys
 setMethod("addKEY", "PSM",
           function(object, vars = NULL, key = ".KEY", force = FALSE, sep = ".") {
               if (key %in% names(object) & !force)
@@ -110,7 +117,7 @@ setMethod("addKEY", "PSM",
 ##'
 ##' @export
 ##'
-##' @rdname addKEY
+##' @rdname keys
 setMethod("addKEY", "QFeatures",
           function(object, vars = NULL, key = ".KEY", force = FALSE, sep = ".") {
               if (is.null(vars))
@@ -131,52 +138,85 @@ setMethod("addKEY", "QFeatures",
 ##' @importFrom Spectra spectraData spectraVariables
 ##'
 ##' @export
+##'
+##' @param value `character()` containing the value of key of the
+##'     feature(s) of interest.
+##'
+##' @rdname keys
 setMethod("subsetByKEY", "Spectra",
           function(object, value, key = ".KEY") {
-              stopifnot(key %in% spectraVariables(object))
-              object[spectraData(object)[[key]] == value]
-          })
-
-##' @importFrom SummarizedExperiment rowData
-##'
-##' @export
-setMethod("subsetByKEY", "SummarizedExperiment",
-          function(object, value, key = ".KEY") {
-              stopifnot(key %in% names(rowData(object)))
-              object[rowData(object)[[key]] == value, ]
+              if (!key %in% spectraVariables(object)) {
+                  message("Key '", key,
+                          "' not found. Returning empty object.")
+                  return(object[integer()])
+              }
+              object[spectraData(object)[[key]] %in% value, ]
           })
 
 ##' @importFrom PSMatch PSM
 ##'
 ##' @export
+##'
+##' @rdname keys
 setMethod("subsetByKEY", "PSM",
           function(object, value, key = ".KEY") {
-              stopifnot(key %in% names(object))
-              object[object[[key]] == value, ]
+              if (!key %in% names(object)) {
+                  message("Key '", key,
+                          "' not found. Returning empty object.")
+                  return(object[integer(), ])
+              }
+              object[object[[key]] %in% value, ]
+          })
+
+##' @importFrom SummarizedExperiment rowData
+##'
+##' @export
+##'
+##' @rdname keys
+setMethod("subsetByKEY", "SummarizedExperiment",
+          function(object, value, key = ".KEY") {
+              if (!key %in% names(rowData(object))) {
+                  message("Key '", key,
+                          "' not found. Returning empty object.")
+                  return(object[integer(), ])
+              }
+              object[rowData(object)[[key]] %in% value, ]
           })
 
 ##' @importFrom QFeatures VariableFilter filterFeatures
 ##'
 ##' @export
+##'
+##' @rdname keys
+##'
+##' @param keep `logical(1)` that defines whether to keep assays that
+##'     didn't contain the key of interest. If `TRUE`, these are
+##'     returned as empty assays (i.e. with zero
+##'     rows/features)`. Default is `FALSE`; only assays containing
+##'     matching keys are returned.
 setMethod("subsetByKEY", "QFeatures",
           function(object, value, key = ".KEY", keep = FALSE) {
-              vflt <- VariableFilter(field = key, value = value,
-                                   condition = "==")
-              filterFeatures(object, filter = vflt,
-                             i = seq_along(object),
-                             keep = keep)
+              for (i in seq_along(object)) {
+                  suppressMessages(
+                      x <- subsetByKEY(object[[i]], value, key))
+                  object <- replaceAssay(object, x, i)
+              }
+              if (!keep)
+                  object <- object[, , nrows(object) > 0]
+              object
           })
 
 
 ##' @importFrom MsExperiment MsExperiment
 ##'
 ##' @export
+##'
+##' @rdname keys
 setMethod("subsetByKEY", "MsExperiment",
           function(object, value, key = ".KEY") {
-              ## use filterFeatures to preserve assayLinks
+              stop("Not yet implemented")
           })
 
 
 ## TODO:
-## - vectorise subsetByKEY
 ## - findKEY to get indices

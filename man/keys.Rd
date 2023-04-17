@@ -6,7 +6,12 @@
 \alias{addKEY,Spectra-method}
 \alias{addKEY,PSM-method}
 \alias{addKEY,QFeatures-method}
-\title{Add a key to an object}
+\alias{subsetByKEY,Spectra-method}
+\alias{subsetByKEY,PSM-method}
+\alias{subsetByKEY,SummarizedExperiment-method}
+\alias{subsetByKEY,QFeatures-method}
+\alias{subsetByKEY,MsExperiment-method}
+\title{Add and subsetting keys}
 \usage{
 \S4method{addKEY}{SummarizedExperiment}(object, vars = NULL, key = ".KEY", force = FALSE, sep = ".")
 
@@ -15,6 +20,16 @@
 \S4method{addKEY}{PSM}(object, vars = NULL, key = ".KEY", force = FALSE, sep = ".")
 
 \S4method{addKEY}{QFeatures}(object, vars = NULL, key = ".KEY", force = FALSE, sep = ".")
+
+\S4method{subsetByKEY}{Spectra}(object, value, key = ".KEY")
+
+\S4method{subsetByKEY}{PSM}(object, value, key = ".KEY")
+
+\S4method{subsetByKEY}{SummarizedExperiment}(object, value, key = ".KEY")
+
+\S4method{subsetByKEY}{QFeatures}(object, value, key = ".KEY", keep = FALSE)
+
+\S4method{subsetByKEY}{MsExperiment}(object, value, key = ".KEY")
 }
 \arguments{
 \item{object}{An instance of class \code{SummarizedExperiment},
@@ -37,6 +52,15 @@ the key is already present.}
 \item{sep}{\code{character(1)} specifying the separator when multiple
 variables are pasted together to generate the key. Default is
 \code{"."}.}
+
+\item{value}{\code{character()} containing the value of key of the
+feature(s) of interest.}
+
+\item{keep}{\code{logical(1)} that defines whether to keep assays that
+didn't contain the key of interest. If \code{TRUE}, these are
+returned as empty assays (i.e. with zero
+rows/features)\verb{. Default is }FALSE`; only assays containing
+matching keys are returned.}
 }
 \description{
 A key is a variable that is used to identify features within an
@@ -49,4 +73,11 @@ The goal of a key is to identify matching features across data
 types, such as for example to match de MS spectra to the PSMs and
 peptides. These different data types can be stored together in an
 \code{MsExperiment} object, and matched through one or multiple keys.
+
+There are two general functions to work with keys across objects:
+\itemize{
+\item \code{addKEY()} will add a single key to an object.
+\item \code{subsetByKEY()} will subset the object based on the presence of
+one or multiple values in one key..
+}
 }

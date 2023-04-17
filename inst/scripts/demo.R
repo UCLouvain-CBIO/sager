@@ -30,18 +30,20 @@ library(SummarizedExperiment)
 
 ## Run vignette up to creation of mse
 
-## k <- "subset_dq_00084_11cell_90min_hrMS2_A5.mzML.controllerType=0 controllerNumber=1 scan=11785"
-
-k <- "subset_dq_00084_11cell_90min_hrMS2_A5.mzML.controllerType=0 controllerNumber=1 scan=17928"
+k <- c("subset_dq_00084_11cell_90min_hrMS2_A5.mzML.controllerType=0 controllerNumber=1 scan=11785",
+       "subset_dq_00084_11cell_90min_hrMS2_A5.mzML.controllerType=0 controllerNumber=1 scan=17928")
 
 subsetByKEY(psm, k)
 
 subsetByKEY(qf[[1]], k)
+
+subsetByKEY(qf, k)
+
+subsetByKEY(qf, k, keep = TRUE)
 
 subsetByKEY(qf, k) |> nrows()
 
 subsetByKEY(sp, k)
 
 x <- qf["sp|P49916|DNLI3_HUMAN", , ]
-
 subsetByKEY(qf, k)
