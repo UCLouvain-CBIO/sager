@@ -47,7 +47,7 @@ setGeneric("subsetByKEY", function(object, ...) standardGeneric("subsetByKEY"))
 ##'
 ##' @export
 ##'
-##' @aliases addKEY
+##' @aliases addKEY subsetByKEY
 ##'
 ##' @rdname keys
 ##'
@@ -183,7 +183,7 @@ setMethod("subsetByKEY", "SummarizedExperiment",
               object[rowData(object)[[key]] %in% value, ]
           })
 
-##' @importFrom QFeatures VariableFilter filterFeatures
+##' @importFrom QFeatures VariableFilter filterFeatures nrows
 ##'
 ##' @export
 ##'
@@ -212,16 +212,22 @@ setMethod("subsetByKEY", "QFeatures",
 ##' @export
 ##'
 ##' @rdname keys
+##'
+##' @param data `character()` defining what data type to subset by
+##'     key. Default are `"spectra"` and `"qdata"`. Note that these
+##'     data are ignored if their slot is NULL.
+##'
+##' @param otherdata
 setMethod("subsetByKEY", "MsExperiment",
           function(object, value, key = ".KEY",
                    data = c("spectra", "qdata"),
                    otherdata = NULL,
                    keep = FALSE) {
               data <- match.arg(data, several.ok = TRUE)
-              if ("spectra" %in% data)
+              if (!is.null(spectra(object)) & "spectra" %in% data)
                   spectra(object) <-
                       subsetByKEY(spectra(object), value, key)
-              if ("qdata" %in% data)
+              if (!is.null(qdata(object)) & "qdata" %in% data)
                   suppressWarnings(
                       qdata(object) <-
                           subsetByKEY(qdata(object), value, key, keep)
@@ -238,7 +244,6 @@ setMethod("subsetByKEY", "MsExperiment",
                           subsetByKEY(otherData(object)[[k]],
                                       value, key)
               }
-
               object
           })
 
