@@ -3,6 +3,7 @@
 \name{addKEY,SummarizedExperiment-method}
 \alias{addKEY,SummarizedExperiment-method}
 \alias{addKEY}
+\alias{subsetByKEY}
 \alias{addKEY,Spectra-method}
 \alias{addKEY,PSM-method}
 \alias{addKEY,QFeatures-method}

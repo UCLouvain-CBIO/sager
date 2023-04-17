@@ -47,7 +47,7 @@ setGeneric("subsetByKEY", function(object, ...) standardGeneric("subsetByKEY"))
 ##'
 ##' @export
 ##'
-##' @aliases addKEY
+##' @aliases addKEY subsetByKEY
 ##'
 ##' @rdname keys
 ##'
@@ -183,7 +183,7 @@ setMethod("subsetByKEY", "SummarizedExperiment",
               object[rowData(object)[[key]] %in% value, ]
           })
 
-##' @importFrom QFeatures VariableFilter filterFeatures
+##' @importFrom QFeatures VariableFilter filterFeatures nrows
 ##'
 ##' @export
 ##'
