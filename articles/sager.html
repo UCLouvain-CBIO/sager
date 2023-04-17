@@ -78,7 +78,7 @@ Gatto</h4>
 UCLouvain<br><a class="author_email" href="mailto:#"></a><a href="mailto:laurent.gatto@uclouvain.be" class="email">laurent.gatto@uclouvain.be</a>
       </address>
                   
-            <h4 data-toc-skip class="date">15 April 2023</h4>
+            <h4 data-toc-skip class="date">17 April 2023</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/UCLouvain-CBIO/sager/blob/HEAD/vignettes/sager.Rmd" class="external-link"><code>vignettes/sager.Rmd</code></a></small>
       <div class="hidden name"><code>sager.Rmd</code></div>
@@ -377,7 +377,7 @@ identify a feature/scan by concatenating the scan number and the file in
 which that scan was acquired.</p>
 <div class="sourceCode" id="cb23"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">sp</span><span class="op">$</span><span class="va">filename</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/basename.html" class="external-link">basename</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/pkg/ProtGenerics/man/protgenerics.html" class="external-link">dataOrigin</a></span><span class="op">(</span><span class="va">sp</span><span class="op">)</span><span class="op">)</span></span>
-<span><span class="va">sp</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/addKEY.html">addKEY</a></span><span class="op">(</span><span class="va">sp</span>, vars <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"filename"</span>, <span class="st">"spectrumId"</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="va">sp</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/keys.html">addKEY</a></span><span class="op">(</span><span class="va">sp</span>, vars <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"filename"</span>, <span class="st">"spectrumId"</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">sp</span><span class="op">$</span><span class="va">.KEY</span><span class="op">)</span></span>
 <span><span class="co">#&gt; [1] "subset_dq_00084_11cell_90min_hrMS2_A5.mzML.controllerType=0 controllerNumber=1 scan=1004"</span></span>
 <span><span class="co">#&gt; [2] "subset_dq_00084_11cell_90min_hrMS2_A5.mzML.controllerType=0 controllerNumber=1 scan=4181"</span></span>
@@ -387,7 +387,7 @@ which that scan was acquired.</p>
 <span><span class="co">#&gt; [6] "subset_dq_00084_11cell_90min_hrMS2_A5.mzML.controllerType=0 controllerNumber=1 scan=5517"</span></span></code></pre></div>
 <p>Let’s do the same of the PSM object created above:</p>
 <div class="sourceCode" id="cb24"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">psm</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/addKEY.html">addKEY</a></span><span class="op">(</span><span class="va">psm</span>, vars <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"filename"</span>, <span class="st">"scannr"</span><span class="op">)</span><span class="op">)</span></span>
+<code class="sourceCode R"><span><span class="va">psm</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/keys.html">addKEY</a></span><span class="op">(</span><span class="va">psm</span>, vars <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"filename"</span>, <span class="st">"scannr"</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">psm</span><span class="op">$</span><span class="va">.KEY</span><span class="op">)</span></span>
 <span><span class="co">#&gt; [1] "subset_dq_00084_11cell_90min_hrMS2_A5.mzML.controllerType=0 controllerNumber=1 scan=31852" </span></span>
 <span><span class="co">#&gt; [2] "subset_dq_00087_11cell_90min_hrMS2_A11.mzML.controllerType=0 controllerNumber=1 scan=31961"</span></span>
@@ -397,7 +397,7 @@ which that scan was acquired.</p>
 <span><span class="co">#&gt; [6] "subset_dq_00086_11cell_90min_hrMS2_A9.mzML.controllerType=0 controllerNumber=1 scan=11726"</span></span></code></pre></div>
 <p>And finally, with the QFeatures object.</p>
 <div class="sourceCode" id="cb25"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">qf</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/addKEY.html">addKEY</a></span><span class="op">(</span><span class="va">qf</span>, vars <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"file"</span>, <span class="st">"scannr"</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
+<code class="sourceCode R"><span><span class="va">qf</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/keys.html">addKEY</a></span><span class="op">(</span><span class="va">qf</span>, vars <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"file"</span>, <span class="st">"scannr"</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 <p>Running <code>addKEY</code> on a <code>QFeatures</code> object will
 only add a key to assays that do have the relevant variables:</p>
 <div class="sourceCode" id="cb26"><pre class="downlit sourceCode r">
@@ -484,11 +484,11 @@ an issue</a> on the package’s Github repository.</p>
 <span><span class="co">#&gt;  [5] scp_1.9.1                   QFeatures_1.9.3            </span></span>
 <span><span class="co">#&gt;  [7] MultiAssayExperiment_1.25.9 SummarizedExperiment_1.29.1</span></span>
 <span><span class="co">#&gt;  [9] Biobase_2.59.0              GenomicRanges_1.51.4       </span></span>
-<span><span class="co">#&gt; [11] GenomeInfoDb_1.35.16        IRanges_2.33.1             </span></span>
+<span><span class="co">#&gt; [11] GenomeInfoDb_1.35.17        IRanges_2.33.1             </span></span>
 <span><span class="co">#&gt; [13] MatrixGenerics_1.11.1       matrixStats_0.63.0         </span></span>
 <span><span class="co">#&gt; [15] ggplot2_3.4.2               PSMatch_1.3.3              </span></span>
-<span><span class="co">#&gt; [17] S4Vectors_0.37.5            BiocGenerics_0.45.3        </span></span>
-<span><span class="co">#&gt; [19] sager_0.2.1                 BiocStyle_2.27.1           </span></span>
+<span><span class="co">#&gt; [17] S4Vectors_0.37.6            BiocGenerics_0.45.3        </span></span>
+<span><span class="co">#&gt; [19] sager_0.2.1                 BiocStyle_2.27.2           </span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; loaded via a namespace (and not attached):</span></span>
 <span><span class="co">#&gt;  [1] tidyselect_1.2.0            farver_2.1.1               </span></span>
