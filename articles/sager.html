@@ -450,6 +450,17 @@ only add a key to assays that do have the relevant variables:</p>
 <p>Each data element <code>mse</code> is referenced by the same key. We
 can now query for such keys direcly on the <code>MsExperiment</code>
 object, that will percolate the request to its components.</p>
+<div class="sourceCode" id="cb29"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">k</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"subset_dq_00084_11cell_90min_hrMS2_A5.mzML.controllerType=0 controllerNumber=1 scan=31852"</span>,</span>
+<span>       <span class="st">"subset_dq_00087_11cell_90min_hrMS2_A11.mzML.controllerType=0 controllerNumber=1 scan=32666"</span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu"><a href="../reference/keys.html">subsetByKEY</a></span><span class="op">(</span><span class="va">mse</span>, <span class="va">k</span><span class="op">)</span></span>
+<span><span class="co">#&gt; harmonizing input:</span></span>
+<span><span class="co">#&gt;   removing 132 sampleMap rows not in names(experiments)</span></span>
+<span><span class="co">#&gt;   removing 11 colData rownames not in sampleMap 'primary'</span></span>
+<span><span class="co">#&gt; Object of class MsExperiment </span></span>
+<span><span class="co">#&gt;  Files:  </span></span>
+<span><span class="co">#&gt;  Spectra: MS2 (2)</span></span></code></pre></div>
 </div>
 </div>
 <div class="section level2">
