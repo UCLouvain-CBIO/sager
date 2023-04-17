@@ -48,16 +48,73 @@ subsetByKEY(sp, k)
 x <- qf["sp|P49916|DNLI3_HUMAN", , ]
 subsetByKEY(qf, k)
 
+## ==============================================================
+##
+## Add/update in MsExperiment
 otherData <- function(object) {
     stopifnot(inherits(object, "MsExperiment"))
     object@otherData
 
 }
 
-## TODO: show,MSExperiment
-## - do not show files if !length(experimentFiles(mse)))
-## - qdata: consider SE or QFeatures object
-## - add otherData
+`otherData<-` <- function(object, value) {
+    object@otherData <- value
+    object
+}
 
+
+setMethod("show", "MsExperiment",
+          function (object) {
+              mess <- "Object of class"
+              if (MsExperiment:::.ms_experiment_is_empty(object))
+                  mess <- "Empty object of class"
+              cat(mess, class(object), "\n")
+              if (length(experimentFiles(object))) ## FIX: print based on length
+                  cat(" Files:", paste(names(experimentFiles(object)),
+                                       collapse = ", "), "\n")
+              if (!is.null(object@spectra)) {
+                  mstab <- table(msLevel(object@spectra))
+                  cat(" Spectra:", paste0("MS", names(mstab), " (", mstab, ")"), "\n")
+              }
+              ## Show quantitative data
+              if (!is.null(object@qdata)) {
+                  if (inherits(object@qdata, "SummarizedExperiment"))
+                      cat( " SummarizedExperiment:",
+                          nrow(object@qdata), "feature(s)\n")
+                  else ## QFeatures
+                      cat( " QFeatures:",
+                          length(object@qdata), "assay(s)\n")
+
+              }
+              ## Show other data
+              if (length(object@otherData)) {
+                  cat(" Other data:",
+                      paste(names(object@otherData), collapse = ", "),
+                      "\n")
+              }
+              if (nrow(object@sampleData)) {
+                  cat(" Experiment data:", nrow(object@sampleData),
+                      "sample(s)\n")
+              }
+              lnks <- object@sampleDataLinks
+              if (length(lnks)) {
+                  cat(" Sample data links:\n")
+                  for (i in seq_along(lnks)) {
+                      if (mcols(lnks)$subsetBy[i] == 2)
+                          cols <- " column(s).\n"
+                      else cols <- " element(s).\n"
+                      cat("  - ", names(lnks)[i], ": ",
+                          length(unique(lnks[[i]][, 1L])),
+                          " sample(s) to ",
+                          length(unique(lnks[[i]][, 2L])), cols, sep = "")
+                  }
+              }
+          })
+
+## ==============================================================
+
+
+subsetByKEY(mse, k[1], otherdata = "PSM")
 
 msek <- subsetByKEY(mse, k, otherdata = "PSM")
+msek
