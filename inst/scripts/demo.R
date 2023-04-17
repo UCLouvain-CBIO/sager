@@ -47,3 +47,17 @@ subsetByKEY(sp, k)
 
 x <- qf["sp|P49916|DNLI3_HUMAN", , ]
 subsetByKEY(qf, k)
+
+otherData <- function(object) {
+    stopifnot(inherits(object, "MsExperiment"))
+    object@otherData
+
+}
+
+## TODO: show,MSExperiment
+## - do not show files if !length(experimentFiles(mse)))
+## - qdata: consider SE or QFeatures object
+## - add otherData
+
+
+msek <- subsetByKEY(mse, k, otherdata = "PSM")

@@ -213,10 +213,34 @@ setMethod("subsetByKEY", "QFeatures",
 ##'
 ##' @rdname keys
 setMethod("subsetByKEY", "MsExperiment",
-          function(object, value, key = ".KEY") {
-              stop("Not yet implemented")
-          })
+          function(object, value, key = ".KEY",
+                   data = c("spectra", "qdata"),
+                   otherdata = NULL,
+                   keep = FALSE) {
+              data <- match.arg(data, several.ok = TRUE)
+              if ("spectra" %in% data)
+                  spectra(object) <-
+                      subsetByKEY(spectra(object), value, key)
+              if ("qdata" %in% data)
+                  suppressWarnings(
+                      qdata(object) <-
+                          subsetByKEY(qdata(object), value, key, keep)
+                  )
+              if (!is.null(otherdata)) {
+                  othersel <- otherdata %in% names(otherData(object))
+                  if (!all(othersel)) {
+                      warning("Missing otherData items: ",
+                              paste(otherdata[!othersel], collapse = ","))
+                      otherdata <- otherdata[othersel]
+                  }
+                  for (k in seq_along(otherdata))
+                      object@otherData[[k]] <-
+                          subsetByKEY(otherData(object)[[k]],
+                                      value, key)
+              }
 
+              object
+          })
 
 ## TODO:
 ## - findKEY to get indices
