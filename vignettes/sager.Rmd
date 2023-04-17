@@ -331,6 +331,13 @@ percolate the request to its components.
 
 
 
+
+```{r}
+k <- c("subset_dq_00084_11cell_90min_hrMS2_A5.mzML.controllerType=0 controllerNumber=1 scan=31852",
+       "subset_dq_00087_11cell_90min_hrMS2_A11.mzML.controllerType=0 controllerNumber=1 scan=32666")
+
+subsetByKEY(mse, k)
+```
 # Misc
 
 ## Getting help
