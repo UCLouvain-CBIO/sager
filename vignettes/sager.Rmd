@@ -325,10 +325,9 @@ mse
 
 ## Searching for keys across data types
 
-Each data element `mse` is references by the same key, which we can
-now use on the the `MsExperiment` object, that will percolate the
-request to its components.
-
+Each data element `mse` is referenced by the same key. We can now
+query for such keys direcly on the `MsExperiment` object, that will
+percolate the request to its components.
 
 
 
