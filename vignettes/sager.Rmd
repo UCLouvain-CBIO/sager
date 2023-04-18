@@ -305,7 +305,7 @@ that do have the relevant variables:
 
 ```{r}
 sapply(rowData(qf), function(x) ".KEY" %in% names(x))
-head(rowData(qf[["psmA5"]])$.KEY)
+head(unname(rowData(qf[["psmA5"]])$.KEY))
 ```
 
 Let's now bundle these three types of data together into and
@@ -316,7 +316,7 @@ library(MsExperiment)
 mse <- MsExperiment()
 spectra(mse) <- sp
 qdata(mse) <- qf
-mse@otherData$PSM <- psm
+otherData(mse)$PSM <- psm
 ```
 
 ```{r}
@@ -329,15 +329,14 @@ Each data element `mse` is referenced by the same key. We can now
 query for such keys direcly on the `MsExperiment` object, that will
 percolate the request to its components.
 
-
-
-
 ```{r}
 k <- c("subset_dq_00084_11cell_90min_hrMS2_A5.mzML.controllerType=0 controllerNumber=1 scan=31852",
        "subset_dq_00087_11cell_90min_hrMS2_A11.mzML.controllerType=0 controllerNumber=1 scan=32666")
 
 subsetByKEY(mse, k)
 ```
+
+
 # Misc
 
 ## Getting help
