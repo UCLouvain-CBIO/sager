@@ -150,22 +150,31 @@ following command:</p>
 </h3>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va">sager</span><span class="op">)</span></span></code></pre></div>
-<p>The <code>sager</code> package provides example data</p>
+<p>The <code>sager</code> package provides example identification and
+quantitation (procuced by <code>sage</code>) and the raw data
+(<code>mzML</code> files) that were used the generate the former.</p>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/sagerData.html">sagerAvailableData</a></span><span class="op">(</span><span class="op">)</span></span>
 <span><span class="co">#&gt; quant    id  mzml </span></span>
 <span><span class="co">#&gt;  TRUE  TRUE  TRUE</span></span></code></pre></div>
+<p>Data can be added with the <code><a href="../reference/sagerData.html">sagerAddData()</a></code> function, that
+avoid downloading data files if they are already available in the
+package’s local cache directory:</p>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/sagerData.html">sagerAddData</a></span><span class="op">(</span><span class="op">)</span></span>
 <span><span class="co">#&gt; 'quant' already available.</span></span>
 <span><span class="co">#&gt; 'id' already available.</span></span>
 <span><span class="co">#&gt; 'mzml' already available.</span></span></code></pre></div>
-<p>For details and provenance of the data, please see the
-<code><a href="../reference/sagerData.html">?sagerData</a></code> manual page.</p>
+<p>For details, including updating local data and their provenance,
+please see the <code><a href="../reference/sagerData.html">?sagerData</a></code> manual page.</p>
 </div>
 <div class="section level3">
 <h3 id="identification-data">Identification data<a class="anchor" aria-label="anchor" href="#identification-data"></a>
 </h3>
+<p>As noted above, identification data is handled by the <a href="https://rformassspectrometry.github.io/PSMatch/" class="external-link">PSMatch</a>
+package. This section only provides a very short example of how to use
+it. For more details, see the package’s <a href="https://rformassspectrometry.github.io/PSMatch/" class="external-link">website and
+vignettes</a>.</p>
 <div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/RforMassSpectrometry/PSM" class="external-link">PSMatch</a></span><span class="op">)</span></span>
 <span><span class="va">psm</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/sagePSM.html">sagePSM</a></span><span class="op">(</span><span class="fu"><a href="../reference/sagerData.html">sagerIdData</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span></span>
@@ -177,6 +186,8 @@ following command:</p>
 <span><span class="co">#&gt; Peptides: 976 unique, 0 multiple</span></span>
 <span><span class="co">#&gt; Proteins: 947 </span></span>
 <span><span class="co">#&gt; names(34): peptide proteins ... protein_fdr ms1_intensity</span></span></code></pre></div>
+<p>Here we briefly visualise the hyperscore and spectrum FDR densities
+for the forward and decoy/reverse hits:</p>
 <div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://ggplot2.tidyverse.org" class="external-link">ggplot2</a></span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span><span class="va">psm</span><span class="op">)</span> <span class="op">|&gt;</span></span>
@@ -190,6 +201,9 @@ following command:</p>
 <span>               colour <span class="op">=</span> <span class="va">label</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
 <span>    <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_density.html" class="external-link">geom_density</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
 <p><img src="sager_files/figure-html/ggplog2-1.png" width="700"></p>
+<p>Below, we filter the PSMs removing decoy hits, PSMs of rank &gt; 1
+(none in the small testing data), shared peptides (none in the small
+testing data) and those that have a spectrum FDR below 0.05:</p>
 <div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">psm</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/PSMatch/man/filterPSMs.html" class="external-link">filterPSMs</a></span><span class="op">(</span><span class="va">psm</span><span class="op">)</span> <span class="op">|&gt;</span></span>
 <span>    <span class="fu"><a href="https://rdrr.io/pkg/PSMatch/man/filterPSMs.html" class="external-link">filterPsmFdr</a></span><span class="op">(</span><span class="op">)</span></span>
@@ -199,30 +213,78 @@ following command:</p>
 <span><span class="co">#&gt; Removed 0 shared peptides.</span></span>
 <span><span class="co">#&gt; 679 PSMs left.</span></span>
 <span><span class="co">#&gt; Removed 370 PSMs with FDR &lt; spectrum_fdr.</span></span></code></pre></div>
+<p>This leaves us with 309 PSMs matched against 294 scans.</p>
+<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">psm</span></span>
+<span><span class="co">#&gt; PSM with 309 rows and 34 columns.</span></span>
+<span><span class="co">#&gt; Spectra: 294 unique</span></span>
+<span><span class="co">#&gt;   db: 309 target, 0 decoy</span></span>
+<span><span class="co">#&gt;   ranks: 1:309 </span></span>
+<span><span class="co">#&gt; Peptides: 308 unique, 0 multiple</span></span>
+<span><span class="co">#&gt; Proteins: 297 </span></span>
+<span><span class="co">#&gt; names(34): peptide proteins ... protein_fdr ms1_intensity</span></span></code></pre></div>
 </div>
 <div class="section level3">
 <h3 id="quantitative-data">Quantitative data<a class="anchor" aria-label="anchor" href="#quantitative-data"></a>
 </h3>
-<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
+<p>As noted above, quantitation data is handled by the <a href="https://rformassspectrometry.github.io/QFeatures/" class="external-link">QFeatures</a>
+package. This section only provides a very short example of how to use
+it. For more details, see the package’s <a href="https://rformassspectrometry.github.io/QFeatures/" class="external-link">website and
+vignettes</a>.</p>
+<p>We will also make use of some function from the <a href="https://github.com/UCLouvain-CBIO/scp" class="external-link">scp</a> package.</p>
+<div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/RforMassSpectrometry/QFeatures" class="external-link">QFeatures</a></span><span class="op">)</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://UCLouvain-CBIO.github.io/scp" class="external-link">scp</a></span><span class="op">)</span></span></code></pre></div>
-<p>Multiple fractions for the same set of samples:</p>
-<div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
+<p>The quantitation data has been produced from running
+<code>sage</code> on three raw data files. These three files can
+correspond to two different experimental designs:</p>
+<ol style="list-style-type: decimal">
+<li><p>The three acquisitions correspond to three fractions of the same
+set of 11 multiplexed samples. In this case, that we’ll call the
+<em>Multiple fractions for the same set of samples</em>, we end up with
+a single quantitation matrix with 11 columns and row containing the
+features from all files.</p></li>
+<li><p>The three acquisitions correspond to single acquisitions from 3
+different sets of 11 samples. In this case, that we’ll call the
+<em>Different sets of samples per acquisition</em>, we end up with three
+quantitation matrices, each with 11 columns and rows containing the
+features from the respective files.</p></li>
+</ol>
+<p>Both sitations are illustrated below using the
+<code><a href="../reference/sageQFeatures.html">sageQFeatures()</a></code> function , and a differenciated by the
+value of the <code>splitBy</code> argument.</p>
+<div class="section level4">
+<h4 id="multiple-fractions-for-the-same-set-of-samples">Multiple fractions for the same set of samples<a class="anchor" aria-label="anchor" href="#multiple-fractions-for-the-same-set-of-samples"></a>
+</h4>
+<p>Let’s read the data in, specifying that the tables should not be
+split into different quantitative assays.</p>
+<div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">qf1</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/sageQFeatures.html">sageQFeatures</a></span><span class="op">(</span><span class="fu"><a href="../reference/sagerData.html">sagerQuantData</a></span><span class="op">(</span><span class="op">)</span>, <span class="fu"><a href="../reference/sagerData.html">sagerIdData</a></span><span class="op">(</span><span class="op">)</span>, splitBy <span class="op">=</span> <span class="cn">NULL</span><span class="op">)</span></span>
 <span><span class="va">qf1</span></span>
 <span><span class="co">#&gt; An instance of class QFeatures containing 1 assays:</span></span>
 <span><span class="co">#&gt;  [1] sage: SummarizedExperiment with 977 rows and 11 columns</span></span></code></pre></div>
-<div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
+<p>The piped commands below implement the following worflow:</p>
+<ol style="list-style-type: decimal">
+<li>Filter decoy features (i.e. those with a label of -1).</li>
+<li>Only keep features of rank 1.</li>
+<li>Keep features that have a spectrum FDR smaller than 0.05.</li>
+<li>Replace 0s by <code>NA</code>, to make missing values explicit.</li>
+<li>Log-transform quantitative values.</li>
+<li>Normalise data using median centring.</li>
+<li>Aggregate features into protein-level quantities by computing the
+median and ignoring missing values.</li>
+</ol>
+<div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">qf1</span> <span class="op">|&gt;</span></span>
-<span>    <span class="fu"><a href="https://rdrr.io/pkg/QFeatures/man/QFeatures-filtering.html" class="external-link">filterFeatures</a></span><span class="op">(</span><span class="op">~</span> <span class="va">label</span> <span class="op">&gt;</span> <span class="fl">0</span><span class="op">)</span> <span class="op">|&gt;</span></span>
-<span>    <span class="fu"><a href="https://rdrr.io/pkg/QFeatures/man/QFeatures-filtering.html" class="external-link">filterFeatures</a></span><span class="op">(</span><span class="op">~</span> <span class="va">rank</span> <span class="op">==</span> <span class="fl">1</span><span class="op">)</span> <span class="op">|&gt;</span></span>
-<span>    <span class="fu"><a href="https://rdrr.io/pkg/QFeatures/man/QFeatures-filtering.html" class="external-link">filterFeatures</a></span><span class="op">(</span><span class="op">~</span> <span class="va">spectrum_fdr</span> <span class="op">&lt;</span> <span class="fl">0.05</span><span class="op">)</span> <span class="op">|&gt;</span></span>
-<span>    <span class="fu"><a href="https://rdrr.io/pkg/QFeatures/man/QFeatures-missing-data.html" class="external-link">zeroIsNA</a></span><span class="op">(</span><span class="fl">1</span><span class="op">)</span> <span class="op">|&gt;</span></span>
-<span>    <span class="fu"><a href="https://rdrr.io/pkg/QFeatures/man/QFeatures-processing.html" class="external-link">logTransform</a></span><span class="op">(</span>i <span class="op">=</span> <span class="fl">1</span>, name <span class="op">=</span> <span class="st">"log_sage"</span><span class="op">)</span> <span class="op">|&gt;</span></span>
-<span>    <span class="fu"><a href="https://rdrr.io/pkg/BiocGenerics/man/normalize.html" class="external-link">normalize</a></span><span class="op">(</span>i <span class="op">=</span> <span class="st">"log_sage"</span>,</span>
+<span>    <span class="fu"><a href="https://rdrr.io/pkg/QFeatures/man/QFeatures-filtering.html" class="external-link">filterFeatures</a></span><span class="op">(</span><span class="op">~</span> <span class="va">label</span> <span class="op">&gt;</span> <span class="fl">0</span><span class="op">)</span> <span class="op">|&gt;</span>            <span class="co">## 1</span></span>
+<span>    <span class="fu"><a href="https://rdrr.io/pkg/QFeatures/man/QFeatures-filtering.html" class="external-link">filterFeatures</a></span><span class="op">(</span><span class="op">~</span> <span class="va">rank</span> <span class="op">==</span> <span class="fl">1</span><span class="op">)</span> <span class="op">|&gt;</span>            <span class="co">## 2</span></span>
+<span>    <span class="fu"><a href="https://rdrr.io/pkg/QFeatures/man/QFeatures-filtering.html" class="external-link">filterFeatures</a></span><span class="op">(</span><span class="op">~</span> <span class="va">spectrum_fdr</span> <span class="op">&lt;</span> <span class="fl">0.05</span><span class="op">)</span> <span class="op">|&gt;</span>  <span class="co">## 3</span></span>
+<span>    <span class="fu"><a href="https://rdrr.io/pkg/QFeatures/man/QFeatures-missing-data.html" class="external-link">zeroIsNA</a></span><span class="op">(</span><span class="fl">1</span><span class="op">)</span> <span class="op">|&gt;</span>                            <span class="co">## 4</span></span>
+<span>    <span class="fu"><a href="https://rdrr.io/pkg/QFeatures/man/QFeatures-processing.html" class="external-link">logTransform</a></span><span class="op">(</span>i <span class="op">=</span> <span class="fl">1</span>, name <span class="op">=</span> <span class="st">"log_sage"</span><span class="op">)</span> <span class="op">|&gt;</span> <span class="co">## 5</span></span>
+<span>    <span class="fu"><a href="https://rdrr.io/pkg/BiocGenerics/man/normalize.html" class="external-link">normalize</a></span><span class="op">(</span>i <span class="op">=</span> <span class="st">"log_sage"</span>,                 <span class="co">## 6</span></span>
 <span>              name <span class="op">=</span> <span class="st">"norm_sage"</span>,</span>
-<span>              method <span class="op">=</span> <span class="st">"center.mean"</span><span class="op">)</span> <span class="op">|&gt;</span></span>
-<span>    <span class="fu"><a href="https://rdrr.io/pkg/ProtGenerics/man/protgenerics.html" class="external-link">aggregateFeatures</a></span><span class="op">(</span>i <span class="op">=</span> <span class="st">"norm_sage"</span>,</span>
+<span>              method <span class="op">=</span> <span class="st">"center.median"</span><span class="op">)</span> <span class="op">|&gt;</span></span>
+<span>    <span class="fu"><a href="https://rdrr.io/pkg/ProtGenerics/man/protgenerics.html" class="external-link">aggregateFeatures</a></span><span class="op">(</span>i <span class="op">=</span> <span class="st">"norm_sage"</span>,        <span class="co">## 7</span></span>
 <span>                      name <span class="op">=</span> <span class="st">"proteins"</span>,</span>
 <span>                      fcol <span class="op">=</span> <span class="st">"proteins"</span>,</span>
 <span>                      fun <span class="op">=</span> <span class="va">colMedians</span>,</span>
@@ -233,9 +295,7 @@ following command:</p>
 <span><span class="co">#&gt; Your quantitative data contain missing values. Please read the relevant</span></span>
 <span><span class="co">#&gt; section(s) in the aggregateFeatures manual page regarding the effects</span></span>
 <span><span class="co">#&gt; of missing values on data aggregation.</span></span></code></pre></div>
-<div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">qf1</span><span class="op">)</span></span></code></pre></div>
-<p><img src="sager_files/figure-html/unnamed-chunk-2-1.png" width="700"></p>
+<p>The new <code>QFeatures</code> object contains 4 assays:</p>
 <div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">qf1</span></span>
 <span><span class="co">#&gt; An instance of class QFeatures containing 4 assays:</span></span>
@@ -243,8 +303,15 @@ following command:</p>
 <span><span class="co">#&gt;  [2] log_sage: SummarizedExperiment with 309 rows and 11 columns </span></span>
 <span><span class="co">#&gt;  [3] norm_sage: SummarizedExperiment with 309 rows and 11 columns </span></span>
 <span><span class="co">#&gt;  [4] proteins: SummarizedExperiment with 297 rows and 11 columns</span></span></code></pre></div>
-<p>Different sets of samples per acquisition:</p>
+<p>The pipeline can then be visualised as shown below:</p>
 <div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">qf1</span><span class="op">)</span></span></code></pre></div>
+<p><img src="sager_files/figure-html/unnamed-chunk-4-1.png" width="700"></p>
+</div>
+<div class="section level4">
+<h4 id="different-sets-of-samples-per-acquisition">Different sets of samples per acquisition<a class="anchor" aria-label="anchor" href="#different-sets-of-samples-per-acquisition"></a>
+</h4>
+<div class="sourceCode" id="cb17"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">qf</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/sageQFeatures.html">sageQFeatures</a></span><span class="op">(</span><span class="fu"><a href="../reference/sagerData.html">sagerQuantData</a></span><span class="op">(</span><span class="op">)</span>, <span class="fu"><a href="../reference/sagerData.html">sagerIdData</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="va">qf</span></span>
 <span><span class="co">#&gt; An instance of class QFeatures containing 3 assays:</span></span>
@@ -252,7 +319,7 @@ following command:</p>
 <span><span class="co">#&gt;  [2] subset_dq_00086_11cell_90min_hrMS2_A9.mzML: SummarizedExperiment with 353 rows and 11 columns </span></span>
 <span><span class="co">#&gt;  [3] subset_dq_00087_11cell_90min_hrMS2_A11.mzML: SummarizedExperiment with 336 rows and 11 columns</span></span></code></pre></div>
 <p>Annotate data:</p>
-<div class="sourceCode" id="cb17"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb18"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">renameqf</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">x</span><span class="op">)</span> <span class="fu"><a href="https://rdrr.io/r/base/grep.html" class="external-link">sub</a></span><span class="op">(</span><span class="st">"\\.mzML"</span>, <span class="st">""</span>, <span class="fu"><a href="https://rdrr.io/r/base/grep.html" class="external-link">sub</a></span><span class="op">(</span><span class="st">"^.+hrMS2_"</span>, <span class="st">""</span>, <span class="va">x</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="va">qf</span><span class="op">$</span><span class="va">filename</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/rep.html" class="external-link">rep</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/names.html" class="external-link">names</a></span><span class="op">(</span><span class="va">qf</span><span class="op">)</span>, each <span class="op">=</span> <span class="fl">11</span><span class="op">)</span></span>
 <span><span class="va">qf</span><span class="op">$</span><span class="va">tmt_tag</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/rep.html" class="external-link">rep</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste0</a></span><span class="op">(</span><span class="st">"tmt_"</span>, <span class="fl">1</span><span class="op">:</span><span class="fl">11</span><span class="op">)</span>, <span class="fu"><a href="https://rdrr.io/r/base/length.html" class="external-link">length</a></span><span class="op">(</span><span class="va">qf</span><span class="op">)</span><span class="op">)</span></span>
@@ -260,7 +327,7 @@ following command:</p>
 <span><span class="fu"><a href="https://rdrr.io/r/base/names.html" class="external-link">names</a></span><span class="op">(</span><span class="va">qf</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste0</a></span><span class="op">(</span><span class="st">"psm"</span>, <span class="fu">renameqf</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/names.html" class="external-link">names</a></span><span class="op">(</span><span class="va">qf</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="va">qf</span> <span class="op">&lt;-</span> <span class="fu"><a href="http://waldronlab.io/MultiAssayExperiment/reference/MultiAssayExperiment-helpers.html" class="external-link">renamePrimary</a></span><span class="op">(</span><span class="va">qf</span>, <span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste</a></span><span class="op">(</span><span class="va">qf</span><span class="op">$</span><span class="va">acquisition</span>, <span class="va">qf</span><span class="op">$</span><span class="va">tmt_tag</span>, sep <span class="op">=</span> <span class="st">"."</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/colnames.html" class="external-link">colnames</a></span><span class="op">(</span><span class="va">qf</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="fu">CharacterList</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/lapply.html" class="external-link">lapply</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/colnames.html" class="external-link">colnames</a></span><span class="op">(</span><span class="va">qf</span><span class="op">)</span>, <span class="va">renameqf</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
-<div class="sourceCode" id="cb18"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb19"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">qf</span></span>
 <span><span class="co">#&gt; An instance of class QFeatures containing 3 assays:</span></span>
 <span><span class="co">#&gt;  [1] psmA5: SummarizedExperiment with 288 rows and 11 columns </span></span>
@@ -282,7 +349,7 @@ following command:</p>
 <span><span class="co">#&gt; A11.tmt_10 subset_dq_...      tmt_10         A11</span></span>
 <span><span class="co">#&gt; A11.tmt_11 subset_dq_...      tmt_11         A11</span></span></code></pre></div>
 <p>Data processing:</p>
-<div class="sourceCode" id="cb19"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb20"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">qf</span> <span class="op">|&gt;</span></span>
 <span>    <span class="fu"><a href="https://rdrr.io/pkg/QFeatures/man/QFeatures-filtering.html" class="external-link">filterFeatures</a></span><span class="op">(</span><span class="op">~</span> <span class="va">label</span> <span class="op">&gt;</span> <span class="fl">0</span><span class="op">)</span> <span class="op">|&gt;</span></span>
 <span>    <span class="fu"><a href="https://rdrr.io/pkg/QFeatures/man/QFeatures-filtering.html" class="external-link">filterFeatures</a></span><span class="op">(</span><span class="op">~</span> <span class="va">rank</span> <span class="op">==</span> <span class="fl">1</span><span class="op">)</span> <span class="op">|&gt;</span></span>
@@ -316,9 +383,6 @@ following command:</p>
 <span><span class="co">#&gt; Your quantitative data contain missing values. Please read the relevant</span></span>
 <span><span class="co">#&gt; section(s) in the aggregateFeatures manual page regarding the effects</span></span>
 <span><span class="co">#&gt; of missing values on data aggregation.</span></span></code></pre></div>
-<div class="sourceCode" id="cb20"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">qf</span><span class="op">)</span></span></code></pre></div>
-<p><img src="sager_files/figure-html/unnamed-chunk-7-1.png" width="700"></p>
 <div class="sourceCode" id="cb21"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">qf</span></span>
 <span><span class="co">#&gt; An instance of class QFeatures containing 12 assays:</span></span>
@@ -329,6 +393,11 @@ following command:</p>
 <span><span class="co">#&gt;  [10] peptides: SummarizedExperiment with 308 rows and 33 columns </span></span>
 <span><span class="co">#&gt;  [11] norm_peptides: SummarizedExperiment with 308 rows and 33 columns </span></span>
 <span><span class="co">#&gt;  [12] proteins: SummarizedExperiment with 297 rows and 33 columns</span></span></code></pre></div>
+<p>The pipeline can then be visualised as shown below:</p>
+<div class="sourceCode" id="cb22"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">qf</span><span class="op">)</span></span></code></pre></div>
+<p><img src="sager_files/figure-html/unnamed-chunk-9-1.png" width="700"></p>
+</div>
 </div>
 <div class="section level3">
 <h3 id="raw-data">Raw data<a class="anchor" aria-label="anchor" href="#raw-data"></a>
@@ -340,7 +409,7 @@ to generate them.</p>
 <p>Let’s start by importing these raw data into R as a
 <code>Spectra</code> object. The three mzML files can be retrieved with
 the <code><a href="../reference/sagerData.html">sagerMzMLData()</a></code> function.</p>
-<div class="sourceCode" id="cb22"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb23"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/RforMassSpectrometry/Spectra" class="external-link">Spectra</a></span><span class="op">)</span></span>
 <span><span class="va">sp</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/Spectra/man/Spectra.html" class="external-link">Spectra</a></span><span class="op">(</span><span class="fu"><a href="../reference/sagerData.html">sagerMzMLData</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="va">sp</span></span>
@@ -384,7 +453,7 @@ multiple keys.</p>
 <p>We can add a key (by default, names <code>.KEY</code> that will
 identify a feature/scan by concatenating the scan number and the file in
 which that scan was acquired.</p>
-<div class="sourceCode" id="cb23"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb24"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">sp</span><span class="op">$</span><span class="va">filename</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/basename.html" class="external-link">basename</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/pkg/ProtGenerics/man/protgenerics.html" class="external-link">dataOrigin</a></span><span class="op">(</span><span class="va">sp</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="va">sp</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/keys.html">addKEY</a></span><span class="op">(</span><span class="va">sp</span>, vars <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"filename"</span>, <span class="st">"spectrumId"</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">sp</span><span class="op">$</span><span class="va">.KEY</span><span class="op">)</span></span>
@@ -395,7 +464,7 @@ which that scan was acquired.</p>
 <span><span class="co">#&gt; [5] "subset_dq_00084_11cell_90min_hrMS2_A5.mzML.controllerType=0 controllerNumber=1 scan=5144"</span></span>
 <span><span class="co">#&gt; [6] "subset_dq_00084_11cell_90min_hrMS2_A5.mzML.controllerType=0 controllerNumber=1 scan=5517"</span></span></code></pre></div>
 <p>Let’s do the same of the PSM object created above:</p>
-<div class="sourceCode" id="cb24"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb25"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">psm</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/keys.html">addKEY</a></span><span class="op">(</span><span class="va">psm</span>, vars <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"filename"</span>, <span class="st">"scannr"</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">psm</span><span class="op">$</span><span class="va">.KEY</span><span class="op">)</span></span>
 <span><span class="co">#&gt; [1] "subset_dq_00084_11cell_90min_hrMS2_A5.mzML.controllerType=0 controllerNumber=1 scan=31852" </span></span>
@@ -405,11 +474,11 @@ which that scan was acquired.</p>
 <span><span class="co">#&gt; [5] "subset_dq_00086_11cell_90min_hrMS2_A9.mzML.controllerType=0 controllerNumber=1 scan=22318" </span></span>
 <span><span class="co">#&gt; [6] "subset_dq_00086_11cell_90min_hrMS2_A9.mzML.controllerType=0 controllerNumber=1 scan=11726"</span></span></code></pre></div>
 <p>And finally, with the QFeatures object.</p>
-<div class="sourceCode" id="cb25"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb26"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">qf</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/keys.html">addKEY</a></span><span class="op">(</span><span class="va">qf</span>, vars <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"file"</span>, <span class="st">"scannr"</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 <p>Running <code>addKEY</code> on a <code>QFeatures</code> object will
 only add a key to assays that do have the relevant variables:</p>
-<div class="sourceCode" id="cb26"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb27"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/lapply.html" class="external-link">sapply</a></span><span class="op">(</span><span class="fu">rowData</span><span class="op">(</span><span class="va">qf</span><span class="op">)</span>, <span class="kw">function</span><span class="op">(</span><span class="va">x</span><span class="op">)</span> <span class="st">".KEY"</span> <span class="op"><a href="https://rdrr.io/r/base/match.html" class="external-link">%in%</a></span> <span class="fu"><a href="https://rdrr.io/r/base/names.html" class="external-link">names</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="co">#&gt;         psmA5         psmA9        psmA11     log_psmA5     log_psmA9 </span></span>
 <span><span class="co">#&gt;          TRUE          TRUE          TRUE          TRUE          TRUE </span></span>
@@ -426,13 +495,13 @@ only add a key to assays that do have the relevant variables:</p>
 <span><span class="co">#&gt; [6] "subset_dq_00084_11cell_90min_hrMS2_A5.mzML.controllerType=0 controllerNumber=1 scan=11785"</span></span></code></pre></div>
 <p>Let’s now bundle these three types of data together into and
 <code>MsExperiment</code> object:</p>
-<div class="sourceCode" id="cb27"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb28"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/RforMassSpectrometry/MsExperiment" class="external-link">MsExperiment</a></span><span class="op">)</span></span>
 <span><span class="va">mse</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/MsExperiment/man/MsExperiment.html" class="external-link">MsExperiment</a></span><span class="op">(</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/pkg/ProtGenerics/man/protgenerics.html" class="external-link">spectra</a></span><span class="op">(</span><span class="va">mse</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="va">sp</span></span>
 <span><span class="fu"><a href="https://rdrr.io/pkg/MsExperiment/man/MsExperiment.html" class="external-link">qdata</a></span><span class="op">(</span><span class="va">mse</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="va">qf</span></span>
 <span><span class="fu"><a href="https://rdrr.io/pkg/MsExperiment/man/MsExperiment.html" class="external-link">otherData</a></span><span class="op">(</span><span class="va">mse</span><span class="op">)</span><span class="op">$</span><span class="va">PSM</span> <span class="op">&lt;-</span> <span class="va">psm</span></span></code></pre></div>
-<div class="sourceCode" id="cb28"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb29"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">mse</span></span>
 <span><span class="co">#&gt; Object of class MsExperiment </span></span>
 <span><span class="co">#&gt;  Spectra: MS2 (598) </span></span>
@@ -445,7 +514,7 @@ only add a key to assays that do have the relevant variables:</p>
 <p>Each data element <code>mse</code> is referenced by the same key. We
 can now query for such keys direcly on the <code>MsExperiment</code>
 object, that will percolate the request to its components.</p>
-<div class="sourceCode" id="cb29"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb30"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">k</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"subset_dq_00084_11cell_90min_hrMS2_A5.mzML.controllerType=0 controllerNumber=1 scan=31852"</span>,</span>
 <span>       <span class="st">"subset_dq_00087_11cell_90min_hrMS2_A11.mzML.controllerType=0 controllerNumber=1 scan=32666"</span><span class="op">)</span></span>
 <span></span>
@@ -466,7 +535,7 @@ It is referenced as <code>"sp|P49916|DNLI3_HUMAN"</code> in our data.
 The <code>dropEmptyAssay()</code> simply drops assays that didn’t
 reference the protein of interest - it is used to simplify the output
 here.</p>
-<div class="sourceCode" id="cb30"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb31"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/pkg/MsExperiment/man/MsExperiment.html" class="external-link">qdata</a></span><span class="op">(</span><span class="va">mse</span><span class="op">)</span><span class="op">[</span><span class="st">"sp|P49916|DNLI3_HUMAN"</span>, , <span class="op">]</span> <span class="op">|&gt;</span></span>
 <span>    <span class="fu"><a href="https://rdrr.io/pkg/QFeatures/man/QFeatures-class.html" class="external-link">dropEmptyAssays</a></span><span class="op">(</span><span class="op">)</span></span>
 <span><span class="co">#&gt; Warning: 'experiments' dropped; see 'metadata'</span></span>
@@ -482,7 +551,7 @@ here.</p>
 <p>These are features that we might be interested in tracking across all
 data using their key… which we can easily retrieve with the
 <code><a href="../reference/keys.html">getKEY()</a></code> function:</p>
-<div class="sourceCode" id="cb31"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb32"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/pkg/MsExperiment/man/MsExperiment.html" class="external-link">qdata</a></span><span class="op">(</span><span class="va">mse</span><span class="op">)</span><span class="op">[</span><span class="st">"sp|P49916|DNLI3_HUMAN"</span>, , <span class="op">]</span> <span class="op">|&gt;</span></span>
 <span>    <span class="fu"><a href="https://rdrr.io/pkg/QFeatures/man/QFeatures-class.html" class="external-link">dropEmptyAssays</a></span><span class="op">(</span><span class="op">)</span> <span class="op">|&gt;</span></span>
 <span>    <span class="fu"><a href="../reference/keys.html">getKEY</a></span><span class="op">(</span><span class="op">)</span></span>
@@ -492,7 +561,7 @@ data using their key… which we can easily retrieve with the
 <p>Given that <code><a href="../reference/keys.html">getKEY()</a></code> is run on a <code>QFeatures</code>
 object, it returns the keys of all assays. Let’s extract the unique keys
 as a character:</p>
-<div class="sourceCode" id="cb32"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb33"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">my_key</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/MsExperiment/man/MsExperiment.html" class="external-link">qdata</a></span><span class="op">(</span><span class="va">mse</span><span class="op">)</span><span class="op">[</span><span class="st">"sp|P49916|DNLI3_HUMAN"</span>, , <span class="op">]</span> <span class="op">|&gt;</span></span>
 <span>    <span class="fu"><a href="https://rdrr.io/pkg/QFeatures/man/QFeatures-class.html" class="external-link">dropEmptyAssays</a></span><span class="op">(</span><span class="op">)</span> <span class="op">|&gt;</span></span>
 <span>    <span class="fu"><a href="../reference/keys.html">getKEY</a></span><span class="op">(</span><span class="op">)</span> <span class="op">|&gt;</span></span>
@@ -503,7 +572,7 @@ as a character:</p>
 <span><span class="co">#&gt; [1] "subset_dq_00084_11cell_90min_hrMS2_A5.mzML.controllerType=0 controllerNumber=1 scan=17928"</span></span></code></pre></div>
 <p>And now use <code>mykey</code> to subset the different component of
 the <code>MsExperiment</code> object:</p>
-<div class="sourceCode" id="cb33"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb34"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">my_mse</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/keys.html">subsetByKEY</a></span><span class="op">(</span><span class="va">mse</span>, <span class="va">my_key</span><span class="op">)</span></span>
 <span><span class="co">#&gt; harmonizing input:</span></span>
 <span><span class="co">#&gt;   removing 165 sampleMap rows not in names(experiments)</span></span>
@@ -516,7 +585,7 @@ the <code>MsExperiment</code> object:</p>
 <p>From the above, we can see that <em>DNLI3_HUMAN</em> was identified
 and quantified by a single peptides, that has the following quantitation
 profile acorss the 11 samples…</p>
-<div class="sourceCode" id="cb34"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb35"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu">assay</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/pkg/MsExperiment/man/MsExperiment.html" class="external-link">qdata</a></span><span class="op">(</span><span class="va">my_mse</span><span class="op">)</span><span class="op">[[</span><span class="fl">3</span><span class="op">]</span><span class="op">]</span><span class="op">)</span></span>
 <span><span class="co">#&gt;                                  A5.tmt_1 A5.tmt_2 A5.tmt_3 A5.tmt_4 A5.tmt_5</span></span>
 <span><span class="co">#&gt; [+229.1629]-SATNLPQLK[+229.1629] 18.48759 19.64292      NaN      NaN  18.4555</span></span>
@@ -526,9 +595,9 @@ profile acorss the 11 samples…</p>
 <span><span class="co">#&gt; [+229.1629]-SATNLPQLK[+229.1629]       NaN</span></span></code></pre></div>
 <p>… and that that peptides was matched by a single spectrum, shown
 below:</p>
-<div class="sourceCode" id="cb35"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb36"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/pkg/Spectra/man/spectra-plotting.html" class="external-link">plotSpectra</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/pkg/ProtGenerics/man/protgenerics.html" class="external-link">spectra</a></span><span class="op">(</span><span class="va">my_mse</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
-<p><img src="sager_files/figure-html/unnamed-chunk-17-1.png" width="700"></p>
+<p><img src="sager_files/figure-html/unnamed-chunk-18-1.png" width="700"></p>
 </div>
 </div>
 <div class="section level2">
