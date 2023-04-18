@@ -19,10 +19,14 @@ setGeneric("getKEY", function(object, ...) standardGeneric("getKEY"))
 ##'
 ##' There are two general functions to work with keys across objects:
 ##'
-##' - `addKEY()` will add a single key to an object.
+##' - `addKEY(object, vars, key, force, sep)` will add a key named
+##'   `key` to an object based on user-defined variables `vars`.
 ##'
-##' - `subsetByKEY()` will subset the object based on the presence of
-##'   one or multiple values in one key..
+##' - `subsetByKEY(object, value, key, keep)` will subset `object`
+##'   based on a `value` in `key`.
+##'
+##' - `getKEY(object, key, drop)` will return the values of variable
+##'   `key` in `object`.
 ##'
 ##' @param object An instance of class `SummarizedExperiment`,
 ##'     `QFeatures`, `PSM` or `Spectra`.
@@ -47,7 +51,7 @@ setGeneric("getKEY", function(object, ...) standardGeneric("getKEY"))
 ##'
 ##' @export
 ##'
-##' @aliases addKEY subsetByKEY
+##' @aliases addKEY subsetByKEY getKEY
 ##'
 ##' @rdname keys
 ##'
@@ -293,6 +297,9 @@ setMethod("getKEY", "SummarizedExperiment",
 ##' @importFrom S4Vectors SimpleList
 ##'
 ##' @export
+##'
+##' @param drop `logical(1)` defining whether to drop assays that
+##'     don't have the key variable. Default is `TRUE`.
 ##'
 ##' @rdname keys
 setMethod("getKEY", "QFeatures",

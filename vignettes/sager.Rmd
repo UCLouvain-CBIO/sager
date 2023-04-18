@@ -323,7 +323,7 @@ otherData(mse)$PSM <- psm
 mse
 ```
 
-## Searching for keys across data types
+## Searching for features across data types
 
 Each data element `mse` is referenced by the same key. We can now
 query for such keys direcly on the `MsExperiment` object, that will
@@ -335,6 +335,54 @@ k <- c("subset_dq_00084_11cell_90min_hrMS2_A5.mzML.controllerType=0 controllerNu
 
 subsetByKEY(mse, k)
 ```
+
+It is however not convenient to search an arbitrary key. The more
+useful usecase would be to look for a protein of interest, for
+example, and then identify the features across other data types using
+the relevant key(s).
+
+Let's imagine that protein *DNLI3_HUMAN* is of interest to us. It is
+referenced as `"sp|P49916|DNLI3_HUMAN"` in our data. The
+`dropEmptyAssay()` simply drops assays that didn't reference the
+protein of interest - it is used to simplify the output here.
+
+
+```{r}
+qdata(mse)["sp|P49916|DNLI3_HUMAN", , ] |>
+    dropEmptyAssays()
+```
+
+These are features that we might be interested in tracking across all
+data using their key... which we can easily retrieve with the
+`getKEY()` function:
+
+```{r, message=FALSE}
+qdata(mse)["sp|P49916|DNLI3_HUMAN", , ] |>
+    dropEmptyAssays() |>
+    getKEY()
+```
+
+Given that `getKEY()` is run on a `QFeatures` object, it returns the
+keys of all assays. Let's extract the unique keys as a character:
+
+```{r, message=FALSE}
+my_key <- qdata(mse)["sp|P49916|DNLI3_HUMAN", , ] |>
+    dropEmptyAssays() |>
+    getKEY() |>
+    unlist() |>
+    unique()
+my_key
+```
+
+And now use `mykey` to subset the different component of the
+`MsExperiment` object:
+
+```{r}
+my_mse <- subsetByKEY(mse, my_key)
+my_mse
+```
+
+
 
 
 # Misc

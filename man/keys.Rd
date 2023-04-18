@@ -4,6 +4,7 @@
 \alias{addKEY,SummarizedExperiment-method}
 \alias{addKEY}
 \alias{subsetByKEY}
+\alias{getKEY}
 \alias{addKEY,Spectra-method}
 \alias{addKEY,PSM-method}
 \alias{addKEY,QFeatures-method}
@@ -89,6 +90,9 @@ data are ignored if their slot is NULL.}
 \item{otherdata}{\code{character()} listing the name(s) of the
 additional data types in \code{otherData(.)} to run \code{subsetByKEY()}
 on.}
+
+\item{drop}{\code{logical(1)} defining whether to drop assays that
+don't have the key variable. Default is \code{TRUE}.}
 }
 \description{
 A key is a variable that is used to identify features within an
@@ -104,8 +108,11 @@ peptides. These different data types can be stored together in an
 
 There are two general functions to work with keys across objects:
 \itemize{
-\item \code{addKEY()} will add a single key to an object.
-\item \code{subsetByKEY()} will subset the object based on the presence of
-one or multiple values in one key..
+\item \code{addKEY(object, vars, key, force, sep)} will add a key named
+\code{key} to an object based on user-defined variables \code{vars}.
+\item \code{subsetByKEY(object, value, key, keep)} will subset \code{object}
+based on a \code{value} in \code{key}.
+\item \code{getKEY(object, key, drop)} will return the values of variable
+\code{key} in \code{object}.
 }
 }
