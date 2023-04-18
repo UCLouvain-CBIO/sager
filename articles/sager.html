@@ -513,6 +513,22 @@ the <code>MsExperiment</code> object:</p>
 <span><span class="co">#&gt;  Spectra: MS2 (1) </span></span>
 <span><span class="co">#&gt;  QFeatures: 3 assay(s)</span></span>
 <span><span class="co">#&gt;  Other data: PSM</span></span></code></pre></div>
+<p>From the above, we can see that <em>DNLI3_HUMAN</em> was identified
+and quantified by a single peptides, that has the following quantitation
+profile acorss the 11 samples…</p>
+<div class="sourceCode" id="cb34"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu">assay</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/pkg/MsExperiment/man/MsExperiment.html" class="external-link">qdata</a></span><span class="op">(</span><span class="va">my_mse</span><span class="op">)</span><span class="op">[[</span><span class="fl">3</span><span class="op">]</span><span class="op">]</span><span class="op">)</span></span>
+<span><span class="co">#&gt;                                  A5.tmt_1 A5.tmt_2 A5.tmt_3 A5.tmt_4 A5.tmt_5</span></span>
+<span><span class="co">#&gt; [+229.1629]-SATNLPQLK[+229.1629] 18.48759 19.64292      NaN      NaN  18.4555</span></span>
+<span><span class="co">#&gt;                                  A5.tmt_6 A5.tmt_7 A5.tmt_8 A5.tmt_9 A5.tmt_10</span></span>
+<span><span class="co">#&gt; [+229.1629]-SATNLPQLK[+229.1629]      NaN 20.28052 18.19301      NaN  18.82892</span></span>
+<span><span class="co">#&gt;                                  A5.tmt_11</span></span>
+<span><span class="co">#&gt; [+229.1629]-SATNLPQLK[+229.1629]       NaN</span></span></code></pre></div>
+<p>… and that that peptides was matched by a single spectrum, shown
+below:</p>
+<div class="sourceCode" id="cb35"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/pkg/Spectra/man/spectra-plotting.html" class="external-link">plotSpectra</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/pkg/ProtGenerics/man/protgenerics.html" class="external-link">spectra</a></span><span class="op">(</span><span class="va">my_mse</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
+<p><img src="sager_files/figure-html/unnamed-chunk-17-1.png" width="700"></p>
 </div>
 </div>
 <div class="section level2">
