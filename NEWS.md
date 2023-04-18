@@ -5,6 +5,8 @@
 - Add `sager` vignette.
 - Update data: `sagerMzMLData()` now returns the path to 3 separate
   subsetted mzML files.
+- New function to create and handle keys across data types:
+  `addKEY()`, `subsetByKEY()` and `getKEY()`.
 
 ## sager 0.2.0
 
