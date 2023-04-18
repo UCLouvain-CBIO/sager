@@ -440,7 +440,7 @@ only add a key to assays that do have the relevant variables:</p>
 <span><span class="co">#&gt;  Other data: PSM</span></span></code></pre></div>
 </div>
 <div class="section level3">
-<h3 id="searching-for-keys-across-data-types">Searching for keys across data types<a class="anchor" aria-label="anchor" href="#searching-for-keys-across-data-types"></a>
+<h3 id="searching-for-features-across-data-types">Searching for features across data types<a class="anchor" aria-label="anchor" href="#searching-for-features-across-data-types"></a>
 </h3>
 <p>Each data element <code>mse</code> is referenced by the same key. We
 can now query for such keys direcly on the <code>MsExperiment</code>
@@ -456,6 +456,62 @@ object, that will percolate the request to its components.</p>
 <span><span class="co">#&gt; Object of class MsExperiment </span></span>
 <span><span class="co">#&gt;  Spectra: MS2 (2) </span></span>
 <span><span class="co">#&gt;  QFeatures: 6 assay(s)</span></span>
+<span><span class="co">#&gt;  Other data: PSM</span></span></code></pre></div>
+<p>It is however not convenient to search an arbitrary key. The more
+useful usecase would be to look for a protein of interest, for example,
+and then identify the features across other data types using the
+relevant key(s).</p>
+<p>Let’s imagine that protein <em>DNLI3_HUMAN</em> is of interest to us.
+It is referenced as <code>"sp|P49916|DNLI3_HUMAN"</code> in our data.
+The <code>dropEmptyAssay()</code> simply drops assays that didn’t
+reference the protein of interest - it is used to simplify the output
+here.</p>
+<div class="sourceCode" id="cb30"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/pkg/MsExperiment/man/MsExperiment.html" class="external-link">qdata</a></span><span class="op">(</span><span class="va">mse</span><span class="op">)</span><span class="op">[</span><span class="st">"sp|P49916|DNLI3_HUMAN"</span>, , <span class="op">]</span> <span class="op">|&gt;</span></span>
+<span>    <span class="fu"><a href="https://rdrr.io/pkg/QFeatures/man/QFeatures-class.html" class="external-link">dropEmptyAssays</a></span><span class="op">(</span><span class="op">)</span></span>
+<span><span class="co">#&gt; Warning: 'experiments' dropped; see 'metadata'</span></span>
+<span><span class="co">#&gt; harmonizing input:</span></span>
+<span><span class="co">#&gt;   removing 66 sampleMap rows not in names(experiments)</span></span>
+<span><span class="co">#&gt; An instance of class QFeatures containing 6 assays:</span></span>
+<span><span class="co">#&gt;  [1] psmA5: SummarizedExperiment with 1 rows and 11 columns </span></span>
+<span><span class="co">#&gt;  [2] log_psmA5: SummarizedExperiment with 1 rows and 11 columns </span></span>
+<span><span class="co">#&gt;  [3] peptideA5: SummarizedExperiment with 1 rows and 11 columns </span></span>
+<span><span class="co">#&gt;  [4] peptides: SummarizedExperiment with 1 rows and 33 columns </span></span>
+<span><span class="co">#&gt;  [5] norm_peptides: SummarizedExperiment with 1 rows and 33 columns </span></span>
+<span><span class="co">#&gt;  [6] proteins: SummarizedExperiment with 1 rows and 33 columns</span></span></code></pre></div>
+<p>These are features that we might be interested in tracking across all
+data using their key… which we can easily retrieve with the
+<code><a href="../reference/keys.html">getKEY()</a></code> function:</p>
+<div class="sourceCode" id="cb31"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/pkg/MsExperiment/man/MsExperiment.html" class="external-link">qdata</a></span><span class="op">(</span><span class="va">mse</span><span class="op">)</span><span class="op">[</span><span class="st">"sp|P49916|DNLI3_HUMAN"</span>, , <span class="op">]</span> <span class="op">|&gt;</span></span>
+<span>    <span class="fu"><a href="https://rdrr.io/pkg/QFeatures/man/QFeatures-class.html" class="external-link">dropEmptyAssays</a></span><span class="op">(</span><span class="op">)</span> <span class="op">|&gt;</span></span>
+<span>    <span class="fu"><a href="../reference/keys.html">getKEY</a></span><span class="op">(</span><span class="op">)</span></span>
+<span><span class="co">#&gt; Warning: 'experiments' dropped; see 'metadata'</span></span>
+<span><span class="co">#&gt; List of length 3</span></span>
+<span><span class="co">#&gt; names(3): psmA5 log_psmA5 peptideA5</span></span></code></pre></div>
+<p>Given that <code><a href="../reference/keys.html">getKEY()</a></code> is run on a <code>QFeatures</code>
+object, it returns the keys of all assays. Let’s extract the unique keys
+as a character:</p>
+<div class="sourceCode" id="cb32"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">my_key</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/MsExperiment/man/MsExperiment.html" class="external-link">qdata</a></span><span class="op">(</span><span class="va">mse</span><span class="op">)</span><span class="op">[</span><span class="st">"sp|P49916|DNLI3_HUMAN"</span>, , <span class="op">]</span> <span class="op">|&gt;</span></span>
+<span>    <span class="fu"><a href="https://rdrr.io/pkg/QFeatures/man/QFeatures-class.html" class="external-link">dropEmptyAssays</a></span><span class="op">(</span><span class="op">)</span> <span class="op">|&gt;</span></span>
+<span>    <span class="fu"><a href="../reference/keys.html">getKEY</a></span><span class="op">(</span><span class="op">)</span> <span class="op">|&gt;</span></span>
+<span>    <span class="fu"><a href="https://rdrr.io/r/base/unlist.html" class="external-link">unlist</a></span><span class="op">(</span><span class="op">)</span> <span class="op">|&gt;</span></span>
+<span>    <span class="fu"><a href="https://rdrr.io/r/base/unique.html" class="external-link">unique</a></span><span class="op">(</span><span class="op">)</span></span>
+<span><span class="co">#&gt; Warning: 'experiments' dropped; see 'metadata'</span></span>
+<span><span class="va">my_key</span></span>
+<span><span class="co">#&gt; [1] "subset_dq_00084_11cell_90min_hrMS2_A5.mzML.controllerType=0 controllerNumber=1 scan=17928"</span></span></code></pre></div>
+<p>And now use <code>mykey</code> to subset the different component of
+the <code>MsExperiment</code> object:</p>
+<div class="sourceCode" id="cb33"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">my_mse</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/keys.html">subsetByKEY</a></span><span class="op">(</span><span class="va">mse</span>, <span class="va">my_key</span><span class="op">)</span></span>
+<span><span class="co">#&gt; harmonizing input:</span></span>
+<span><span class="co">#&gt;   removing 165 sampleMap rows not in names(experiments)</span></span>
+<span><span class="co">#&gt;   removing 22 colData rownames not in sampleMap 'primary'</span></span>
+<span><span class="va">my_mse</span></span>
+<span><span class="co">#&gt; Object of class MsExperiment </span></span>
+<span><span class="co">#&gt;  Spectra: MS2 (1) </span></span>
+<span><span class="co">#&gt;  QFeatures: 3 assay(s)</span></span>
 <span><span class="co">#&gt;  Other data: PSM</span></span></code></pre></div>
 </div>
 </div>
@@ -501,7 +557,7 @@ an issue</a> on the package’s Github repository.</p>
 <span><span class="co">#&gt; other attached packages:</span></span>
 <span><span class="co">#&gt;  [1] MsExperiment_1.1.4          Spectra_1.9.15             </span></span>
 <span><span class="co">#&gt;  [3] ProtGenerics_1.31.0         BiocParallel_1.33.12       </span></span>
-<span><span class="co">#&gt;  [5] scp_1.9.1                   QFeatures_1.9.3            </span></span>
+<span><span class="co">#&gt;  [5] scp_1.9.1                   QFeatures_1.9.4            </span></span>
 <span><span class="co">#&gt;  [7] MultiAssayExperiment_1.25.9 SummarizedExperiment_1.29.1</span></span>
 <span><span class="co">#&gt;  [9] Biobase_2.59.0              GenomicRanges_1.51.4       </span></span>
 <span><span class="co">#&gt; [11] GenomeInfoDb_1.35.17        IRanges_2.33.1             </span></span>
