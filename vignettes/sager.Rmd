@@ -105,26 +105,41 @@ BiocManager::install("UCLouvain-CBIO/sager")
 library(sager)
 ```
 
-The `sager` package provides example data
+The `sager` package provides example identification and quantitation
+(procuced by `sage`) and the raw data (`mzML` files) that were used
+the generate the former.
 
 ```{r dataavailability}
 sagerAvailableData()
 ```
 
+Data can be added with the `sagerAddData()` function, that avoid
+downloading data files if they are already available in the package's
+local cache directory:
+
 ```{r dataadd}
 sagerAddData()
 ```
 
-For details and provenance of the data, please see the `?sagerData`
-manual page.
+For details, including updating local data and their provenance,
+please see the `?sagerData` manual page.
 
 ## Identification data
+
+As noted above, identification data is handled by the
+[PSMatch](https://rformassspectrometry.github.io/PSMatch/)
+package. This section only provides a very short example of how to use
+it. For more details, see the package's [website and
+vignettes](https://rformassspectrometry.github.io/PSMatch/).
 
 ```{r sagePSM, message = FALSE}
 library(PSMatch)
 psm <- sagePSM(sagerIdData())
 psm
 ```
+
+Here we briefly visualise the hyperscore and spectrum FDR densities
+for the forward and decoy/reverse hits:
 
 ```{r ggplot, message = FALSE}
 library(ggplot2)
@@ -141,19 +156,60 @@ data.frame(psm) |>
     geom_density()
 ```
 
+Below, we filter the PSMs removing decoy hits, PSMs of rank > 1 (none
+in the small testing data), shared peptides (none in the small testing
+data) and those that have a spectrum FDR below 0.05:
+
+
 ```{r filterPSM}
 psm <- filterPSMs(psm) |>
     filterPsmFdr()
 ```
 
+This leaves us with `r nrow(psm)` PSMs matched against
+`r length(unique(psm$scannr))` scans.
+
+```{r}
+psm
+```
+
 ## Quantitative data
+
+As noted above, quantitation data is handled by the
+[QFeatures](https://rformassspectrometry.github.io/QFeatures/)
+package. This section only provides a very short example of how to use
+it. For more details, see the package's [website and
+vignettes](https://rformassspectrometry.github.io/QFeatures/).
+
+We will also make use of some function from the
+[scp](https://github.com/UCLouvain-CBIO/scp) package.
 
 ```{r, message = FALSE}
 library(QFeatures)
 library(scp)
 ```
 
-Multiple fractions for the same set of samples:
+The quantitation data has been produced from running `sage` on three
+raw data files. These three files can correspond to two different
+experimental designs:
+
+1. The three acquisitions correspond to three fractions of the same
+   set of 11 multiplexed samples. In this case, that we'll call the
+   *Multiple fractions for the same set of samples*, we end up with a
+   single quantitation matrix with 11 columns and row containing the
+   features from all files.
+
+2. The three acquisitions correspond to single acquisitions from 3
+   different sets of 11 samples. In this case, that we'll call the
+   *Different sets of samples per acquisition*, we end up with three
+   quantitation matrices, each with 11 columns and rows containing the
+   features from the respective files.
+
+Both sitations are illustrated below using the `sageQFeatures()`
+function , and a differenciated by the value of the `splitBy`
+argument.
+
+### Multiple fractions for the same set of samples
 
 ```{r qf1}
 qf1 <- sageQFeatures(sagerQuantData(), sagerIdData(), splitBy = NULL)
@@ -185,8 +241,7 @@ plot(qf1)
 qf1
 ```
 
-
-Different sets of samples per acquisition:
+### Different sets of samples per acquisition
 
 ```{r qf2}
 qf <- sageQFeatures(sagerQuantData(), sagerIdData())
