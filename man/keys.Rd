@@ -12,6 +12,10 @@
 \alias{subsetByKEY,SummarizedExperiment-method}
 \alias{subsetByKEY,QFeatures-method}
 \alias{subsetByKEY,MsExperiment-method}
+\alias{getKEY,PSM-method}
+\alias{getKEY,Spectra-method}
+\alias{getKEY,SummarizedExperiment-method}
+\alias{getKEY,QFeatures-method}
 \title{Add and subsetting keys}
 \usage{
 \S4method{addKEY}{SummarizedExperiment}(object, vars = NULL, key = ".KEY", force = FALSE, sep = ".")
@@ -38,6 +42,14 @@
   otherdata = NULL,
   keep = FALSE
 )
+
+\S4method{getKEY}{PSM}(object, key = ".KEY")
+
+\S4method{getKEY}{Spectra}(object, key = ".KEY")
+
+\S4method{getKEY}{SummarizedExperiment}(object, key = ".KEY")
+
+\S4method{getKEY}{QFeatures}(object, key = ".KEY", drop = TRUE)
 }
 \arguments{
 \item{object}{An instance of class \code{SummarizedExperiment},

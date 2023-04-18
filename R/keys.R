@@ -1,6 +1,6 @@
 setGeneric("addKEY", function(object, ...) standardGeneric("addKEY"))
 setGeneric("subsetByKEY", function(object, ...) standardGeneric("subsetByKEY"))
-
+setGeneric("getKEY", function(object, ...) standardGeneric("getKEY"))
 
 ##' @title Add and subsetting keys
 ##'
@@ -133,6 +133,7 @@ setMethod("addKEY", "QFeatures",
           })
 
 ## ============================================================================
+## subsetByKEY()
 
 
 ##' @importFrom Spectra spectraData spectraVariables
@@ -249,5 +250,55 @@ setMethod("subsetByKEY", "MsExperiment",
               object
           })
 
-## TODO:
-## - findKEY to get indices
+
+## ============================================================================
+## getKEY()
+
+
+##' @export
+##'
+##' @rdname keys
+setMethod("getKEY", "PSM",
+          function(object, key = ".KEY") {
+              if (!key %in% names(object))
+                  warning("Key '", key, "' not found")
+              object[[key]]
+          })
+
+##' @importFrom Spectra spectraVariables spectraData
+##'
+##' @export
+##'
+##' @rdname keys
+setMethod("getKEY", "Spectra",
+          function(object, key = ".KEY") {
+              if (!key %in% spectraVariables(object))
+                  warning("Key '", key, "' not found")
+              spectraData(object)[[key]]
+          })
+
+
+##' @importFrom SummarizedExperiment rowData
+##'
+##' @export
+##'
+##' @rdname keys
+setMethod("getKEY", "SummarizedExperiment",
+          function(object, key = ".KEY") {
+              if (!key %in% names(rowData(object)))
+                  warning("Key '", key, "' not found")
+              rowData(object)[[key]]
+          })
+
+##' @importFrom S4Vectors SimpleList
+##'
+##' @export
+##'
+##' @rdname keys
+setMethod("getKEY", "QFeatures",
+          function(object, key = ".KEY", drop = TRUE) {
+              ans <- lapply(rowData(object), function(x) x[[key]])
+              if (drop)
+                  ans <- ans[lengths(ans) > 0]
+              SimpleList(ans)
+          })

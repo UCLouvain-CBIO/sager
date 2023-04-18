@@ -49,8 +49,9 @@ x <- qf["sp|P49916|DNLI3_HUMAN", , ]
 subsetByKEY(qf, k)
 
 ## ==============================================================
-##
-## Add/update in MsExperiment
+
+## See https://github.com/rformassspectrometry/QFeatures/issues/184
+
 
 
 ## ==============================================================
@@ -60,3 +61,6 @@ subsetByKEY(mse, k[1], otherdata = "PSM")
 
 msek <- subsetByKEY(mse, k, otherdata = "PSM")
 msek
+
+
+x <- qf["sp|P49916|DNLI3_HUMAN", , ] |> dropEmptyAssays()
