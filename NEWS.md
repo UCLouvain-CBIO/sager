@@ -7,6 +7,7 @@
   subsetted mzML files.
 - New function to create and handle keys across data types:
   `addKEY()`, `subsetByKEY()` and `getKEY()`.
+- Update vignette, with `MsExperiment` workflow.
 
 ## sager 0.2.0
 

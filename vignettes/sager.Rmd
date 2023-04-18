@@ -382,8 +382,20 @@ my_mse <- subsetByKEY(mse, my_key)
 my_mse
 ```
 
+From the above, we can see that *DNLI3_HUMAN* was identified and
+quantified by a single peptides, that has the following quantitation
+profile acorss the 11 samples...
 
+```{r}
+assay(qdata(my_mse)[[3]])
+```
 
+... and that that peptides was matched by a single spectrum, shown
+below:
+
+```{r}
+plotSpectra(spectra(my_mse))
+```
 
 # Misc
 
