@@ -358,15 +358,25 @@ acquisition identifier (<code>acquisition</code>).</p>
 <span><span class="co">#&gt;  [3] psmA11: SummarizedExperiment with 336 rows and 11 columns</span></span></code></pre></div>
 <p>The piped commands below implement the following worflow:</p>
 <ol style="list-style-type: decimal">
-<li>
-<li>
-<li>
-<li>
-<li>
-<li>
-<li>
-<li>
-<li>
+<li>Filter decoy features (i.e. those with a label of -1) in all
+assays.</li>
+<li>Only keep features of rank 1 in all assays.</li>
+<li>Keep features that have a spectrum FDR smaller than 0.05 in all
+assays.</li>
+<li>Replace 0s by <code>NA</code> in all assays, to make missing values
+explicit.</li>
+<li>Log-transform quantitative values - three new assays are created
+from the three initial ones and named with the “log_” prefix.</li>
+<li>Aggregate each PSMs into peptide-level quantities by computing the
+median and ignoring missing values. The new assays names are defined as
+‘peptide’ followed by the orifinal assay identifier.</li>
+<li>Join the 3 peptide assays into a new assay that will contain the 33
+samples. Missing values are incorporated accordingly, when a peptide is
+observed in part of the sets.</li>
+<li>Normalise the joined peptide data using median centring.</li>
+<li>Aggregate the peptide-level quantities into protein by computing the
+median and ignoring missing values. The new assay names will be
+‘protein’.</li>
 </ol>
 <div class="sourceCode" id="cb21"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">qf</span> <span class="op">|&gt;</span></span>
@@ -385,7 +395,7 @@ acquisition identifier (<code>acquisition</code>).</p>
 <span>               name <span class="op">=</span> <span class="st">"peptides"</span><span class="op">)</span> <span class="op">|&gt;</span></span>
 <span>    <span class="fu"><a href="https://rdrr.io/pkg/BiocGenerics/man/normalize.html" class="external-link">normalize</a></span><span class="op">(</span>i <span class="op">=</span> <span class="fl">10</span>,                        <span class="co">## 8</span></span>
 <span>              name <span class="op">=</span> <span class="st">"norm_peptides"</span>,</span>
-<span>              method <span class="op">=</span> <span class="st">"center.mean"</span><span class="op">)</span> <span class="op">|&gt;</span></span>
+<span>              method <span class="op">=</span> <span class="st">"center.median"</span><span class="op">)</span> <span class="op">|&gt;</span></span>
 <span>    <span class="fu"><a href="https://rdrr.io/pkg/ProtGenerics/man/protgenerics.html" class="external-link">aggregateFeatures</a></span><span class="op">(</span>i <span class="op">=</span> <span class="st">"norm_peptides"</span>,   <span class="co">## 9</span></span>
 <span>                      name <span class="op">=</span> <span class="st">"proteins"</span>,</span>
 <span>                      fcol <span class="op">=</span> <span class="st">"proteins"</span>,</span>
@@ -403,6 +413,7 @@ acquisition identifier (<code>acquisition</code>).</p>
 <span><span class="co">#&gt; Your quantitative data contain missing values. Please read the relevant</span></span>
 <span><span class="co">#&gt; section(s) in the aggregateFeatures manual page regarding the effects</span></span>
 <span><span class="co">#&gt; of missing values on data aggregation.</span></span></code></pre></div>
+<p>The final QFeatures object now contains 12 assays:</p>
 <div class="sourceCode" id="cb22"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">qf</span></span>
 <span><span class="co">#&gt; An instance of class QFeatures containing 12 assays:</span></span>
