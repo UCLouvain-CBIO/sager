@@ -297,15 +297,24 @@ qf
 
 The piped commands below implement the following worflow:
 
-1.
-2.
-3.
-4.
-5.
-6.
-7.
-8.
-9.
+1. Filter decoy features (i.e. those with a label of -1) in all
+   assays.
+2. Only keep features of rank 1 in all assays.
+3. Keep features that have a spectrum FDR smaller than 0.05 in all
+   assays.
+4. Replace 0s by `NA` in all assays, to make missing values explicit.
+5. Log-transform quantitative values - three new assays are created
+   from the three initial ones and named with the "log_" prefix.
+6. Aggregate each PSMs into peptide-level quantities by computing the
+   median and ignoring missing values. The new assays names are
+   defined as 'peptide' followed by the orifinal assay identifier.
+7. Join the 3 peptide assays into a new assay that will contain the 33
+   samples. Missing values are incorporated accordingly, when a
+   peptide is observed in part of the sets.
+8. Normalise the joined peptide data using median centring.
+9. Aggregate the peptide-level quantities into protein by computing
+   the median and ignoring missing values. The new assay names will be
+   'protein'.
 
 ```{r}
 qf |>
@@ -324,7 +333,7 @@ qf |>
                name = "peptides") |>
     normalize(i = 10,                        ## 8
               name = "norm_peptides",
-              method = "center.mean") |>
+              method = "center.median") |>
     aggregateFeatures(i = "norm_peptides",   ## 9
                       name = "proteins",
                       fcol = "proteins",
@@ -332,6 +341,7 @@ qf |>
                       na.rm = TRUE) -> qf
 ```
 
+The final QFeatures object now contains `r length(qf)` assays:
 
 ```{r}
 qf
