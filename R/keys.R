@@ -1,6 +1,6 @@
-setGeneric("addKEY", function(object, ...) standardGeneric("addKEY"))
-setGeneric("subsetByKEY", function(object, ...) standardGeneric("subsetByKEY"))
-setGeneric("getKEY", function(object, ...) standardGeneric("getKEY"))
+setGeneric("addKey", function(object, ...) standardGeneric("addKey"))
+setGeneric("filterKey", function(object, ...) standardGeneric("filterKey"))
+setGeneric("getKey", function(object, ...) standardGeneric("getKey"))
 
 ##' @title Add and subsetting keys
 ##'
@@ -19,13 +19,13 @@ setGeneric("getKEY", function(object, ...) standardGeneric("getKEY"))
 ##'
 ##' There are two general functions to work with keys across objects:
 ##'
-##' - `addKEY(object, vars, key, force, sep)` will add a key named
+##' - `addKey(object, vars, key, force, sep)` will add a key named
 ##'   `key` to an object based on user-defined variables `vars`.
 ##'
-##' - `subsetByKEY(object, value, key, keep)` will subset `object`
+##' - `filterKey(object, value, key, keep)` will subset `object`
 ##'   based on a `value` in `key`.
 ##'
-##' - `getKEY(object, key, drop)` will return the values of variable
+##' - `getKey(object, key, drop)` will return the values of variable
 ##'   `key` in `object`.
 ##'
 ##' @param object An instance of class `SummarizedExperiment`,
@@ -51,14 +51,14 @@ setGeneric("getKEY", function(object, ...) standardGeneric("getKEY"))
 ##'
 ##' @export
 ##'
-##' @aliases addKEY subsetByKEY getKEY
+##' @aliases addKey filterKey getKey
 ##'
 ##' @rdname keys
 ##'
 ##' @importFrom SummarizedExperiment rowData rowData<-
 ##'
 ##' @importFrom methods setMethod setGeneric
-setMethod("addKEY", "SummarizedExperiment",
+setMethod("addKey", "SummarizedExperiment",
           function(object, vars = NULL, key = ".KEY", force = FALSE, sep = ".") {
               if (key %in% names(rowData(object)) & !force)
                   stop(key, " already in names(rowData()). Use 'force = TRUE' to overwrite.")
@@ -81,7 +81,7 @@ setMethod("addKEY", "SummarizedExperiment",
 ##' @export
 ##'
 ##' @rdname keys
-setMethod("addKEY", "Spectra",
+setMethod("addKey", "Spectra",
           function(object, vars = NULL, key = ".KEY", force = FALSE, sep = ".") {
               if (key %in% spectraVariables(object) & !force)
                   stop(key, " already in spectraData(). Use 'force = TRUE' to overwrite.")
@@ -101,7 +101,7 @@ setMethod("addKEY", "Spectra",
 ##' @export
 ##'
 ##' @rdname keys
-setMethod("addKEY", "PSM",
+setMethod("addKey", "PSM",
           function(object, vars = NULL, key = ".KEY", force = FALSE, sep = ".") {
               if (key %in% names(object) & !force)
                   stop(key, " already in names(). Use 'force = TRUE' to overwrite.")
@@ -122,7 +122,7 @@ setMethod("addKEY", "PSM",
 ##' @export
 ##'
 ##' @rdname keys
-setMethod("addKEY", "QFeatures",
+setMethod("addKey", "QFeatures",
           function(object, vars = NULL, key = ".KEY", force = FALSE, sep = ".") {
               if (is.null(vars))
                   return(object)
@@ -130,14 +130,14 @@ setMethod("addKEY", "QFeatures",
                   x <- object[[i]]
                   if (!all(vars %in% names(rowData(x))))
                       next()
-                  x <- addKEY(x, vars, key, force, sep)
+                  x <- addKey(x, vars, key, force, sep)
                   object <- replaceAssay(object, x, i)
               }
               object
           })
 
 ## ============================================================================
-## subsetByKEY()
+## filterKey()
 
 
 ##' @importFrom Spectra spectraData spectraVariables
@@ -148,7 +148,7 @@ setMethod("addKEY", "QFeatures",
 ##'     feature(s) of interest.
 ##'
 ##' @rdname keys
-setMethod("subsetByKEY", "Spectra",
+setMethod("filterKey", "Spectra",
           function(object, value, key = ".KEY") {
               if (!key %in% spectraVariables(object)) {
                   message("Key '", key,
@@ -163,7 +163,7 @@ setMethod("subsetByKEY", "Spectra",
 ##' @export
 ##'
 ##' @rdname keys
-setMethod("subsetByKEY", "PSM",
+setMethod("filterKey", "PSM",
           function(object, value, key = ".KEY") {
               if (!key %in% names(object)) {
                   message("Key '", key,
@@ -178,7 +178,7 @@ setMethod("subsetByKEY", "PSM",
 ##' @export
 ##'
 ##' @rdname keys
-setMethod("subsetByKEY", "SummarizedExperiment",
+setMethod("filterKey", "SummarizedExperiment",
           function(object, value, key = ".KEY") {
               if (!key %in% names(rowData(object))) {
                   message("Key '", key,
@@ -199,11 +199,11 @@ setMethod("subsetByKEY", "SummarizedExperiment",
 ##'     returned as empty assays (i.e. with zero
 ##'     rows/features)`. Default is `FALSE`; only assays containing
 ##'     matching keys are returned.
-setMethod("subsetByKEY", "QFeatures",
+setMethod("filterKey", "QFeatures",
           function(object, value, key = ".KEY", keep = FALSE) {
               for (i in seq_along(object)) {
                   suppressMessages(
-                      x <- subsetByKEY(object[[i]], value, key))
+                      x <- filterKey(object[[i]], value, key))
                   object <- replaceAssay(object, x, i)
               }
               if (!keep)
@@ -223,9 +223,9 @@ setMethod("subsetByKEY", "QFeatures",
 ##'     data are ignored if their slot is NULL.
 ##'
 ##' @param otherdata `character()` listing the name(s) of the
-##'     additional data types in `otherData(.)` to run `subsetByKEY()`
+##'     additional data types in `otherData(.)` to run `filterKey()`
 ##'     on.
-setMethod("subsetByKEY", "MsExperiment",
+setMethod("filterKey", "MsExperiment",
           function(object, value, key = ".KEY",
                    data = c("spectra", "qdata"),
                    otherdata = NULL,
@@ -233,11 +233,11 @@ setMethod("subsetByKEY", "MsExperiment",
               data <- match.arg(data, several.ok = TRUE)
               if (!is.null(spectra(object)) & "spectra" %in% data)
                   spectra(object) <-
-                      subsetByKEY(spectra(object), value, key)
+                      filterKey(spectra(object), value, key)
               if (!is.null(qdata(object)) & "qdata" %in% data)
                   suppressWarnings(
                       qdata(object) <-
-                          subsetByKEY(qdata(object), value, key, keep)
+                          filterKey(qdata(object), value, key, keep)
                   )
               if (!is.null(otherdata)) {
                   othersel <- otherdata %in% names(object@otherData)
@@ -248,7 +248,7 @@ setMethod("subsetByKEY", "MsExperiment",
                   }
                   for (k in seq_along(otherdata))
                       object@otherData[[k]] <-
-                          subsetByKEY(object@otherData[[k]],
+                          filterKey(object@otherData[[k]],
                                       value, key)
               }
               object
@@ -256,13 +256,13 @@ setMethod("subsetByKEY", "MsExperiment",
 
 
 ## ============================================================================
-## getKEY()
+## getKey()
 
 
 ##' @export
 ##'
 ##' @rdname keys
-setMethod("getKEY", "PSM",
+setMethod("getKey", "PSM",
           function(object, key = ".KEY") {
               if (!key %in% names(object))
                   warning("Key '", key, "' not found")
@@ -274,7 +274,7 @@ setMethod("getKEY", "PSM",
 ##' @export
 ##'
 ##' @rdname keys
-setMethod("getKEY", "Spectra",
+setMethod("getKey", "Spectra",
           function(object, key = ".KEY") {
               if (!key %in% spectraVariables(object))
                   warning("Key '", key, "' not found")
@@ -287,7 +287,7 @@ setMethod("getKEY", "Spectra",
 ##' @export
 ##'
 ##' @rdname keys
-setMethod("getKEY", "SummarizedExperiment",
+setMethod("getKey", "SummarizedExperiment",
           function(object, key = ".KEY") {
               if (!key %in% names(rowData(object)))
                   warning("Key '", key, "' not found")
@@ -302,7 +302,7 @@ setMethod("getKEY", "SummarizedExperiment",
 ##'     don't have the key variable. Default is `TRUE`.
 ##'
 ##' @rdname keys
-setMethod("getKEY", "QFeatures",
+setMethod("getKey", "QFeatures",
           function(object, key = ".KEY", drop = TRUE) {
               ans <- lapply(rowData(object), function(x) x[[key]])
               if (drop)

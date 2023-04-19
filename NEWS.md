@@ -1,11 +1,16 @@
 # sager 0.2
 
+## sager 0.3.0
+
+- Rename functions to create and handle keys across data types:
+  `addKey()`, `filterKey()` and `getKey()`.
+
 ## sager 0.2.1
 
 - Add `sager` vignette.
 - Update data: `sagerMzMLData()` now returns the path to 3 separate
   subsetted mzML files.
-- New function to create and handle keys across data types:
+- New functions to create and handle keys across data types:
   `addKEY()`, `subsetByKEY()` and `getKEY()`.
 - Update vignette, with `MsExperiment` workflow.
 

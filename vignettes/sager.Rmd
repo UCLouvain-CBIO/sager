@@ -391,24 +391,24 @@ that scan was acquired.
 
 ```{r addkeySpectra}
 sp$filename <- basename(dataOrigin(sp))
-sp <- addKEY(sp, vars = c("filename", "spectrumId"))
+sp <- addKey(sp, vars = c("filename", "spectrumId"))
 head(sp$.KEY)
 ```
 
 Let's do the same of the PSM object created above:
 
 ```{r addkeyPSM}
-psm <- addKEY(psm, vars = c("filename", "scannr"))
+psm <- addKey(psm, vars = c("filename", "scannr"))
 head(psm$.KEY)
 ```
 
 And finally, with the QFeatures object.
 
 ```{r addkeyQFeatures}
-qf <- addKEY(qf, vars = c("file", "scannr"))
+qf <- addKey(qf, vars = c("file", "scannr"))
 ```
 
-Running `addKEY` on a `QFeatures` object will only add a key to assays
+Running `addKey` on a `QFeatures` object will only add a key to assays
 that do have the relevant variables:
 
 ```{r}
@@ -441,7 +441,7 @@ percolate the request to its components.
 k <- c("subset_dq_00084_11cell_90min_hrMS2_A5.mzML.controllerType=0 controllerNumber=1 scan=31852",
        "subset_dq_00087_11cell_90min_hrMS2_A11.mzML.controllerType=0 controllerNumber=1 scan=32666")
 
-subsetByKEY(mse, k)
+filterKey(mse, k)
 ```
 
 It is however not convenient to search an arbitrary key. The more
@@ -462,21 +462,21 @@ qdata(mse)["sp|P49916|DNLI3_HUMAN", , ] |>
 
 These are features that we might be interested in tracking across all
 data using their key... which we can easily retrieve with the
-`getKEY()` function:
+`getKey()` function:
 
 ```{r, message=FALSE}
 qdata(mse)["sp|P49916|DNLI3_HUMAN", , ] |>
     dropEmptyAssays() |>
-    getKEY()
+    getKey()
 ```
 
-Given that `getKEY()` is run on a `QFeatures` object, it returns the
+Given that `getKey()` is run on a `QFeatures` object, it returns the
 keys of all assays. Let's extract the unique keys as a character:
 
 ```{r, message=FALSE}
 my_key <- qdata(mse)["sp|P49916|DNLI3_HUMAN", , ] |>
     dropEmptyAssays() |>
-    getKEY() |>
+    getKey() |>
     unlist() |>
     unique()
 my_key
@@ -486,7 +486,7 @@ And now use `mykey` to subset the different component of the
 `MsExperiment` object:
 
 ```{r}
-my_mse <- subsetByKEY(mse, my_key)
+my_mse <- filterKey(mse, my_key)
 my_mse
 ```
 
