@@ -33,7 +33,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">sager</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.2.1</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.3.0</span>
       </span>
     </div>
 
@@ -486,7 +486,7 @@ identify a feature/scan by concatenating the scan number and the file in
 which that scan was acquired.</p>
 <div class="sourceCode" id="cb25"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">sp</span><span class="op">$</span><span class="va">filename</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/basename.html" class="external-link">basename</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/pkg/ProtGenerics/man/protgenerics.html" class="external-link">dataOrigin</a></span><span class="op">(</span><span class="va">sp</span><span class="op">)</span><span class="op">)</span></span>
-<span><span class="va">sp</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/keys.html">addKEY</a></span><span class="op">(</span><span class="va">sp</span>, vars <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"filename"</span>, <span class="st">"spectrumId"</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="va">sp</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/keys.html">addKey</a></span><span class="op">(</span><span class="va">sp</span>, vars <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"filename"</span>, <span class="st">"spectrumId"</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">sp</span><span class="op">$</span><span class="va">.KEY</span><span class="op">)</span></span>
 <span><span class="co">#&gt; [1] "subset_dq_00084_11cell_90min_hrMS2_A5.mzML.controllerType=0 controllerNumber=1 scan=1004"</span></span>
 <span><span class="co">#&gt; [2] "subset_dq_00084_11cell_90min_hrMS2_A5.mzML.controllerType=0 controllerNumber=1 scan=4181"</span></span>
@@ -496,7 +496,7 @@ which that scan was acquired.</p>
 <span><span class="co">#&gt; [6] "subset_dq_00084_11cell_90min_hrMS2_A5.mzML.controllerType=0 controllerNumber=1 scan=5517"</span></span></code></pre></div>
 <p>Let’s do the same of the PSM object created above:</p>
 <div class="sourceCode" id="cb26"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">psm</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/keys.html">addKEY</a></span><span class="op">(</span><span class="va">psm</span>, vars <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"filename"</span>, <span class="st">"scannr"</span><span class="op">)</span><span class="op">)</span></span>
+<code class="sourceCode R"><span><span class="va">psm</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/keys.html">addKey</a></span><span class="op">(</span><span class="va">psm</span>, vars <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"filename"</span>, <span class="st">"scannr"</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">psm</span><span class="op">$</span><span class="va">.KEY</span><span class="op">)</span></span>
 <span><span class="co">#&gt; [1] "subset_dq_00084_11cell_90min_hrMS2_A5.mzML.controllerType=0 controllerNumber=1 scan=31852" </span></span>
 <span><span class="co">#&gt; [2] "subset_dq_00087_11cell_90min_hrMS2_A11.mzML.controllerType=0 controllerNumber=1 scan=31961"</span></span>
@@ -506,8 +506,8 @@ which that scan was acquired.</p>
 <span><span class="co">#&gt; [6] "subset_dq_00086_11cell_90min_hrMS2_A9.mzML.controllerType=0 controllerNumber=1 scan=11726"</span></span></code></pre></div>
 <p>And finally, with the QFeatures object.</p>
 <div class="sourceCode" id="cb27"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">qf</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/keys.html">addKEY</a></span><span class="op">(</span><span class="va">qf</span>, vars <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"file"</span>, <span class="st">"scannr"</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
-<p>Running <code>addKEY</code> on a <code>QFeatures</code> object will
+<code class="sourceCode R"><span><span class="va">qf</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/keys.html">addKey</a></span><span class="op">(</span><span class="va">qf</span>, vars <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"file"</span>, <span class="st">"scannr"</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
+<p>Running <code>addKey</code> on a <code>QFeatures</code> object will
 only add a key to assays that do have the relevant variables:</p>
 <div class="sourceCode" id="cb28"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/lapply.html" class="external-link">sapply</a></span><span class="op">(</span><span class="fu">rowData</span><span class="op">(</span><span class="va">qf</span><span class="op">)</span>, <span class="kw">function</span><span class="op">(</span><span class="va">x</span><span class="op">)</span> <span class="st">".KEY"</span> <span class="op"><a href="https://rdrr.io/r/base/match.html" class="external-link">%in%</a></span> <span class="fu"><a href="https://rdrr.io/r/base/names.html" class="external-link">names</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span><span class="op">)</span></span>
@@ -549,7 +549,7 @@ object, that will percolate the request to its components.</p>
 <code class="sourceCode R"><span><span class="va">k</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"subset_dq_00084_11cell_90min_hrMS2_A5.mzML.controllerType=0 controllerNumber=1 scan=31852"</span>,</span>
 <span>       <span class="st">"subset_dq_00087_11cell_90min_hrMS2_A11.mzML.controllerType=0 controllerNumber=1 scan=32666"</span><span class="op">)</span></span>
 <span></span>
-<span><span class="fu"><a href="../reference/keys.html">subsetByKEY</a></span><span class="op">(</span><span class="va">mse</span>, <span class="va">k</span><span class="op">)</span></span>
+<span><span class="fu"><a href="../reference/keys.html">filterKey</a></span><span class="op">(</span><span class="va">mse</span>, <span class="va">k</span><span class="op">)</span></span>
 <span><span class="co">#&gt; harmonizing input:</span></span>
 <span><span class="co">#&gt;   removing 132 sampleMap rows not in names(experiments)</span></span>
 <span><span class="co">#&gt;   removing 11 colData rownames not in sampleMap 'primary'</span></span>
@@ -581,21 +581,21 @@ here.</p>
 <span><span class="co">#&gt;  [6] proteins: SummarizedExperiment with 1 rows and 33 columns</span></span></code></pre></div>
 <p>These are features that we might be interested in tracking across all
 data using their key… which we can easily retrieve with the
-<code><a href="../reference/keys.html">getKEY()</a></code> function:</p>
+<code><a href="../reference/keys.html">getKey()</a></code> function:</p>
 <div class="sourceCode" id="cb33"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/pkg/MsExperiment/man/MsExperiment.html" class="external-link">qdata</a></span><span class="op">(</span><span class="va">mse</span><span class="op">)</span><span class="op">[</span><span class="st">"sp|P49916|DNLI3_HUMAN"</span>, , <span class="op">]</span> <span class="op">|&gt;</span></span>
 <span>    <span class="fu"><a href="https://rdrr.io/pkg/QFeatures/man/QFeatures-class.html" class="external-link">dropEmptyAssays</a></span><span class="op">(</span><span class="op">)</span> <span class="op">|&gt;</span></span>
-<span>    <span class="fu"><a href="../reference/keys.html">getKEY</a></span><span class="op">(</span><span class="op">)</span></span>
+<span>    <span class="fu"><a href="../reference/keys.html">getKey</a></span><span class="op">(</span><span class="op">)</span></span>
 <span><span class="co">#&gt; Warning: 'experiments' dropped; see 'metadata'</span></span>
 <span><span class="co">#&gt; List of length 3</span></span>
 <span><span class="co">#&gt; names(3): psmA5 log_psmA5 peptideA5</span></span></code></pre></div>
-<p>Given that <code><a href="../reference/keys.html">getKEY()</a></code> is run on a <code>QFeatures</code>
+<p>Given that <code><a href="../reference/keys.html">getKey()</a></code> is run on a <code>QFeatures</code>
 object, it returns the keys of all assays. Let’s extract the unique keys
 as a character:</p>
 <div class="sourceCode" id="cb34"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">my_key</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/MsExperiment/man/MsExperiment.html" class="external-link">qdata</a></span><span class="op">(</span><span class="va">mse</span><span class="op">)</span><span class="op">[</span><span class="st">"sp|P49916|DNLI3_HUMAN"</span>, , <span class="op">]</span> <span class="op">|&gt;</span></span>
 <span>    <span class="fu"><a href="https://rdrr.io/pkg/QFeatures/man/QFeatures-class.html" class="external-link">dropEmptyAssays</a></span><span class="op">(</span><span class="op">)</span> <span class="op">|&gt;</span></span>
-<span>    <span class="fu"><a href="../reference/keys.html">getKEY</a></span><span class="op">(</span><span class="op">)</span> <span class="op">|&gt;</span></span>
+<span>    <span class="fu"><a href="../reference/keys.html">getKey</a></span><span class="op">(</span><span class="op">)</span> <span class="op">|&gt;</span></span>
 <span>    <span class="fu"><a href="https://rdrr.io/r/base/unlist.html" class="external-link">unlist</a></span><span class="op">(</span><span class="op">)</span> <span class="op">|&gt;</span></span>
 <span>    <span class="fu"><a href="https://rdrr.io/r/base/unique.html" class="external-link">unique</a></span><span class="op">(</span><span class="op">)</span></span>
 <span><span class="co">#&gt; Warning: 'experiments' dropped; see 'metadata'</span></span>
@@ -604,7 +604,7 @@ as a character:</p>
 <p>And now use <code>mykey</code> to subset the different component of
 the <code>MsExperiment</code> object:</p>
 <div class="sourceCode" id="cb35"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">my_mse</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/keys.html">subsetByKEY</a></span><span class="op">(</span><span class="va">mse</span>, <span class="va">my_key</span><span class="op">)</span></span>
+<code class="sourceCode R"><span><span class="va">my_mse</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/keys.html">filterKey</a></span><span class="op">(</span><span class="va">mse</span>, <span class="va">my_key</span><span class="op">)</span></span>
 <span><span class="co">#&gt; harmonizing input:</span></span>
 <span><span class="co">#&gt;   removing 165 sampleMap rows not in names(experiments)</span></span>
 <span><span class="co">#&gt;   removing 22 colData rownames not in sampleMap 'primary'</span></span>
@@ -680,7 +680,7 @@ an issue</a> on the package’s Github repository.</p>
 <span><span class="co">#&gt; [13] MatrixGenerics_1.11.1       matrixStats_0.63.0         </span></span>
 <span><span class="co">#&gt; [15] ggplot2_3.4.2               PSMatch_1.3.3              </span></span>
 <span><span class="co">#&gt; [17] S4Vectors_0.37.6            BiocGenerics_0.45.3        </span></span>
-<span><span class="co">#&gt; [19] sager_0.2.1                 BiocStyle_2.27.2           </span></span>
+<span><span class="co">#&gt; [19] sager_0.3.0                 BiocStyle_2.27.2           </span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; loaded via a namespace (and not attached):</span></span>
 <span><span class="co">#&gt;  [1] tidyselect_1.2.0            farver_2.1.1               </span></span>
