@@ -262,12 +262,18 @@ plot(qf1)
 
 ### Different sets of samples per acquisition
 
+In this second example, the quantitative data are automatically split
+based on the mzML files.
+
 ```{r qf2}
 qf <- sageQFeatures(sagerQuantData(), sagerIdData())
 qf
 ```
 
-Annotate data:
+Before processing the data, let's annotate it. The `renameqf()` helper
+function will automate come of the file renaming. The annotation will
+be composed of the file name of origin (`filename`), the TMT tag
+(`tmt_tag`), and and acquisition identifier (`acquisition`).
 
 ```{r}
 renameqf <- function(x) sub("\\.mzML", "", sub("^.+hrMS2_", "", x))
@@ -275,16 +281,31 @@ qf$filename <- rep(names(qf), each = 11)
 qf$tmt_tag <- rep(paste0("tmt_", 1:11), length(qf))
 qf$acquisition <- renameqf(qf$filename)
 names(qf) <- paste0("psm", renameqf(names(qf)))
+```
+
+Below, we update the assay and sample names.
+
+```{r}
 qf <- renamePrimary(qf, paste(qf$acquisition, qf$tmt_tag, sep = "."))
 colnames(qf) <- CharacterList(lapply(colnames(qf), renameqf))
 ```
 
 ```{r}
-qf
 colData(qf)
+qf
 ```
 
-Data processing:
+The piped commands below implement the following worflow:
+
+1.
+2.
+3.
+4.
+5.
+6.
+7.
+8.
+9.
 
 ```{r}
 qf |>
