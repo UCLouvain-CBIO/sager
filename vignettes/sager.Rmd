@@ -207,7 +207,9 @@ experimental designs:
 
 Both sitations are illustrated below using the `sageQFeatures()`
 function , and a differenciated by the value of the `splitBy`
-argument.
+argument. Note that below, the `byQuant` argument is set to accomodate
+the old sage default header; this `byQuant` argument wouldn't need to
+be set explicitly for newer output files.
 
 ### Multiple fractions for the same set of samples
 
@@ -215,7 +217,10 @@ Let's read the data in, specifying that the tables should not be split
 into different quantitative assays.
 
 ```{r qf1}
-qf1 <- sageQFeatures(sagerQuantData(), sagerIdData(), splitBy = NULL)
+qf1 <- sageQFeatures(sagerQuantData(),
+                     sagerIdData(),
+                     byQuant = c("file", "scannr"),
+                     splitBy = NULL)
 qf1
 ```
 
@@ -266,7 +271,8 @@ In this second example, the quantitative data are automatically split
 based on the mzML files.
 
 ```{r qf2}
-qf <- sageQFeatures(sagerQuantData(), sagerIdData())
+qf <- sageQFeatures(sagerQuantData(), sagerIdData(),
+                    byQuant = c("file", "scannr"))
 qf
 ```
 

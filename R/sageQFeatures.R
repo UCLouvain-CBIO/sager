@@ -65,8 +65,10 @@
 ##'   sagerAddData("quant")
 ##' basename(qf <- sagerQuantData())
 ##'
-##' ## Assays are split by filename
-##' sageQFeatures(qf, idf)
+##' ## Assays are split by filename - setting byQuant to use the old
+##' ## 'file' filename in the quantitation output file. New default
+##' ## value (since 0.3.1) is 'filename'.
+##' sageQFeatures(qf, idf, byQuant = c("file", "scannr"))
 ##'
 ##' ## One single assay
 ##' sageQFeatures(qf, idf, splitBy = NULL)
