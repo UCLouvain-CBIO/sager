@@ -79,7 +79,7 @@ basename(qf <- sagerQuantData())
 sageQFeatures(qf, idf, byQuant = c("file", "scannr"))
 
 ## One single assay
-sageQFeatures(qf, idf, splitBy = NULL)
+sageQFeatures(qf, idf, splitBy = NULL, byQuant = c("file", "scannr"))
 }
 \author{
 Laurent Gatto

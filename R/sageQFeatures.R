@@ -71,7 +71,7 @@
 ##' sageQFeatures(qf, idf, byQuant = c("file", "scannr"))
 ##'
 ##' ## One single assay
-##' sageQFeatures(qf, idf, splitBy = NULL)
+##' sageQFeatures(qf, idf, splitBy = NULL, byQuant = c("file", "scannr"))
 sageQFeatures <- function(quantTable, idTable,
                           byQuant = c("filename", "scannr"),
                           byId = c("filename", "scannr"),
