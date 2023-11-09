@@ -1,4 +1,8 @@
-# sager 0.2
+# sager 0.3
+
+## sager 0.3.1
+
+- Update default filename parameter values in `sageQFeatures()`.
 
 ## sager 0.3.0
 

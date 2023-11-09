@@ -17,7 +17,7 @@
 ##' @param byQuant `character()` containing the specifications of the
 ##'     quantification columns used for merging. The first element
 ##'     should correspond the the raw files. Passed the [merge()] as
-##'     `by.x`. Default is `c("file", "scannr")`.
+##'     `by.x`. Default is (since 0.3.1) `c("filename", "scannr")`.
 ##'
 ##' @param byId `character()` containing the specifications of the
 ##'     identification columns used for merging. Passed the [merge()]
@@ -71,7 +71,7 @@
 ##' ## One single assay
 ##' sageQFeatures(qf, idf, splitBy = NULL)
 sageQFeatures <- function(quantTable, idTable,
-                          byQuant = c("file", "scannr"),
+                          byQuant = c("filename", "scannr"),
                           byId = c("filename", "scannr"),
                           splitBy = byQuant[1],
                           quantPattern = "tmt_",

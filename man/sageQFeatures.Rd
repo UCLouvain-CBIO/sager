@@ -7,7 +7,7 @@
 sageQFeatures(
   quantTable,
   idTable,
-  byQuant = c("file", "scannr"),
+  byQuant = c("filename", "scannr"),
   byId = c("filename", "scannr"),
   splitBy = byQuant[1],
   quantPattern = "tmt_",
@@ -27,7 +27,7 @@ identification results, typically "results.sage.tsv", or a
 \item{byQuant}{\code{character()} containing the specifications of the
 quantification columns used for merging. The first element
 should correspond the the raw files. Passed the \code{\link[=merge]{merge()}} as
-\code{by.x}. Default is \code{c("file", "scannr")}.}
+\code{by.x}. Default is (since 0.3.1) \code{c("filename", "scannr")}.}
 
 \item{byId}{\code{character()} containing the specifications of the
 identification columns used for merging. Passed the \code{\link[=merge]{merge()}}
