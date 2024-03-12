@@ -1,5 +1,10 @@
 # sager 0.3
 
+## sager 0.3.2
+
+- fdr param in `sagePSM()` is now `spectrum_q`, in line with sage
+  v0.13.0.
+
 ## sager 0.3.1
 
 - Update default filename parameter values in `sageQFeatures()`.

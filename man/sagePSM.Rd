@@ -12,7 +12,7 @@ sagePSM(
   decoy = "label",
   rank = "rank",
   score = "hyperscore",
-  fdr = "spectrum_fdr",
+  fdr = "spectrum_q",
   ...
 )
 }
@@ -43,7 +43,7 @@ PSM score. default is \code{"hyperscore"}.}
 \item{fdr}{\code{character(1)} variable name that defines the spectrum
 FDR (or any relevant reliability score that can be used for
 filtering, such as the PEP) in the PSM data. Default is
-\code{"spectrum_fdr"}.}
+\code{"spectrum_q"}.}
 
 \item{...}{Additional arguments passed to \code{\link[=read.delim]{read.delim()}}.}
 }

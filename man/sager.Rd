@@ -2,6 +2,7 @@
 % Please edit documentation in R/sager-package.R
 \docType{package}
 \name{sager}
+\alias{sager-package}
 \alias{sager}
 \title{Analysing sage results with R}
 \description{
@@ -32,4 +33,15 @@ Generation Multiplexed Proteomics' Anal. Chem. 2020, 92, 9,
 6478–6485 Publication Date:April 6, 2020
 \href{https://doi.org/10.1021/acs.analchem.9b05685}{DOI:10.1021/acs.analchem.9b05685}.
 }
+}
+\seealso{
+Useful links:
+\itemize{
+  \item Report bugs at \url{https://github.com/UCLouvain-CBIO/sager/issues}
+}
+
+}
+\author{
+\strong{Maintainer}: Laurent Gatto \email{laurent.gatto@uclouvain.be} (\href{https://orcid.org/0000-0002-1520-2268}{ORCID})
+
 }
