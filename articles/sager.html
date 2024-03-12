@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Using the `sager` package to import and analyse `sage` results in R • sager</title>
-<!-- jquery --><script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script><!-- Bootstrap --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/css/bootstrap.min.css" integrity="sha256-bZLfwXAP04zRMK2BjiO8iu9pf4FbLqX6zitd+tIvLhE=" crossorigin="anonymous">
+<!-- jquery --><script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js" integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g==" crossorigin="anonymous" referrerpolicy="no-referrer"></script><!-- Bootstrap --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/css/bootstrap.min.css" integrity="sha256-bZLfwXAP04zRMK2BjiO8iu9pf4FbLqX6zitd+tIvLhE=" crossorigin="anonymous">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/js/bootstrap.min.js" integrity="sha256-nuL8/2cJ5NDSSwnKD8VqreErSWHtnEP9E7AySL+1ev4=" crossorigin="anonymous"></script><!-- bootstrap-toc --><link rel="stylesheet" href="../bootstrap-toc.css">
 <script src="../bootstrap-toc.js"></script><!-- Font Awesome icons --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css" integrity="sha256-mmgLkCYLUQbXn0B1SRqzHar6dCnv9oZFPEC1g1cwlkk=" crossorigin="anonymous">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/v4-shims.min.css" integrity="sha256-wZjR52fzng1pJHwx4aV2AO3yyTOXrcDW7jBpJtTwVxw=" crossorigin="anonymous">
@@ -33,7 +33,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">sager</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.3.1</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.3.2</span>
       </span>
     </div>
 
@@ -78,7 +78,7 @@ Gatto</h4>
 UCLouvain<br><a class="author_email" href="mailto:#"></a><a href="mailto:laurent.gatto@uclouvain.be" class="email">laurent.gatto@uclouvain.be</a>
       </address>
                   
-            <h4 data-toc-skip class="date">9 November 2023</h4>
+            <h4 data-toc-skip class="date">12 March 2024</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/UCLouvain-CBIO/sager/blob/HEAD/vignettes/sager.Rmd" class="external-link"><code>vignettes/sager.Rmd</code></a></small>
       <div class="hidden name"><code>sager.Rmd</code></div>
@@ -180,11 +180,6 @@ vignettes</a>.</p>
 <span><span class="va">psm</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/sagePSM.html">sagePSM</a></span><span class="op">(</span><span class="fu"><a href="../reference/sagerData.html">sagerIdData</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="va">psm</span></span>
 <span><span class="co">#&gt; PSM with 977 rows and 34 columns.</span></span>
-<span><span class="co">#&gt; Spectra: 595 unique</span></span>
-<span><span class="co">#&gt;   db: 679 target, 298 decoy</span></span>
-<span><span class="co">#&gt;   ranks: 1:977 </span></span>
-<span><span class="co">#&gt; Peptides: 976 unique, 0 multiple</span></span>
-<span><span class="co">#&gt; Proteins: 947 </span></span>
 <span><span class="co">#&gt; names(34): peptide proteins ... protein_fdr ms1_intensity</span></span></code></pre></div>
 <p>Here we briefly visualise the hyperscore and spectrum FDR densities
 for the forward and decoy/reverse hits:</p>
@@ -193,13 +188,235 @@ for the forward and decoy/reverse hits:</p>
 <span><span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span><span class="va">psm</span><span class="op">)</span> <span class="op">|&gt;</span></span>
 <span>    <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html" class="external-link">ggplot</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">hyperscore</span>,</span>
 <span>               colour <span class="op">=</span> <span class="va">label</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
-<span>    <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_density.html" class="external-link">geom_density</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
+<span>    <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_density.html" class="external-link">geom_density</a></span><span class="op">(</span><span class="op">)</span></span>
+<span><span class="co">#&gt; Warning in as.data.frame.integer(col, optional = optional): Direct call of</span></span>
+<span><span class="co">#&gt; 'as.data.frame.integer()' is deprecated.  Use 'as.data.frame.vector()' or</span></span>
+<span><span class="co">#&gt; 'as.data.frame()' instead</span></span>
+<span></span>
+<span><span class="co">#&gt; Warning in as.data.frame.integer(col, optional = optional): Direct call of</span></span>
+<span><span class="co">#&gt; 'as.data.frame.integer()' is deprecated.  Use 'as.data.frame.vector()' or</span></span>
+<span><span class="co">#&gt; 'as.data.frame()' instead</span></span>
+<span><span class="co">#&gt; Warning in as.data.frame.logical(col, optional = optional): Direct call of</span></span>
+<span><span class="co">#&gt; 'as.data.frame.logical()' is deprecated.  Use 'as.data.frame.vector()' or</span></span>
+<span><span class="co">#&gt; 'as.data.frame()' instead</span></span>
+<span><span class="co">#&gt; Warning in as.data.frame.numeric(col, optional = optional): Direct call of</span></span>
+<span><span class="co">#&gt; 'as.data.frame.numeric()' is deprecated.  Use 'as.data.frame.vector()' or</span></span>
+<span><span class="co">#&gt; 'as.data.frame()' instead</span></span>
+<span></span>
+<span><span class="co">#&gt; Warning in as.data.frame.numeric(col, optional = optional): Direct call of</span></span>
+<span><span class="co">#&gt; 'as.data.frame.numeric()' is deprecated.  Use 'as.data.frame.vector()' or</span></span>
+<span><span class="co">#&gt; 'as.data.frame()' instead</span></span>
+<span><span class="co">#&gt; Warning in as.data.frame.integer(col, optional = optional): Direct call of</span></span>
+<span><span class="co">#&gt; 'as.data.frame.integer()' is deprecated.  Use 'as.data.frame.vector()' or</span></span>
+<span><span class="co">#&gt; 'as.data.frame()' instead</span></span>
+<span></span>
+<span><span class="co">#&gt; Warning in as.data.frame.integer(col, optional = optional): Direct call of</span></span>
+<span><span class="co">#&gt; 'as.data.frame.integer()' is deprecated.  Use 'as.data.frame.vector()' or</span></span>
+<span><span class="co">#&gt; 'as.data.frame()' instead</span></span>
+<span></span>
+<span><span class="co">#&gt; Warning in as.data.frame.integer(col, optional = optional): Direct call of</span></span>
+<span><span class="co">#&gt; 'as.data.frame.integer()' is deprecated.  Use 'as.data.frame.vector()' or</span></span>
+<span><span class="co">#&gt; 'as.data.frame()' instead</span></span>
+<span><span class="co">#&gt; Warning in as.data.frame.numeric(col, optional = optional): Direct call of</span></span>
+<span><span class="co">#&gt; 'as.data.frame.numeric()' is deprecated.  Use 'as.data.frame.vector()' or</span></span>
+<span><span class="co">#&gt; 'as.data.frame()' instead</span></span>
+<span></span>
+<span><span class="co">#&gt; Warning in as.data.frame.numeric(col, optional = optional): Direct call of</span></span>
+<span><span class="co">#&gt; 'as.data.frame.numeric()' is deprecated.  Use 'as.data.frame.vector()' or</span></span>
+<span><span class="co">#&gt; 'as.data.frame()' instead</span></span>
+<span></span>
+<span><span class="co">#&gt; Warning in as.data.frame.numeric(col, optional = optional): Direct call of</span></span>
+<span><span class="co">#&gt; 'as.data.frame.numeric()' is deprecated.  Use 'as.data.frame.vector()' or</span></span>
+<span><span class="co">#&gt; 'as.data.frame()' instead</span></span>
+<span></span>
+<span><span class="co">#&gt; Warning in as.data.frame.numeric(col, optional = optional): Direct call of</span></span>
+<span><span class="co">#&gt; 'as.data.frame.numeric()' is deprecated.  Use 'as.data.frame.vector()' or</span></span>
+<span><span class="co">#&gt; 'as.data.frame()' instead</span></span>
+<span></span>
+<span><span class="co">#&gt; Warning in as.data.frame.numeric(col, optional = optional): Direct call of</span></span>
+<span><span class="co">#&gt; 'as.data.frame.numeric()' is deprecated.  Use 'as.data.frame.vector()' or</span></span>
+<span><span class="co">#&gt; 'as.data.frame()' instead</span></span>
+<span></span>
+<span><span class="co">#&gt; Warning in as.data.frame.numeric(col, optional = optional): Direct call of</span></span>
+<span><span class="co">#&gt; 'as.data.frame.numeric()' is deprecated.  Use 'as.data.frame.vector()' or</span></span>
+<span><span class="co">#&gt; 'as.data.frame()' instead</span></span>
+<span></span>
+<span><span class="co">#&gt; Warning in as.data.frame.numeric(col, optional = optional): Direct call of</span></span>
+<span><span class="co">#&gt; 'as.data.frame.numeric()' is deprecated.  Use 'as.data.frame.vector()' or</span></span>
+<span><span class="co">#&gt; 'as.data.frame()' instead</span></span>
+<span></span>
+<span><span class="co">#&gt; Warning in as.data.frame.numeric(col, optional = optional): Direct call of</span></span>
+<span><span class="co">#&gt; 'as.data.frame.numeric()' is deprecated.  Use 'as.data.frame.vector()' or</span></span>
+<span><span class="co">#&gt; 'as.data.frame()' instead</span></span>
+<span></span>
+<span><span class="co">#&gt; Warning in as.data.frame.numeric(col, optional = optional): Direct call of</span></span>
+<span><span class="co">#&gt; 'as.data.frame.numeric()' is deprecated.  Use 'as.data.frame.vector()' or</span></span>
+<span><span class="co">#&gt; 'as.data.frame()' instead</span></span>
+<span><span class="co">#&gt; Warning in as.data.frame.integer(col, optional = optional): Direct call of</span></span>
+<span><span class="co">#&gt; 'as.data.frame.integer()' is deprecated.  Use 'as.data.frame.vector()' or</span></span>
+<span><span class="co">#&gt; 'as.data.frame()' instead</span></span>
+<span></span>
+<span><span class="co">#&gt; Warning in as.data.frame.integer(col, optional = optional): Direct call of</span></span>
+<span><span class="co">#&gt; 'as.data.frame.integer()' is deprecated.  Use 'as.data.frame.vector()' or</span></span>
+<span><span class="co">#&gt; 'as.data.frame()' instead</span></span>
+<span></span>
+<span><span class="co">#&gt; Warning in as.data.frame.integer(col, optional = optional): Direct call of</span></span>
+<span><span class="co">#&gt; 'as.data.frame.integer()' is deprecated.  Use 'as.data.frame.vector()' or</span></span>
+<span><span class="co">#&gt; 'as.data.frame()' instead</span></span>
+<span><span class="co">#&gt; Warning in as.data.frame.numeric(col, optional = optional): Direct call of</span></span>
+<span><span class="co">#&gt; 'as.data.frame.numeric()' is deprecated.  Use 'as.data.frame.vector()' or</span></span>
+<span><span class="co">#&gt; 'as.data.frame()' instead</span></span>
+<span></span>
+<span><span class="co">#&gt; Warning in as.data.frame.numeric(col, optional = optional): Direct call of</span></span>
+<span><span class="co">#&gt; 'as.data.frame.numeric()' is deprecated.  Use 'as.data.frame.vector()' or</span></span>
+<span><span class="co">#&gt; 'as.data.frame()' instead</span></span>
+<span><span class="co">#&gt; Warning in as.data.frame.integer(col, optional = optional): Direct call of</span></span>
+<span><span class="co">#&gt; 'as.data.frame.integer()' is deprecated.  Use 'as.data.frame.vector()' or</span></span>
+<span><span class="co">#&gt; 'as.data.frame()' instead</span></span>
+<span><span class="co">#&gt; Warning in as.data.frame.numeric(col, optional = optional): Direct call of</span></span>
+<span><span class="co">#&gt; 'as.data.frame.numeric()' is deprecated.  Use 'as.data.frame.vector()' or</span></span>
+<span><span class="co">#&gt; 'as.data.frame()' instead</span></span>
+<span></span>
+<span><span class="co">#&gt; Warning in as.data.frame.numeric(col, optional = optional): Direct call of</span></span>
+<span><span class="co">#&gt; 'as.data.frame.numeric()' is deprecated.  Use 'as.data.frame.vector()' or</span></span>
+<span><span class="co">#&gt; 'as.data.frame()' instead</span></span>
+<span></span>
+<span><span class="co">#&gt; Warning in as.data.frame.numeric(col, optional = optional): Direct call of</span></span>
+<span><span class="co">#&gt; 'as.data.frame.numeric()' is deprecated.  Use 'as.data.frame.vector()' or</span></span>
+<span><span class="co">#&gt; 'as.data.frame()' instead</span></span>
+<span></span>
+<span><span class="co">#&gt; Warning in as.data.frame.numeric(col, optional = optional): Direct call of</span></span>
+<span><span class="co">#&gt; 'as.data.frame.numeric()' is deprecated.  Use 'as.data.frame.vector()' or</span></span>
+<span><span class="co">#&gt; 'as.data.frame()' instead</span></span>
+<span></span>
+<span><span class="co">#&gt; Warning in as.data.frame.numeric(col, optional = optional): Direct call of</span></span>
+<span><span class="co">#&gt; 'as.data.frame.numeric()' is deprecated.  Use 'as.data.frame.vector()' or</span></span>
+<span><span class="co">#&gt; 'as.data.frame()' instead</span></span>
+<span></span>
+<span><span class="co">#&gt; Warning in as.data.frame.numeric(col, optional = optional): Direct call of</span></span>
+<span><span class="co">#&gt; 'as.data.frame.numeric()' is deprecated.  Use 'as.data.frame.vector()' or</span></span>
+<span><span class="co">#&gt; 'as.data.frame()' instead</span></span>
+<span></span>
+<span><span class="co">#&gt; Warning in as.data.frame.numeric(col, optional = optional): Direct call of</span></span>
+<span><span class="co">#&gt; 'as.data.frame.numeric()' is deprecated.  Use 'as.data.frame.vector()' or</span></span>
+<span><span class="co">#&gt; 'as.data.frame()' instead</span></span></code></pre></div>
 <p><img src="sager_files/figure-html/ggplot-1.png" width="700"></p>
 <div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span><span class="va">psm</span><span class="op">)</span> <span class="op">|&gt;</span></span>
 <span>    <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html" class="external-link">ggplot</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">spectrum_fdr</span>,</span>
 <span>               colour <span class="op">=</span> <span class="va">label</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
-<span>    <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_density.html" class="external-link">geom_density</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
+<span>    <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_density.html" class="external-link">geom_density</a></span><span class="op">(</span><span class="op">)</span></span>
+<span><span class="co">#&gt; Warning in as.data.frame.integer(col, optional = optional): Direct call of</span></span>
+<span><span class="co">#&gt; 'as.data.frame.integer()' is deprecated.  Use 'as.data.frame.vector()' or</span></span>
+<span><span class="co">#&gt; 'as.data.frame()' instead</span></span>
+<span></span>
+<span><span class="co">#&gt; Warning in as.data.frame.integer(col, optional = optional): Direct call of</span></span>
+<span><span class="co">#&gt; 'as.data.frame.integer()' is deprecated.  Use 'as.data.frame.vector()' or</span></span>
+<span><span class="co">#&gt; 'as.data.frame()' instead</span></span>
+<span><span class="co">#&gt; Warning in as.data.frame.logical(col, optional = optional): Direct call of</span></span>
+<span><span class="co">#&gt; 'as.data.frame.logical()' is deprecated.  Use 'as.data.frame.vector()' or</span></span>
+<span><span class="co">#&gt; 'as.data.frame()' instead</span></span>
+<span><span class="co">#&gt; Warning in as.data.frame.numeric(col, optional = optional): Direct call of</span></span>
+<span><span class="co">#&gt; 'as.data.frame.numeric()' is deprecated.  Use 'as.data.frame.vector()' or</span></span>
+<span><span class="co">#&gt; 'as.data.frame()' instead</span></span>
+<span></span>
+<span><span class="co">#&gt; Warning in as.data.frame.numeric(col, optional = optional): Direct call of</span></span>
+<span><span class="co">#&gt; 'as.data.frame.numeric()' is deprecated.  Use 'as.data.frame.vector()' or</span></span>
+<span><span class="co">#&gt; 'as.data.frame()' instead</span></span>
+<span><span class="co">#&gt; Warning in as.data.frame.integer(col, optional = optional): Direct call of</span></span>
+<span><span class="co">#&gt; 'as.data.frame.integer()' is deprecated.  Use 'as.data.frame.vector()' or</span></span>
+<span><span class="co">#&gt; 'as.data.frame()' instead</span></span>
+<span></span>
+<span><span class="co">#&gt; Warning in as.data.frame.integer(col, optional = optional): Direct call of</span></span>
+<span><span class="co">#&gt; 'as.data.frame.integer()' is deprecated.  Use 'as.data.frame.vector()' or</span></span>
+<span><span class="co">#&gt; 'as.data.frame()' instead</span></span>
+<span></span>
+<span><span class="co">#&gt; Warning in as.data.frame.integer(col, optional = optional): Direct call of</span></span>
+<span><span class="co">#&gt; 'as.data.frame.integer()' is deprecated.  Use 'as.data.frame.vector()' or</span></span>
+<span><span class="co">#&gt; 'as.data.frame()' instead</span></span>
+<span><span class="co">#&gt; Warning in as.data.frame.numeric(col, optional = optional): Direct call of</span></span>
+<span><span class="co">#&gt; 'as.data.frame.numeric()' is deprecated.  Use 'as.data.frame.vector()' or</span></span>
+<span><span class="co">#&gt; 'as.data.frame()' instead</span></span>
+<span></span>
+<span><span class="co">#&gt; Warning in as.data.frame.numeric(col, optional = optional): Direct call of</span></span>
+<span><span class="co">#&gt; 'as.data.frame.numeric()' is deprecated.  Use 'as.data.frame.vector()' or</span></span>
+<span><span class="co">#&gt; 'as.data.frame()' instead</span></span>
+<span></span>
+<span><span class="co">#&gt; Warning in as.data.frame.numeric(col, optional = optional): Direct call of</span></span>
+<span><span class="co">#&gt; 'as.data.frame.numeric()' is deprecated.  Use 'as.data.frame.vector()' or</span></span>
+<span><span class="co">#&gt; 'as.data.frame()' instead</span></span>
+<span></span>
+<span><span class="co">#&gt; Warning in as.data.frame.numeric(col, optional = optional): Direct call of</span></span>
+<span><span class="co">#&gt; 'as.data.frame.numeric()' is deprecated.  Use 'as.data.frame.vector()' or</span></span>
+<span><span class="co">#&gt; 'as.data.frame()' instead</span></span>
+<span></span>
+<span><span class="co">#&gt; Warning in as.data.frame.numeric(col, optional = optional): Direct call of</span></span>
+<span><span class="co">#&gt; 'as.data.frame.numeric()' is deprecated.  Use 'as.data.frame.vector()' or</span></span>
+<span><span class="co">#&gt; 'as.data.frame()' instead</span></span>
+<span></span>
+<span><span class="co">#&gt; Warning in as.data.frame.numeric(col, optional = optional): Direct call of</span></span>
+<span><span class="co">#&gt; 'as.data.frame.numeric()' is deprecated.  Use 'as.data.frame.vector()' or</span></span>
+<span><span class="co">#&gt; 'as.data.frame()' instead</span></span>
+<span></span>
+<span><span class="co">#&gt; Warning in as.data.frame.numeric(col, optional = optional): Direct call of</span></span>
+<span><span class="co">#&gt; 'as.data.frame.numeric()' is deprecated.  Use 'as.data.frame.vector()' or</span></span>
+<span><span class="co">#&gt; 'as.data.frame()' instead</span></span>
+<span></span>
+<span><span class="co">#&gt; Warning in as.data.frame.numeric(col, optional = optional): Direct call of</span></span>
+<span><span class="co">#&gt; 'as.data.frame.numeric()' is deprecated.  Use 'as.data.frame.vector()' or</span></span>
+<span><span class="co">#&gt; 'as.data.frame()' instead</span></span>
+<span></span>
+<span><span class="co">#&gt; Warning in as.data.frame.numeric(col, optional = optional): Direct call of</span></span>
+<span><span class="co">#&gt; 'as.data.frame.numeric()' is deprecated.  Use 'as.data.frame.vector()' or</span></span>
+<span><span class="co">#&gt; 'as.data.frame()' instead</span></span>
+<span><span class="co">#&gt; Warning in as.data.frame.integer(col, optional = optional): Direct call of</span></span>
+<span><span class="co">#&gt; 'as.data.frame.integer()' is deprecated.  Use 'as.data.frame.vector()' or</span></span>
+<span><span class="co">#&gt; 'as.data.frame()' instead</span></span>
+<span></span>
+<span><span class="co">#&gt; Warning in as.data.frame.integer(col, optional = optional): Direct call of</span></span>
+<span><span class="co">#&gt; 'as.data.frame.integer()' is deprecated.  Use 'as.data.frame.vector()' or</span></span>
+<span><span class="co">#&gt; 'as.data.frame()' instead</span></span>
+<span></span>
+<span><span class="co">#&gt; Warning in as.data.frame.integer(col, optional = optional): Direct call of</span></span>
+<span><span class="co">#&gt; 'as.data.frame.integer()' is deprecated.  Use 'as.data.frame.vector()' or</span></span>
+<span><span class="co">#&gt; 'as.data.frame()' instead</span></span>
+<span><span class="co">#&gt; Warning in as.data.frame.numeric(col, optional = optional): Direct call of</span></span>
+<span><span class="co">#&gt; 'as.data.frame.numeric()' is deprecated.  Use 'as.data.frame.vector()' or</span></span>
+<span><span class="co">#&gt; 'as.data.frame()' instead</span></span>
+<span></span>
+<span><span class="co">#&gt; Warning in as.data.frame.numeric(col, optional = optional): Direct call of</span></span>
+<span><span class="co">#&gt; 'as.data.frame.numeric()' is deprecated.  Use 'as.data.frame.vector()' or</span></span>
+<span><span class="co">#&gt; 'as.data.frame()' instead</span></span>
+<span><span class="co">#&gt; Warning in as.data.frame.integer(col, optional = optional): Direct call of</span></span>
+<span><span class="co">#&gt; 'as.data.frame.integer()' is deprecated.  Use 'as.data.frame.vector()' or</span></span>
+<span><span class="co">#&gt; 'as.data.frame()' instead</span></span>
+<span><span class="co">#&gt; Warning in as.data.frame.numeric(col, optional = optional): Direct call of</span></span>
+<span><span class="co">#&gt; 'as.data.frame.numeric()' is deprecated.  Use 'as.data.frame.vector()' or</span></span>
+<span><span class="co">#&gt; 'as.data.frame()' instead</span></span>
+<span></span>
+<span><span class="co">#&gt; Warning in as.data.frame.numeric(col, optional = optional): Direct call of</span></span>
+<span><span class="co">#&gt; 'as.data.frame.numeric()' is deprecated.  Use 'as.data.frame.vector()' or</span></span>
+<span><span class="co">#&gt; 'as.data.frame()' instead</span></span>
+<span></span>
+<span><span class="co">#&gt; Warning in as.data.frame.numeric(col, optional = optional): Direct call of</span></span>
+<span><span class="co">#&gt; 'as.data.frame.numeric()' is deprecated.  Use 'as.data.frame.vector()' or</span></span>
+<span><span class="co">#&gt; 'as.data.frame()' instead</span></span>
+<span></span>
+<span><span class="co">#&gt; Warning in as.data.frame.numeric(col, optional = optional): Direct call of</span></span>
+<span><span class="co">#&gt; 'as.data.frame.numeric()' is deprecated.  Use 'as.data.frame.vector()' or</span></span>
+<span><span class="co">#&gt; 'as.data.frame()' instead</span></span>
+<span></span>
+<span><span class="co">#&gt; Warning in as.data.frame.numeric(col, optional = optional): Direct call of</span></span>
+<span><span class="co">#&gt; 'as.data.frame.numeric()' is deprecated.  Use 'as.data.frame.vector()' or</span></span>
+<span><span class="co">#&gt; 'as.data.frame()' instead</span></span>
+<span></span>
+<span><span class="co">#&gt; Warning in as.data.frame.numeric(col, optional = optional): Direct call of</span></span>
+<span><span class="co">#&gt; 'as.data.frame.numeric()' is deprecated.  Use 'as.data.frame.vector()' or</span></span>
+<span><span class="co">#&gt; 'as.data.frame()' instead</span></span>
+<span></span>
+<span><span class="co">#&gt; Warning in as.data.frame.numeric(col, optional = optional): Direct call of</span></span>
+<span><span class="co">#&gt; 'as.data.frame.numeric()' is deprecated.  Use 'as.data.frame.vector()' or</span></span>
+<span><span class="co">#&gt; 'as.data.frame()' instead</span></span></code></pre></div>
 <p><img src="sager_files/figure-html/ggplog2-1.png" width="700"></p>
 <p>Below, we filter the PSMs removing decoy hits, PSMs of rank &gt; 1
 (none in the small testing data), shared peptides (none in the small
@@ -211,17 +428,11 @@ testing data) and those that have a spectrum FDR below 0.05:</p>
 <span><span class="co">#&gt; Removed 298 decoy hits.</span></span>
 <span><span class="co">#&gt; Removed 0 PSMs with rank &gt; 1.</span></span>
 <span><span class="co">#&gt; Removed 0 shared peptides.</span></span>
-<span><span class="co">#&gt; 679 PSMs left.</span></span>
-<span><span class="co">#&gt; Removed 370 PSMs with FDR &lt; spectrum_fdr.</span></span></code></pre></div>
-<p>This leaves us with 309 PSMs matched against 294 scans.</p>
+<span><span class="co">#&gt; 679 PSMs left.</span></span></code></pre></div>
+<p>This leaves us with 679 PSMs matched against 481 scans.</p>
 <div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">psm</span></span>
-<span><span class="co">#&gt; PSM with 309 rows and 34 columns.</span></span>
-<span><span class="co">#&gt; Spectra: 294 unique</span></span>
-<span><span class="co">#&gt;   db: 309 target, 0 decoy</span></span>
-<span><span class="co">#&gt;   ranks: 1:309 </span></span>
-<span><span class="co">#&gt; Peptides: 308 unique, 0 multiple</span></span>
-<span><span class="co">#&gt; Proteins: 297 </span></span>
+<span><span class="co">#&gt; PSM with 679 rows and 34 columns.</span></span>
 <span><span class="co">#&gt; names(34): peptide proteins ... protein_fdr ms1_intensity</span></span></code></pre></div>
 </div>
 <div class="section level3">
@@ -282,9 +493,9 @@ median and ignoring missing values.</li>
 </ol>
 <div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">qf1</span> <span class="op">|&gt;</span></span>
-<span>    <span class="fu"><a href="https://rdrr.io/pkg/QFeatures/man/QFeatures-filtering.html" class="external-link">filterFeatures</a></span><span class="op">(</span><span class="op">~</span> <span class="va">label</span> <span class="op">&gt;</span> <span class="fl">0</span><span class="op">)</span> <span class="op">|&gt;</span>            <span class="co">## 1</span></span>
-<span>    <span class="fu"><a href="https://rdrr.io/pkg/QFeatures/man/QFeatures-filtering.html" class="external-link">filterFeatures</a></span><span class="op">(</span><span class="op">~</span> <span class="va">rank</span> <span class="op">==</span> <span class="fl">1</span><span class="op">)</span> <span class="op">|&gt;</span>            <span class="co">## 2</span></span>
-<span>    <span class="fu"><a href="https://rdrr.io/pkg/QFeatures/man/QFeatures-filtering.html" class="external-link">filterFeatures</a></span><span class="op">(</span><span class="op">~</span> <span class="va">spectrum_fdr</span> <span class="op">&lt;</span> <span class="fl">0.05</span><span class="op">)</span> <span class="op">|&gt;</span>  <span class="co">## 3</span></span>
+<span>    <span class="fu"><a href="https://rdrr.io/pkg/ProtGenerics/man/filterFeatures.html" class="external-link">filterFeatures</a></span><span class="op">(</span><span class="op">~</span> <span class="va">label</span> <span class="op">&gt;</span> <span class="fl">0</span><span class="op">)</span> <span class="op">|&gt;</span>            <span class="co">## 1</span></span>
+<span>    <span class="fu"><a href="https://rdrr.io/pkg/ProtGenerics/man/filterFeatures.html" class="external-link">filterFeatures</a></span><span class="op">(</span><span class="op">~</span> <span class="va">rank</span> <span class="op">==</span> <span class="fl">1</span><span class="op">)</span> <span class="op">|&gt;</span>            <span class="co">## 2</span></span>
+<span>    <span class="fu"><a href="https://rdrr.io/pkg/ProtGenerics/man/filterFeatures.html" class="external-link">filterFeatures</a></span><span class="op">(</span><span class="op">~</span> <span class="va">spectrum_fdr</span> <span class="op">&lt;</span> <span class="fl">0.05</span><span class="op">)</span> <span class="op">|&gt;</span>  <span class="co">## 3</span></span>
 <span>    <span class="fu"><a href="https://rdrr.io/pkg/QFeatures/man/QFeatures-missing-data.html" class="external-link">zeroIsNA</a></span><span class="op">(</span><span class="fl">1</span><span class="op">)</span> <span class="op">|&gt;</span>                            <span class="co">## 4</span></span>
 <span>    <span class="fu"><a href="https://rdrr.io/pkg/QFeatures/man/QFeatures-processing.html" class="external-link">logTransform</a></span><span class="op">(</span>i <span class="op">=</span> <span class="fl">1</span>, name <span class="op">=</span> <span class="st">"log_sage"</span><span class="op">)</span> <span class="op">|&gt;</span> <span class="co">## 5</span></span>
 <span>    <span class="fu"><a href="https://rdrr.io/pkg/BiocGenerics/man/normalize.html" class="external-link">normalize</a></span><span class="op">(</span>i <span class="op">=</span> <span class="st">"log_sage"</span>,                 <span class="co">## 6</span></span>
@@ -387,9 +598,9 @@ median and ignoring missing values. The new assay names will be
 </ol>
 <div class="sourceCode" id="cb21"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">qf</span> <span class="op">|&gt;</span></span>
-<span>    <span class="fu"><a href="https://rdrr.io/pkg/QFeatures/man/QFeatures-filtering.html" class="external-link">filterFeatures</a></span><span class="op">(</span><span class="op">~</span> <span class="va">label</span> <span class="op">&gt;</span> <span class="fl">0</span><span class="op">)</span> <span class="op">|&gt;</span>           <span class="co">## 1</span></span>
-<span>    <span class="fu"><a href="https://rdrr.io/pkg/QFeatures/man/QFeatures-filtering.html" class="external-link">filterFeatures</a></span><span class="op">(</span><span class="op">~</span> <span class="va">rank</span> <span class="op">==</span> <span class="fl">1</span><span class="op">)</span> <span class="op">|&gt;</span>           <span class="co">## 2</span></span>
-<span>    <span class="fu"><a href="https://rdrr.io/pkg/QFeatures/man/QFeatures-filtering.html" class="external-link">filterFeatures</a></span><span class="op">(</span><span class="op">~</span> <span class="va">spectrum_fdr</span> <span class="op">&lt;</span> <span class="fl">0.05</span><span class="op">)</span> <span class="op">|&gt;</span> <span class="co">## 3</span></span>
+<span>    <span class="fu"><a href="https://rdrr.io/pkg/ProtGenerics/man/filterFeatures.html" class="external-link">filterFeatures</a></span><span class="op">(</span><span class="op">~</span> <span class="va">label</span> <span class="op">&gt;</span> <span class="fl">0</span><span class="op">)</span> <span class="op">|&gt;</span>           <span class="co">## 1</span></span>
+<span>    <span class="fu"><a href="https://rdrr.io/pkg/ProtGenerics/man/filterFeatures.html" class="external-link">filterFeatures</a></span><span class="op">(</span><span class="op">~</span> <span class="va">rank</span> <span class="op">==</span> <span class="fl">1</span><span class="op">)</span> <span class="op">|&gt;</span>           <span class="co">## 2</span></span>
+<span>    <span class="fu"><a href="https://rdrr.io/pkg/ProtGenerics/man/filterFeatures.html" class="external-link">filterFeatures</a></span><span class="op">(</span><span class="op">~</span> <span class="va">spectrum_fdr</span> <span class="op">&lt;</span> <span class="fl">0.05</span><span class="op">)</span> <span class="op">|&gt;</span> <span class="co">## 3</span></span>
 <span>    <span class="fu"><a href="https://rdrr.io/pkg/QFeatures/man/QFeatures-missing-data.html" class="external-link">zeroIsNA</a></span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fl">3</span><span class="op">)</span> <span class="op">|&gt;</span>                         <span class="co">## 4</span></span>
 <span>    <span class="fu"><a href="https://rdrr.io/pkg/QFeatures/man/QFeatures-processing.html" class="external-link">logTransform</a></span><span class="op">(</span>i <span class="op">=</span> <span class="fl">1</span><span class="op">:</span><span class="fl">3</span>,                    <span class="co">## 5</span></span>
 <span>                 name <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste0</a></span><span class="op">(</span><span class="st">"log_"</span>, <span class="fu"><a href="https://rdrr.io/r/base/names.html" class="external-link">names</a></span><span class="op">(</span><span class="va">qf</span><span class="op">)</span><span class="op">)</span><span class="op">)</span> <span class="op">|&gt;</span></span>
@@ -411,12 +622,225 @@ median and ignoring missing values. The new assay names will be
 <span><span class="co">#&gt; 'label' found in 3 out of 3 assay(s)</span></span>
 <span><span class="co">#&gt; 'rank' found in 3 out of 3 assay(s)</span></span>
 <span><span class="co">#&gt; 'spectrum_fdr' found in 3 out of 3 assay(s)</span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="va">Aggregated</span><span class="op">:</span> <span class="fl">1</span><span class="op">/</span><span class="fl">3</span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="va">Aggregated</span><span class="op">:</span> <span class="fl">2</span><span class="op">/</span><span class="fl">3</span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="va">Aggregated</span><span class="op">:</span> <span class="fl">3</span><span class="op">/</span><span class="fl">3</span></span>
+<span><span class="co">#&gt; Aggregated: 1/3</span></span>
+<span><span class="co">#&gt; Aggregated: 2/3</span></span>
+<span><span class="co">#&gt; Aggregated: 3/3</span></span>
+<span><span class="co">#&gt; Warning in as.data.frame.numeric(col, optional = optional): Direct call of</span></span>
+<span><span class="co">#&gt; 'as.data.frame.numeric()' is deprecated.  Use 'as.data.frame.vector()' or</span></span>
+<span><span class="co">#&gt; 'as.data.frame()' instead</span></span>
+<span><span class="co">#&gt; Warning in as.data.frame.integer(col, optional = optional): Direct call of</span></span>
+<span><span class="co">#&gt; 'as.data.frame.integer()' is deprecated.  Use 'as.data.frame.vector()' or</span></span>
+<span><span class="co">#&gt; 'as.data.frame()' instead</span></span>
+<span></span>
+<span><span class="co">#&gt; Warning in as.data.frame.integer(col, optional = optional): Direct call of</span></span>
+<span><span class="co">#&gt; 'as.data.frame.integer()' is deprecated.  Use 'as.data.frame.vector()' or</span></span>
+<span><span class="co">#&gt; 'as.data.frame()' instead</span></span>
+<span></span>
+<span><span class="co">#&gt; Warning in as.data.frame.integer(col, optional = optional): Direct call of</span></span>
+<span><span class="co">#&gt; 'as.data.frame.integer()' is deprecated.  Use 'as.data.frame.vector()' or</span></span>
+<span><span class="co">#&gt; 'as.data.frame()' instead</span></span>
+<span><span class="co">#&gt; Warning in as.data.frame.numeric(col, optional = optional): Direct call of</span></span>
+<span><span class="co">#&gt; 'as.data.frame.numeric()' is deprecated.  Use 'as.data.frame.vector()' or</span></span>
+<span><span class="co">#&gt; 'as.data.frame()' instead</span></span>
+<span><span class="co">#&gt; Warning in as.data.frame.integer(col, optional = optional): Direct call of</span></span>
+<span><span class="co">#&gt; 'as.data.frame.integer()' is deprecated.  Use 'as.data.frame.vector()' or</span></span>
+<span><span class="co">#&gt; 'as.data.frame()' instead</span></span>
+<span></span>
+<span><span class="co">#&gt; Warning in as.data.frame.integer(col, optional = optional): Direct call of</span></span>
+<span><span class="co">#&gt; 'as.data.frame.integer()' is deprecated.  Use 'as.data.frame.vector()' or</span></span>
+<span><span class="co">#&gt; 'as.data.frame()' instead</span></span>
+<span></span>
+<span><span class="co">#&gt; Warning in as.data.frame.integer(col, optional = optional): Direct call of</span></span>
+<span><span class="co">#&gt; 'as.data.frame.integer()' is deprecated.  Use 'as.data.frame.vector()' or</span></span>
+<span><span class="co">#&gt; 'as.data.frame()' instead</span></span>
+<span><span class="co">#&gt; Warning in as.data.frame.numeric(col, optional = optional): Direct call of</span></span>
+<span><span class="co">#&gt; 'as.data.frame.numeric()' is deprecated.  Use 'as.data.frame.vector()' or</span></span>
+<span><span class="co">#&gt; 'as.data.frame()' instead</span></span>
+<span></span>
+<span><span class="co">#&gt; Warning in as.data.frame.numeric(col, optional = optional): Direct call of</span></span>
+<span><span class="co">#&gt; 'as.data.frame.numeric()' is deprecated.  Use 'as.data.frame.vector()' or</span></span>
+<span><span class="co">#&gt; 'as.data.frame()' instead</span></span>
+<span></span>
+<span><span class="co">#&gt; Warning in as.data.frame.numeric(col, optional = optional): Direct call of</span></span>
+<span><span class="co">#&gt; 'as.data.frame.numeric()' is deprecated.  Use 'as.data.frame.vector()' or</span></span>
+<span><span class="co">#&gt; 'as.data.frame()' instead</span></span>
+<span></span>
+<span><span class="co">#&gt; Warning in as.data.frame.numeric(col, optional = optional): Direct call of</span></span>
+<span><span class="co">#&gt; 'as.data.frame.numeric()' is deprecated.  Use 'as.data.frame.vector()' or</span></span>
+<span><span class="co">#&gt; 'as.data.frame()' instead</span></span>
+<span></span>
+<span><span class="co">#&gt; Warning in as.data.frame.numeric(col, optional = optional): Direct call of</span></span>
+<span><span class="co">#&gt; 'as.data.frame.numeric()' is deprecated.  Use 'as.data.frame.vector()' or</span></span>
+<span><span class="co">#&gt; 'as.data.frame()' instead</span></span>
+<span></span>
+<span><span class="co">#&gt; Warning in as.data.frame.numeric(col, optional = optional): Direct call of</span></span>
+<span><span class="co">#&gt; 'as.data.frame.numeric()' is deprecated.  Use 'as.data.frame.vector()' or</span></span>
+<span><span class="co">#&gt; 'as.data.frame()' instead</span></span>
+<span><span class="co">#&gt; Warning in as.data.frame.integer(col, optional = optional): Direct call of</span></span>
+<span><span class="co">#&gt; 'as.data.frame.integer()' is deprecated.  Use 'as.data.frame.vector()' or</span></span>
+<span><span class="co">#&gt; 'as.data.frame()' instead</span></span>
+<span><span class="co">#&gt; Warning in as.data.frame.numeric(col, optional = optional): Direct call of</span></span>
+<span><span class="co">#&gt; 'as.data.frame.numeric()' is deprecated.  Use 'as.data.frame.vector()' or</span></span>
+<span><span class="co">#&gt; 'as.data.frame()' instead</span></span>
+<span><span class="co">#&gt; Warning in as.data.frame.integer(col, optional = optional): Direct call of</span></span>
+<span><span class="co">#&gt; 'as.data.frame.integer()' is deprecated.  Use 'as.data.frame.vector()' or</span></span>
+<span><span class="co">#&gt; 'as.data.frame()' instead</span></span>
+<span></span>
+<span><span class="co">#&gt; Warning in as.data.frame.integer(col, optional = optional): Direct call of</span></span>
+<span><span class="co">#&gt; 'as.data.frame.integer()' is deprecated.  Use 'as.data.frame.vector()' or</span></span>
+<span><span class="co">#&gt; 'as.data.frame()' instead</span></span>
+<span></span>
+<span><span class="co">#&gt; Warning in as.data.frame.integer(col, optional = optional): Direct call of</span></span>
+<span><span class="co">#&gt; 'as.data.frame.integer()' is deprecated.  Use 'as.data.frame.vector()' or</span></span>
+<span><span class="co">#&gt; 'as.data.frame()' instead</span></span>
+<span><span class="co">#&gt; Warning in as.data.frame.numeric(col, optional = optional): Direct call of</span></span>
+<span><span class="co">#&gt; 'as.data.frame.numeric()' is deprecated.  Use 'as.data.frame.vector()' or</span></span>
+<span><span class="co">#&gt; 'as.data.frame()' instead</span></span>
+<span><span class="co">#&gt; Warning in as.data.frame.integer(col, optional = optional): Direct call of</span></span>
+<span><span class="co">#&gt; 'as.data.frame.integer()' is deprecated.  Use 'as.data.frame.vector()' or</span></span>
+<span><span class="co">#&gt; 'as.data.frame()' instead</span></span>
+<span></span>
+<span><span class="co">#&gt; Warning in as.data.frame.integer(col, optional = optional): Direct call of</span></span>
+<span><span class="co">#&gt; 'as.data.frame.integer()' is deprecated.  Use 'as.data.frame.vector()' or</span></span>
+<span><span class="co">#&gt; 'as.data.frame()' instead</span></span>
+<span></span>
+<span><span class="co">#&gt; Warning in as.data.frame.integer(col, optional = optional): Direct call of</span></span>
+<span><span class="co">#&gt; 'as.data.frame.integer()' is deprecated.  Use 'as.data.frame.vector()' or</span></span>
+<span><span class="co">#&gt; 'as.data.frame()' instead</span></span>
+<span><span class="co">#&gt; Warning in as.data.frame.numeric(col, optional = optional): Direct call of</span></span>
+<span><span class="co">#&gt; 'as.data.frame.numeric()' is deprecated.  Use 'as.data.frame.vector()' or</span></span>
+<span><span class="co">#&gt; 'as.data.frame()' instead</span></span>
+<span></span>
+<span><span class="co">#&gt; Warning in as.data.frame.numeric(col, optional = optional): Direct call of</span></span>
+<span><span class="co">#&gt; 'as.data.frame.numeric()' is deprecated.  Use 'as.data.frame.vector()' or</span></span>
+<span><span class="co">#&gt; 'as.data.frame()' instead</span></span>
+<span></span>
+<span><span class="co">#&gt; Warning in as.data.frame.numeric(col, optional = optional): Direct call of</span></span>
+<span><span class="co">#&gt; 'as.data.frame.numeric()' is deprecated.  Use 'as.data.frame.vector()' or</span></span>
+<span><span class="co">#&gt; 'as.data.frame()' instead</span></span>
+<span></span>
+<span><span class="co">#&gt; Warning in as.data.frame.numeric(col, optional = optional): Direct call of</span></span>
+<span><span class="co">#&gt; 'as.data.frame.numeric()' is deprecated.  Use 'as.data.frame.vector()' or</span></span>
+<span><span class="co">#&gt; 'as.data.frame()' instead</span></span>
+<span></span>
+<span><span class="co">#&gt; Warning in as.data.frame.numeric(col, optional = optional): Direct call of</span></span>
+<span><span class="co">#&gt; 'as.data.frame.numeric()' is deprecated.  Use 'as.data.frame.vector()' or</span></span>
+<span><span class="co">#&gt; 'as.data.frame()' instead</span></span>
+<span></span>
+<span><span class="co">#&gt; Warning in as.data.frame.numeric(col, optional = optional): Direct call of</span></span>
+<span><span class="co">#&gt; 'as.data.frame.numeric()' is deprecated.  Use 'as.data.frame.vector()' or</span></span>
+<span><span class="co">#&gt; 'as.data.frame()' instead</span></span>
+<span><span class="co">#&gt; Warning in as.data.frame.integer(col, optional = optional): Direct call of</span></span>
+<span><span class="co">#&gt; 'as.data.frame.integer()' is deprecated.  Use 'as.data.frame.vector()' or</span></span>
+<span><span class="co">#&gt; 'as.data.frame()' instead</span></span>
+<span><span class="co">#&gt; Warning in as.data.frame.numeric(col, optional = optional): Direct call of</span></span>
+<span><span class="co">#&gt; 'as.data.frame.numeric()' is deprecated.  Use 'as.data.frame.vector()' or</span></span>
+<span><span class="co">#&gt; 'as.data.frame()' instead</span></span>
+<span><span class="co">#&gt; Warning in as.data.frame.integer(col, optional = optional): Direct call of</span></span>
+<span><span class="co">#&gt; 'as.data.frame.integer()' is deprecated.  Use 'as.data.frame.vector()' or</span></span>
+<span><span class="co">#&gt; 'as.data.frame()' instead</span></span>
+<span></span>
+<span><span class="co">#&gt; Warning in as.data.frame.integer(col, optional = optional): Direct call of</span></span>
+<span><span class="co">#&gt; 'as.data.frame.integer()' is deprecated.  Use 'as.data.frame.vector()' or</span></span>
+<span><span class="co">#&gt; 'as.data.frame()' instead</span></span>
+<span></span>
+<span><span class="co">#&gt; Warning in as.data.frame.integer(col, optional = optional): Direct call of</span></span>
+<span><span class="co">#&gt; 'as.data.frame.integer()' is deprecated.  Use 'as.data.frame.vector()' or</span></span>
+<span><span class="co">#&gt; 'as.data.frame()' instead</span></span>
+<span><span class="co">#&gt; Warning in as.data.frame.numeric(col, optional = optional): Direct call of</span></span>
+<span><span class="co">#&gt; 'as.data.frame.numeric()' is deprecated.  Use 'as.data.frame.vector()' or</span></span>
+<span><span class="co">#&gt; 'as.data.frame()' instead</span></span>
+<span><span class="co">#&gt; Warning in as.data.frame.integer(col, optional = optional): Direct call of</span></span>
+<span><span class="co">#&gt; 'as.data.frame.integer()' is deprecated.  Use 'as.data.frame.vector()' or</span></span>
+<span><span class="co">#&gt; 'as.data.frame()' instead</span></span>
+<span></span>
+<span><span class="co">#&gt; Warning in as.data.frame.integer(col, optional = optional): Direct call of</span></span>
+<span><span class="co">#&gt; 'as.data.frame.integer()' is deprecated.  Use 'as.data.frame.vector()' or</span></span>
+<span><span class="co">#&gt; 'as.data.frame()' instead</span></span>
+<span></span>
+<span><span class="co">#&gt; Warning in as.data.frame.integer(col, optional = optional): Direct call of</span></span>
+<span><span class="co">#&gt; 'as.data.frame.integer()' is deprecated.  Use 'as.data.frame.vector()' or</span></span>
+<span><span class="co">#&gt; 'as.data.frame()' instead</span></span>
+<span><span class="co">#&gt; Warning in as.data.frame.numeric(col, optional = optional): Direct call of</span></span>
+<span><span class="co">#&gt; 'as.data.frame.numeric()' is deprecated.  Use 'as.data.frame.vector()' or</span></span>
+<span><span class="co">#&gt; 'as.data.frame()' instead</span></span>
+<span></span>
+<span><span class="co">#&gt; Warning in as.data.frame.numeric(col, optional = optional): Direct call of</span></span>
+<span><span class="co">#&gt; 'as.data.frame.numeric()' is deprecated.  Use 'as.data.frame.vector()' or</span></span>
+<span><span class="co">#&gt; 'as.data.frame()' instead</span></span>
+<span></span>
+<span><span class="co">#&gt; Warning in as.data.frame.numeric(col, optional = optional): Direct call of</span></span>
+<span><span class="co">#&gt; 'as.data.frame.numeric()' is deprecated.  Use 'as.data.frame.vector()' or</span></span>
+<span><span class="co">#&gt; 'as.data.frame()' instead</span></span>
+<span></span>
+<span><span class="co">#&gt; Warning in as.data.frame.numeric(col, optional = optional): Direct call of</span></span>
+<span><span class="co">#&gt; 'as.data.frame.numeric()' is deprecated.  Use 'as.data.frame.vector()' or</span></span>
+<span><span class="co">#&gt; 'as.data.frame()' instead</span></span>
+<span></span>
+<span><span class="co">#&gt; Warning in as.data.frame.numeric(col, optional = optional): Direct call of</span></span>
+<span><span class="co">#&gt; 'as.data.frame.numeric()' is deprecated.  Use 'as.data.frame.vector()' or</span></span>
+<span><span class="co">#&gt; 'as.data.frame()' instead</span></span>
+<span></span>
+<span><span class="co">#&gt; Warning in as.data.frame.numeric(col, optional = optional): Direct call of</span></span>
+<span><span class="co">#&gt; 'as.data.frame.numeric()' is deprecated.  Use 'as.data.frame.vector()' or</span></span>
+<span><span class="co">#&gt; 'as.data.frame()' instead</span></span>
+<span><span class="co">#&gt; Warning in as.data.frame.integer(col, optional = optional): Direct call of</span></span>
+<span><span class="co">#&gt; 'as.data.frame.integer()' is deprecated.  Use 'as.data.frame.vector()' or</span></span>
+<span><span class="co">#&gt; 'as.data.frame()' instead</span></span>
+<span><span class="co">#&gt; Warning in as.data.frame.numeric(col, optional = optional): Direct call of</span></span>
+<span><span class="co">#&gt; 'as.data.frame.numeric()' is deprecated.  Use 'as.data.frame.vector()' or</span></span>
+<span><span class="co">#&gt; 'as.data.frame()' instead</span></span>
+<span><span class="co">#&gt; Warning in as.data.frame.integer(col, optional = optional): Direct call of</span></span>
+<span><span class="co">#&gt; 'as.data.frame.integer()' is deprecated.  Use 'as.data.frame.vector()' or</span></span>
+<span><span class="co">#&gt; 'as.data.frame()' instead</span></span>
+<span></span>
+<span><span class="co">#&gt; Warning in as.data.frame.integer(col, optional = optional): Direct call of</span></span>
+<span><span class="co">#&gt; 'as.data.frame.integer()' is deprecated.  Use 'as.data.frame.vector()' or</span></span>
+<span><span class="co">#&gt; 'as.data.frame()' instead</span></span>
+<span></span>
+<span><span class="co">#&gt; Warning in as.data.frame.integer(col, optional = optional): Direct call of</span></span>
+<span><span class="co">#&gt; 'as.data.frame.integer()' is deprecated.  Use 'as.data.frame.vector()' or</span></span>
+<span><span class="co">#&gt; 'as.data.frame()' instead</span></span>
+<span><span class="co">#&gt; Warning in as.data.frame.numeric(col, optional = optional): Direct call of</span></span>
+<span><span class="co">#&gt; 'as.data.frame.numeric()' is deprecated.  Use 'as.data.frame.vector()' or</span></span>
+<span><span class="co">#&gt; 'as.data.frame()' instead</span></span>
+<span><span class="co">#&gt; Warning in as.data.frame.integer(col, optional = optional): Direct call of</span></span>
+<span><span class="co">#&gt; 'as.data.frame.integer()' is deprecated.  Use 'as.data.frame.vector()' or</span></span>
+<span><span class="co">#&gt; 'as.data.frame()' instead</span></span>
+<span></span>
+<span><span class="co">#&gt; Warning in as.data.frame.integer(col, optional = optional): Direct call of</span></span>
+<span><span class="co">#&gt; 'as.data.frame.integer()' is deprecated.  Use 'as.data.frame.vector()' or</span></span>
+<span><span class="co">#&gt; 'as.data.frame()' instead</span></span>
+<span></span>
+<span><span class="co">#&gt; Warning in as.data.frame.integer(col, optional = optional): Direct call of</span></span>
+<span><span class="co">#&gt; 'as.data.frame.integer()' is deprecated.  Use 'as.data.frame.vector()' or</span></span>
+<span><span class="co">#&gt; 'as.data.frame()' instead</span></span>
+<span><span class="co">#&gt; Warning in as.data.frame.numeric(col, optional = optional): Direct call of</span></span>
+<span><span class="co">#&gt; 'as.data.frame.numeric()' is deprecated.  Use 'as.data.frame.vector()' or</span></span>
+<span><span class="co">#&gt; 'as.data.frame()' instead</span></span>
+<span></span>
+<span><span class="co">#&gt; Warning in as.data.frame.numeric(col, optional = optional): Direct call of</span></span>
+<span><span class="co">#&gt; 'as.data.frame.numeric()' is deprecated.  Use 'as.data.frame.vector()' or</span></span>
+<span><span class="co">#&gt; 'as.data.frame()' instead</span></span>
+<span></span>
+<span><span class="co">#&gt; Warning in as.data.frame.numeric(col, optional = optional): Direct call of</span></span>
+<span><span class="co">#&gt; 'as.data.frame.numeric()' is deprecated.  Use 'as.data.frame.vector()' or</span></span>
+<span><span class="co">#&gt; 'as.data.frame()' instead</span></span>
+<span></span>
+<span><span class="co">#&gt; Warning in as.data.frame.numeric(col, optional = optional): Direct call of</span></span>
+<span><span class="co">#&gt; 'as.data.frame.numeric()' is deprecated.  Use 'as.data.frame.vector()' or</span></span>
+<span><span class="co">#&gt; 'as.data.frame()' instead</span></span>
+<span></span>
+<span><span class="co">#&gt; Warning in as.data.frame.numeric(col, optional = optional): Direct call of</span></span>
+<span><span class="co">#&gt; 'as.data.frame.numeric()' is deprecated.  Use 'as.data.frame.vector()' or</span></span>
+<span><span class="co">#&gt; 'as.data.frame()' instead</span></span>
+<span></span>
+<span><span class="co">#&gt; Warning in as.data.frame.numeric(col, optional = optional): Direct call of</span></span>
+<span><span class="co">#&gt; 'as.data.frame.numeric()' is deprecated.  Use 'as.data.frame.vector()' or</span></span>
+<span><span class="co">#&gt; 'as.data.frame()' instead</span></span>
+<span><span class="co">#&gt; Warning in as.data.frame.integer(col, optional = optional): Direct call of</span></span>
+<span><span class="co">#&gt; 'as.data.frame.integer()' is deprecated.  Use 'as.data.frame.vector()' or</span></span>
+<span><span class="co">#&gt; 'as.data.frame()' instead</span></span>
 <span><span class="co">#&gt; Your quantitative data contain missing values. Please read the relevant</span></span>
 <span><span class="co">#&gt; section(s) in the aggregateFeatures manual page regarding the effects</span></span>
 <span><span class="co">#&gt; of missing values on data aggregation.</span></span></code></pre></div>
@@ -654,9 +1078,9 @@ an issue</a> on the package’s Github repository.</p>
 <div class="section level3">
 <h3 id="session-information">Session information<a class="anchor" aria-label="anchor" href="#session-information"></a>
 </h3>
-<pre><code><span><span class="co">#&gt; R Under development (unstable) (2023-11-02 r85465)</span></span>
+<pre><code><span><span class="co">#&gt; R Under development (unstable) (2024-03-06 r86056)</span></span>
 <span><span class="co">#&gt; Platform: x86_64-pc-linux-gnu</span></span>
-<span><span class="co">#&gt; Running under: Ubuntu 22.04.3 LTS</span></span>
+<span><span class="co">#&gt; Running under: Ubuntu 22.04.4 LTS</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; Matrix products: default</span></span>
 <span><span class="co">#&gt; BLAS:   /usr/lib/x86_64-linux-gnu/openblas-pthread/libblas.so.3 </span></span>
@@ -678,63 +1102,62 @@ an issue</a> on the package’s Github repository.</p>
 <span><span class="co">#&gt; [8] base     </span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; other attached packages:</span></span>
-<span><span class="co">#&gt;  [1] MsExperiment_1.5.1          Spectra_1.13.0             </span></span>
-<span><span class="co">#&gt;  [3] ProtGenerics_1.35.0         BiocParallel_1.37.0        </span></span>
-<span><span class="co">#&gt;  [5] scp_1.13.0                  QFeatures_1.11.3           </span></span>
-<span><span class="co">#&gt;  [7] MultiAssayExperiment_1.29.0 SummarizedExperiment_1.33.0</span></span>
-<span><span class="co">#&gt;  [9] Biobase_2.63.0              GenomicRanges_1.55.1       </span></span>
-<span><span class="co">#&gt; [11] GenomeInfoDb_1.39.0         IRanges_2.37.0             </span></span>
-<span><span class="co">#&gt; [13] MatrixGenerics_1.15.0       matrixStats_1.1.0          </span></span>
-<span><span class="co">#&gt; [15] ggplot2_3.4.4               PSMatch_1.7.0              </span></span>
-<span><span class="co">#&gt; [17] S4Vectors_0.41.1            BiocGenerics_0.49.1        </span></span>
-<span><span class="co">#&gt; [19] sager_0.3.1                 BiocStyle_2.31.0           </span></span>
+<span><span class="co">#&gt;  [1] MsExperiment_1.5.4          Spectra_1.13.5             </span></span>
+<span><span class="co">#&gt;  [3] ProtGenerics_1.35.3         BiocParallel_1.37.1        </span></span>
+<span><span class="co">#&gt;  [5] scp_1.13.1                  QFeatures_1.13.2           </span></span>
+<span><span class="co">#&gt;  [7] MultiAssayExperiment_1.29.1 SummarizedExperiment_1.33.3</span></span>
+<span><span class="co">#&gt;  [9] Biobase_2.63.0              GenomicRanges_1.55.3       </span></span>
+<span><span class="co">#&gt; [11] GenomeInfoDb_1.39.8         IRanges_2.37.1             </span></span>
+<span><span class="co">#&gt; [13] MatrixGenerics_1.15.0       matrixStats_1.2.0          </span></span>
+<span><span class="co">#&gt; [15] ggplot2_3.5.0               PSMatch_1.7.1              </span></span>
+<span><span class="co">#&gt; [17] S4Vectors_0.41.4            BiocGenerics_0.49.1        </span></span>
+<span><span class="co">#&gt; [19] sager_0.3.2                 BiocStyle_2.31.0           </span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; loaded via a namespace (and not attached):</span></span>
-<span><span class="co">#&gt;  [1] DBI_1.1.3                   bitops_1.0-7               </span></span>
-<span><span class="co">#&gt;  [3] rlang_1.1.2                 magrittr_2.0.3             </span></span>
+<span><span class="co">#&gt;  [1] DBI_1.2.2                   bitops_1.0-7               </span></span>
+<span><span class="co">#&gt;  [3] rlang_1.1.3                 magrittr_2.0.3             </span></span>
 <span><span class="co">#&gt;  [5] clue_0.3-65                 compiler_4.4.0             </span></span>
-<span><span class="co">#&gt;  [7] RSQLite_2.3.3               systemfonts_1.0.5          </span></span>
-<span><span class="co">#&gt;  [9] vctrs_0.6.4                 stringr_1.5.0              </span></span>
-<span><span class="co">#&gt; [11] pkgconfig_2.0.3             MetaboCoreUtils_1.11.0     </span></span>
-<span><span class="co">#&gt; [13] crayon_1.5.2                fastmap_1.1.1              </span></span>
-<span><span class="co">#&gt; [15] dbplyr_2.4.0                XVector_0.43.0             </span></span>
-<span><span class="co">#&gt; [17] labeling_0.4.3              utf8_1.2.4                 </span></span>
-<span><span class="co">#&gt; [19] rmarkdown_2.25              ragg_1.2.6                 </span></span>
-<span><span class="co">#&gt; [21] purrr_1.0.2                 bit_4.0.5                  </span></span>
-<span><span class="co">#&gt; [23] xfun_0.41                   zlibbioc_1.49.0            </span></span>
-<span><span class="co">#&gt; [25] cachem_1.0.8                jsonlite_1.8.7             </span></span>
-<span><span class="co">#&gt; [27] blob_1.2.4                  highr_0.10                 </span></span>
-<span><span class="co">#&gt; [29] DelayedArray_0.29.0         parallel_4.4.0             </span></span>
-<span><span class="co">#&gt; [31] cluster_2.1.4               R6_2.5.1                   </span></span>
-<span><span class="co">#&gt; [33] bslib_0.5.1                 stringi_1.7.12             </span></span>
-<span><span class="co">#&gt; [35] jquerylib_0.1.4             Rcpp_1.0.11                </span></span>
-<span><span class="co">#&gt; [37] bookdown_0.36               knitr_1.45                 </span></span>
-<span><span class="co">#&gt; [39] BiocBaseUtils_1.5.0         Matrix_1.6-2               </span></span>
-<span><span class="co">#&gt; [41] igraph_1.5.1                tidyselect_1.2.0           </span></span>
-<span><span class="co">#&gt; [43] abind_1.4-5                 yaml_2.3.7                 </span></span>
-<span><span class="co">#&gt; [45] codetools_0.2-19            curl_5.1.0                 </span></span>
-<span><span class="co">#&gt; [47] lattice_0.22-5              tibble_3.2.1               </span></span>
-<span><span class="co">#&gt; [49] withr_2.5.2                 evaluate_0.23              </span></span>
-<span><span class="co">#&gt; [51] desc_1.4.2                  BiocFileCache_2.11.1       </span></span>
-<span><span class="co">#&gt; [53] pillar_1.9.0                BiocManager_1.30.22        </span></span>
-<span><span class="co">#&gt; [55] filelock_1.0.2              ncdf4_1.21                 </span></span>
-<span><span class="co">#&gt; [57] generics_0.1.3              rprojroot_2.0.4            </span></span>
-<span><span class="co">#&gt; [59] RCurl_1.98-1.13             munsell_0.5.0              </span></span>
-<span><span class="co">#&gt; [61] scales_1.2.1                glue_1.6.2                 </span></span>
-<span><span class="co">#&gt; [63] lazyeval_0.2.2              tools_4.4.0                </span></span>
-<span><span class="co">#&gt; [65] mzR_2.37.0                  fs_1.6.3                   </span></span>
-<span><span class="co">#&gt; [67] grid_4.4.0                  MsCoreUtils_1.15.1         </span></span>
-<span><span class="co">#&gt; [69] colorspace_2.1-0            SingleCellExperiment_1.25.0</span></span>
-<span><span class="co">#&gt; [71] GenomeInfoDbData_1.2.11     cli_3.6.1                  </span></span>
-<span><span class="co">#&gt; [73] textshaping_0.3.7           fansi_1.0.5                </span></span>
-<span><span class="co">#&gt; [75] S4Arrays_1.3.0              dplyr_1.1.3                </span></span>
-<span><span class="co">#&gt; [77] AnnotationFilter_1.27.0     gtable_0.3.4               </span></span>
-<span><span class="co">#&gt; [79] sass_0.4.7                  digest_0.6.33              </span></span>
-<span><span class="co">#&gt; [81] SparseArray_1.3.1           farver_2.1.1               </span></span>
-<span><span class="co">#&gt; [83] memoise_2.0.1               htmltools_0.5.7            </span></span>
-<span><span class="co">#&gt; [85] pkgdown_2.0.7.9000          lifecycle_1.0.4            </span></span>
-<span><span class="co">#&gt; [87] httr_1.4.7                  bit64_4.0.5                </span></span>
-<span><span class="co">#&gt; [89] MASS_7.3-60.1</span></span></code></pre>
+<span><span class="co">#&gt;  [7] RSQLite_2.3.5               systemfonts_1.0.6          </span></span>
+<span><span class="co">#&gt;  [9] vctrs_0.6.5                 pkgconfig_2.0.3            </span></span>
+<span><span class="co">#&gt; [11] MetaboCoreUtils_1.11.2      crayon_1.5.2               </span></span>
+<span><span class="co">#&gt; [13] fastmap_1.1.1               dbplyr_2.4.0               </span></span>
+<span><span class="co">#&gt; [15] XVector_0.43.1              labeling_0.4.3             </span></span>
+<span><span class="co">#&gt; [17] utf8_1.2.4                  rmarkdown_2.26             </span></span>
+<span><span class="co">#&gt; [19] ragg_1.2.7                  purrr_1.0.2                </span></span>
+<span><span class="co">#&gt; [21] bit_4.0.5                   xfun_0.42                  </span></span>
+<span><span class="co">#&gt; [23] zlibbioc_1.49.0             cachem_1.0.8               </span></span>
+<span><span class="co">#&gt; [25] jsonlite_1.8.8              blob_1.2.4                 </span></span>
+<span><span class="co">#&gt; [27] highr_0.10                  DelayedArray_0.29.9        </span></span>
+<span><span class="co">#&gt; [29] parallel_4.4.0              cluster_2.1.6              </span></span>
+<span><span class="co">#&gt; [31] R6_2.5.1                    bslib_0.6.1                </span></span>
+<span><span class="co">#&gt; [33] jquerylib_0.1.4             Rcpp_1.0.12                </span></span>
+<span><span class="co">#&gt; [35] bookdown_0.38               knitr_1.45                 </span></span>
+<span><span class="co">#&gt; [37] BiocBaseUtils_1.5.1         Matrix_1.6-5               </span></span>
+<span><span class="co">#&gt; [39] igraph_2.0.2                tidyselect_1.2.1           </span></span>
+<span><span class="co">#&gt; [41] abind_1.4-5                 yaml_2.3.8                 </span></span>
+<span><span class="co">#&gt; [43] codetools_0.2-19            curl_5.2.1                 </span></span>
+<span><span class="co">#&gt; [45] lattice_0.22-5              tibble_3.2.1               </span></span>
+<span><span class="co">#&gt; [47] withr_3.0.0                 evaluate_0.23              </span></span>
+<span><span class="co">#&gt; [49] desc_1.4.3                  BiocFileCache_2.11.1       </span></span>
+<span><span class="co">#&gt; [51] pillar_1.9.0                BiocManager_1.30.22        </span></span>
+<span><span class="co">#&gt; [53] filelock_1.0.3              ncdf4_1.22                 </span></span>
+<span><span class="co">#&gt; [55] generics_0.1.3              RCurl_1.98-1.14            </span></span>
+<span><span class="co">#&gt; [57] munsell_0.5.0               scales_1.3.0               </span></span>
+<span><span class="co">#&gt; [59] glue_1.7.0                  lazyeval_0.2.2             </span></span>
+<span><span class="co">#&gt; [61] tools_4.4.0                 mzR_2.37.2                 </span></span>
+<span><span class="co">#&gt; [63] fs_1.6.3                    grid_4.4.0                 </span></span>
+<span><span class="co">#&gt; [65] MsCoreUtils_1.15.4          colorspace_2.1-0           </span></span>
+<span><span class="co">#&gt; [67] SingleCellExperiment_1.25.0 GenomeInfoDbData_1.2.11    </span></span>
+<span><span class="co">#&gt; [69] cli_3.6.2                   textshaping_0.3.7          </span></span>
+<span><span class="co">#&gt; [71] fansi_1.0.6                 S4Arrays_1.3.6             </span></span>
+<span><span class="co">#&gt; [73] dplyr_1.1.4                 AnnotationFilter_1.27.0    </span></span>
+<span><span class="co">#&gt; [75] gtable_0.3.4                sass_0.4.8                 </span></span>
+<span><span class="co">#&gt; [77] digest_0.6.35               SparseArray_1.3.4          </span></span>
+<span><span class="co">#&gt; [79] htmlwidgets_1.6.4           farver_2.1.1               </span></span>
+<span><span class="co">#&gt; [81] memoise_2.0.1               htmltools_0.5.7            </span></span>
+<span><span class="co">#&gt; [83] pkgdown_2.0.7.9000          lifecycle_1.0.4            </span></span>
+<span><span class="co">#&gt; [85] httr_1.4.7                  bit64_4.0.5                </span></span>
+<span><span class="co">#&gt; [87] MASS_7.3-60.2</span></span></code></pre>
 </div>
 </div>
   </div>
