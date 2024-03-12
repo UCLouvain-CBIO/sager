@@ -31,7 +31,7 @@
 ##' @param fdr `character(1)` variable name that defines the spectrum
 ##'     FDR (or any relevant reliability score that can be used for
 ##'     filtering, such as the PEP) in the PSM data. Default is
-##'     `"spectrum_fdr"`.
+##'     `"spectrum_q"`.
 ##'
 ##' @param ... Additional arguments passed to [read.delim()].
 ##'
@@ -60,7 +60,7 @@ sagePSM <- function(idTable,
                     decoy = "label",
                     rank = "rank",
                     score = "hyperscore",
-                    fdr = "spectrum_fdr",
+                    fdr = "spectrum_q",
                     ...) {
     ## Get the identification data from input or from file
     if (is.data.frame(idTable)) {
