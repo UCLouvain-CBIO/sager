@@ -2,6 +2,8 @@
 
 ## sager 0.3.2
 
+- score param in `sagePSM()` is now `sage_discriminant_score` in line with its 
+corresponding fdr
 - fdr param in `sagePSM()` is now `spectrum_q`, in line with sage
   v0.13.0.
 

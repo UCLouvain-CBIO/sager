@@ -30,7 +30,5 @@
 ##'   6478–6485 Publication Date:April 6, 2020
 ##'   [DOI:10.1021/acs.analchem.9b05685](https://doi.org/10.1021/acs.analchem.9b05685).
 ##'
-##' @docType package
-##'
 ##' @name sager
-NULL
+"_PACKAGE"

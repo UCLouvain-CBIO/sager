@@ -11,7 +11,7 @@ sagePSM(
   protein = "proteins",
   decoy = "label",
   rank = "rank",
-  score = "hyperscore",
+  score = "sage_discriminant_score",
   fdr = "spectrum_q",
   ...
 )
@@ -38,7 +38,7 @@ rank of the peptide spectrum match in the PSM data. Default is
 \code{"rank"}.}
 
 \item{score}{\code{character(1)} variable name that defines the
-PSM score. default is \code{"hyperscore"}.}
+PSM score. default is \code{"sage_discriminant_score"}.}
 
 \item{fdr}{\code{character(1)} variable name that defines the spectrum
 FDR (or any relevant reliability score that can be used for
