@@ -26,7 +26,7 @@
 ##'     `"rank"`.
 ##'
 ##' @param score `character(1)` variable name that defines the
-##'     PSM score. default is `"hyperscore"`.
+##'     PSM score. default is `"sage_discriminant_score"`.
 ##'
 ##' @param fdr `character(1)` variable name that defines the spectrum
 ##'     FDR (or any relevant reliability score that can be used for
@@ -59,7 +59,7 @@ sagePSM <- function(idTable,
                     protein = "proteins",
                     decoy = "label",
                     rank = "rank",
-                    score = "hyperscore",
+                    score = "sage_discriminant_score",
                     fdr = "spectrum_q",
                     ...) {
     ## Get the identification data from input or from file

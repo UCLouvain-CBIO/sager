@@ -4,3 +4,5 @@ inst/scripts/sage_output
 inst/scripts/tmt2.json
 inst/scripts/sage_subset
 inst/scripts/tmt_subset.json
+^.*\.Rproj$
+^\.Rproj\.user$

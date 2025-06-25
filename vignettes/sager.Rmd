@@ -138,13 +138,13 @@ psm <- sagePSM(sagerIdData())
 psm
 ```
 
-Here we briefly visualise the hyperscore and spectrum FDR densities
+Here we briefly visualise the `sage_discriminant_score` and spectrum FDR densities
 for the forward and decoy/reverse hits:
 
 ```{r ggplot, message = FALSE}
 library(ggplot2)
 data.frame(psm) |>
-    ggplot(aes(x = hyperscore,
+    ggplot(aes(x = sage_discriminant_score,
                colour = label)) +
     geom_density()
 ```
