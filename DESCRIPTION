@@ -2,11 +2,15 @@ Package: sager
 Title: Analysing sage results with R
 Version: 0.3.3
 Authors@R:
-    person(given = "Laurent",
-           family = "Gatto",
-           email = "laurent.gatto@uclouvain.be",
-           role = c("aut", "cre"),
-           comment = c(ORCID = "0000-0002-1520-2268"))
+    c(person(given = "Laurent",
+             family = "Gatto",
+             email = "laurent.gatto@uclouvain.be",
+             role = c("aut", "cre"),
+             comment = c(ORCID = "0000-0002-1520-2268")),
+      person(given = "Guillaume", family = "Deflandre",
+             email = "guillaume.deflandre@uclouvain.be",
+             role = "ctb",
+             comment = c(ORCID = "0009-0008-1257-2416")))
 Description: Imports sage proteomics search engine outputs into
     appropriate R/Bioconductor objects.
 Imports:

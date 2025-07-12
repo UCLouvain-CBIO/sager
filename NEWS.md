@@ -2,8 +2,9 @@
 
 ## sager 0.3.3
 
-- score param in `sagePSM()` is now `sage_discriminant_score` in line with its 
-corresponding fdr
+- Add Guillaume as contributor.
+- score param in `sagePSM()` is now `sage_discriminant_score` in line
+  with its corresponding fdr.
 
 ## sager 0.3.2
 
