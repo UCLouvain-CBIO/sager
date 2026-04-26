@@ -1,6 +1,6 @@
 Package: sager
 Title: Analysing sage results with R
-Version: 0.3.3
+Version: 0.3.4
 Authors@R:
     c(person(given = "Laurent",
              family = "Gatto",

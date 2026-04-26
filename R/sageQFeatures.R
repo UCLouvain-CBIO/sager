@@ -105,9 +105,9 @@ sageQFeatures <- function(quantTable, idTable,
     }
     if (class == "SingleCellExperiment") {
         requireNamespace("scp")
-        ans <- QFeatures(lapply(x, scp::readSingleCellExperiment, ecol = ecol))
+        ans <- QFeatures(lapply(x, scp::readSingleCellExperiment, quantCols = ecol))
     } else {
-        ans <- QFeatures(lapply(x, QFeatures::readSummarizedExperiment, ecol = ecol))
+        ans <- QFeatures(lapply(x, QFeatures::readSummarizedExperiment, quantCols = ecol))
     }
     ## Differentiate assays' colnames using the assay names
     for (i in seq_along(ans))
